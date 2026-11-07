@@ -21,10 +21,6 @@ public final class Constants {
     public static final String EXTRA_SELECTED_PLAYER = "SELECTED_PLAYER";
     public static final String EXTRA_PLAYER_COST = "PLAYER_COST";
 
-    // ----- Permissões -----
-    public static final int REQUEST_ACTIVITY_RECOGNITION = 1001;
-    public static final int REQUEST_POST_NOTIFICATIONS = 1002;
-
     /** Converte passos em pontos. É a única fórmula da app. */
     public static int stepsToPoints(int steps) {
         return steps / STEPS_PER_POINT;

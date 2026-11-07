@@ -7,6 +7,7 @@ import android.app.*;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 public class StepsNotificationService extends Service {
@@ -50,7 +51,7 @@ public class StepsNotificationService extends Service {
                     manager.createNotificationChannel(channel);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("StepsNotification", "Erro na notificação", e);
             }
         }
     }
@@ -92,7 +93,7 @@ public class StepsNotificationService extends Service {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("StepsNotification", "Erro na notificação", e);
         }
     }
 
@@ -124,7 +125,7 @@ public class StepsNotificationService extends Service {
                 manager.notify(NOTIFICATION_ID, notification);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("StepsNotification", "Erro na notificação", e);
         }
     }
 

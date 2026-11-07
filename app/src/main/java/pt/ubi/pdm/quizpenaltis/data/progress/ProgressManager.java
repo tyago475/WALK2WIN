@@ -19,14 +19,20 @@ public class ProgressManager {
     /** Passos da semana de demonstração (do dia mais antigo para hoje). */
     public static final int[] TEST_WEEK_STEPS = {4231, 5876, 3210, 7890, 6543, 2345, 8765};
 
-    private AppDatabase database;
-    private ExecutorService executor;
-    private SimpleDateFormat dateFormat;
+    /** Uma só thread de BD partilhada, para os registos entrarem sempre por ordem. */
+    private static final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    private final AppDatabase database;
+    private final SimpleDateFormat dateFormat;
 
     public ProgressManager(Context context) {
         database = AppDatabase.getDatabase(context);
-        executor = Executors.newSingleThreadExecutor();
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    }
+
+    /** Regista passos de hoje na base de dados (usado pelo contador de passos). */
+    public static void recordSteps(Context context, int steps) {
+        new ProgressManager(context.getApplicationContext()).addSteps(steps);
     }
 
     public void addSteps(int steps) {
@@ -130,9 +136,4 @@ public class ProgressManager {
         void onProgressLoaded(WeeklyProgress weeklyProgress);
     }
 
-    public void close() {
-        if (executor != null && !executor.isShutdown()) {
-            executor.shutdown();
-        }
-    }
 }

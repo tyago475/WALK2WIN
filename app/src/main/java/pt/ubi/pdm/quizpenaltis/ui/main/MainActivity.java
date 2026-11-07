@@ -20,12 +20,16 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
+import pt.ubi.pdm.quizpenaltis.BuildConfig;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 
 
@@ -35,8 +39,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int ACTIVITY_RECOGNITION_REQUEST_CODE = Constants.REQUEST_ACTIVITY_RECOGNITION;
-    private static final int NOTIFICATION_PERMISSION_CODE = Constants.REQUEST_POST_NOTIFICATIONS;
     private static final int MAX_STEPS = Constants.DAILY_STEP_GOAL;
 
     private TextView tvSteps, tvPoints, tvPercentage;
@@ -112,6 +114,12 @@ public class MainActivity extends AppCompatActivity {
 
         progressBarSteps.setMax(MAX_STEPS);
 
+        // Botões de demonstração só existem nas versões de debug
+        if (!BuildConfig.DEBUG) {
+            btnTest.setVisibility(android.view.View.GONE);
+            btnTestWeek.setVisibility(android.view.View.GONE);
+        }
+
         Log.d(TAG, "✅ Views inicializadas");
     }
 
@@ -155,13 +163,9 @@ public class MainActivity extends AppCompatActivity {
     private void simulateTestSteps() {
         Log.d(TAG, "🧪 Simulando 1000 passos...");
 
-        // 1. Adicionar passos ao StepCounter
+        // O StepCounter guarda os passos de hoje e regista-os também na base de dados
         StepCounter.addSteps(this, Constants.TEST_STEPS_INCREMENT);
 
-        // 2. Adicionar passos ao ProgressManager para HOJE
-        if (progressManager != null) {
-            progressManager.addSteps(Constants.TEST_STEPS_INCREMENT);
-        }
 
         atualizarDisplay();
 
@@ -228,63 +232,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkPermissions() {
-        Log.d(TAG, "🔐 Verificando permissões...");
+    private final ActivityResultLauncher<String[]> permissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+                boolean sensorAllowed = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+                        || Boolean.TRUE.equals(result.get(Manifest.permission.ACTIVITY_RECOGNITION))
+                        || hasPermission(Manifest.permission.ACTIVITY_RECOGNITION);
+                if (sensorAllowed) {
+                    Toast.makeText(this, R.string.main_permission_granted, Toast.LENGTH_SHORT).show();
+                    startServices();
+                } else {
+                    Toast.makeText(this, R.string.main_permission_denied, Toast.LENGTH_LONG).show();
+                }
+            });
 
-        // 🔥 PEDIR PERMISSÃO ACTIVITY_RECOGNITION (OBRIGATÓRIA)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "📋 A PEDIR permissão ACTIVITY_RECOGNITION...");
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACTIVITY_RECOGNITION},
-                        ACTIVITY_RECOGNITION_REQUEST_CODE);
-                return;
-            } else {
-                Log.d(TAG, "✅ Permissão ACTIVITY_RECOGNITION JÁ CONCEDIDA");
-            }
-        }
-
-        // Permissão para notificações (Android 13+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "📋 A pedir permissão POST_NOTIFICATIONS");
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                        NOTIFICATION_PERMISSION_CODE);
-                return;
-            } else {
-                Log.d(TAG, "✅ Permissão POST_NOTIFICATIONS já concedida");
-            }
-        }
-
-        Log.d(TAG, "✅ Todas as permissões concedidas - iniciando serviços");
-        startServices();
+    private boolean hasPermission(String permission) {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        Log.d(TAG, "📋 Resultado da permissão: " + requestCode);
-
-        if (requestCode == ACTIVITY_RECOGNITION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "🎉 PERMISSÃO ACTIVITY_RECOGNITION CONCEDIDA!");
-                Toast.makeText(this, R.string.main_permission_granted, Toast.LENGTH_SHORT).show();
-                startServices();
-            } else {
-                Log.e(TAG, "❌ PERMISSÃO ACTIVITY_RECOGNITION NEGADA!");
-                Toast.makeText(this, R.string.main_permission_denied, Toast.LENGTH_LONG).show();
-            }
+    /** Pede de uma só vez as permissões que faltam; se já estiverem todas, arranca os serviços. */
+    private void checkPermissions() {
+        List<String> missing = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                && !hasPermission(Manifest.permission.ACTIVITY_RECOGNITION)) {
+            missing.add(Manifest.permission.ACTIVITY_RECOGNITION);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && !hasPermission(Manifest.permission.POST_NOTIFICATIONS)) {
+            missing.add(Manifest.permission.POST_NOTIFICATIONS);
         }
 
-        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "✅ Permissão POST_NOTIFICATIONS concedida");
-                startServices();
-            }
+        if (missing.isEmpty()) {
+            startServices();
+        } else {
+            permissionLauncher.launch(missing.toArray(new String[0]));
         }
     }
 
@@ -311,8 +291,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "🛑 MainActivity onDestroy()");
-        if (progressManager != null) {
-            progressManager.close();
-        }
     }
 }

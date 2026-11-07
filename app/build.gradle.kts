@@ -41,9 +41,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    // Adicionar para View Binding
     buildFeatures {
-        viewBinding = true
+        buildConfig = true   // para BuildConfig.DEBUG
     }
 }
 

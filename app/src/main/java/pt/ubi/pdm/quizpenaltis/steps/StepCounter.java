@@ -4,6 +4,7 @@ import pt.ubi.pdm.quizpenaltis.util.Constants;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
+import pt.ubi.pdm.quizpenaltis.data.progress.ProgressManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -31,6 +32,8 @@ public class StepCounter {
         int currentSteps = prefs.getInt(STEPS_TODAY, 0);
         int newTotal = currentSteps + steps;
         prefs.edit().putInt(STEPS_TODAY, newTotal).apply();
+        // Guarda também no histórico (base de dados) para o ecrã de progresso
+        ProgressManager.recordSteps(context, steps);
         Log.d(TAG, "💾 Steps guardados: " + currentSteps + " + " + steps + " = " + newTotal);
     }
 

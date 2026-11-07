@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import pt.ubi.pdm.quizpenaltis.util.Constants;
 import org.junit.Test;
-import pt.ubi.pdm.quizpenaltis.PenaltyShootout.Status;
+import pt.ubi.pdm.quizpenaltis.game.PenaltyShootout.Status;
 
 public class PenaltyShootoutTest {
 

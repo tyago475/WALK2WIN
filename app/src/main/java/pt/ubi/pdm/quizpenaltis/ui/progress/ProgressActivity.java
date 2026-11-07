@@ -173,7 +173,8 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         tvDailyGoal.setText(getString(R.string.progress_number, Constants.DAILY_STEP_GOAL));
 
         // Atualizar período
-        tvPeriodo.setText(getString(R.string.progress_period, progress.getDailyProgress().size()));
+        int days = progress.getDailyProgress().size();
+        tvPeriodo.setText(getResources().getQuantityString(R.plurals.progress_period, days, days));
 
         Log.d(TAG, "📊 Estatísticas: Total=" + totalSteps + ", Média=" + averageSteps + ", Melhor=" + bestDaySteps);
     }
@@ -238,8 +239,5 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "🛑 onDestroy()");
-        if (progressManager != null) {
-            progressManager.close();
-        }
     }
 }
