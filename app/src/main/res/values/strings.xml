@@ -80,7 +80,6 @@
     <string name="game_bot_starts">Computador começa primeiro!</string>
     <string name="game_timer_format">%1$ds</string>
     <string name="game_time_up_banner">Tempo esgotado!</string>
-    <string name="game_time_up_toast">Tempo esgotado!</string>
     <string name="game_answer_correct">Resposta certa!</string>
     <string name="game_answer_wrong">Resposta errada</string>
     <string name="game_bot_answered_right">%1$s acertou!</string>
@@ -90,19 +89,19 @@
     <string name="banner_saved">DEFENDIDO!</string>
     <string name="banner_conceded">GOLO DO ADVERSÁRIO</string>
     <string name="game_defense_summary">%1$s rematou: %2$s\nTu defendeste: %3$s</string>
-    <string name="game_sudden_death_banner">EMPATE APÓS %1$d PENÁLTIS!\n%2$s %3$d × %4$d %5$s\n\n⚡ MORTE SÚBITA ATIVADA! ⚡\nCada penálti é decisivo!</string>
-    <string name="game_sudden_death_toast">MORTE SÚBITA ATIVADA! Cada penálti é decisivo!</string>
+    <string name="sudden_death_title">MORTE SÚBITA</string>
+    <string name="sudden_death_subtitle">Empate após %1$d penáltis (%2$d × %3$d).\nCada penálti é decisivo!</string>
     <string name="game_vs">VS</string>
     <string name="game_score_format">%1$d × %2$d</string>
 
     <!-- ===== Jogo: transições ===== -->
-    <string name="transition_user_scored">GOLAÇO!\nVAI DEFENDER</string>
-    <string name="transition_user_missed">FALHANÇO!\nVAI DEFENDER</string>
-    <string name="transition_bot_scored">ADVERSÁRIO MARCOU!\nSUA VEZ</string>
-    <string name="transition_bot_missed">DEFENDEU!\nSUA VEZ</string>
-    <string name="emoji_ball">⚽</string>
-    <string name="emoji_cross">❌</string>
-    <string name="emoji_party">🎉</string>
+    <string name="transition_user_scored">GOLAÇO!</string>
+    <string name="transition_user_missed">FALHANÇO!</string>
+    <string name="transition_bot_scored">ADVERSÁRIO MARCOU!</string>
+    <string name="transition_bot_missed">O ADVERSÁRIO FALHOU!</string>
+    <string name="transition_saved">DEFENDESTE!</string>
+    <string name="transition_next_defend">A seguir: defendes</string>
+    <string name="transition_next_shoot">A seguir: rematas</string>
 
     <!-- ===== Jogo: zonas da baliza ===== -->
     <string name="zone_top_left">Canto Superior Esquerdo</string>
@@ -117,17 +116,14 @@
     <string name="gameover_sd_win_message">%1$s foi decisivo!\nGanhou na morte súbita!</string>
     <string name="gameover_sd_lose">DERROTA NA MORTE SÚBITA!</string>
     <string name="gameover_sd_lose_message">%1$s foi mais forte!\nPerdeu na morte súbita!</string>
-    <string name="gameover_win">VOCÊ VENCEU!</string>
+    <string name="gameover_title">FIM DE JOGO</string>
+    <string name="gameover_players">%1$s vs %2$s</string>
+    <string name="gameover_win">TU VENCESTE!</string>
     <string name="gameover_win_message">%1$s foi decisivo!\nParabéns pela vitória!</string>
-    <string name="gameover_lose">VOCÊ PERDEU!</string>
+    <string name="gameover_lose">TU PERDESTE!</string>
     <string name="gameover_lose_message">Mais sorte na próxima!\n%1$s foi melhor.</string>
     <string name="gameover_draw">EMPATE!</string>
     <string name="gameover_draw_message">Foi um jogo equilibrado!\nMorte súbita!</string>
-    <string name="emoji_bolt">⚡</string>
-    <string name="emoji_broken_heart">💔</string>
-    <string name="emoji_trophy">🏆</string>
-    <string name="emoji_sad">😞</string>
-    <string name="emoji_handshake">🤝</string>
 
     <!-- ===== Cara ou coroa ===== -->
     <string name="coin_title">LANÇAMENTO DA MOEDA</string>
@@ -190,6 +186,6 @@
     <string name="ui_coin_tv_coin_toss_subtitle">Quem começa a bater penalties?</string>
     <string name="ui_coin_tv_coin_toss_hint">O vencedor do lançamento começa primeiro</string>
     <string name="ui_defend_tv_defend_instruction">ESCOLHE ONDE QUERES DEFENDER!</string>
-    <string name="ui_gameover_btn_back_to_main">🏠 VOLTAR AO INÍCIO</string>
+    <string name="ui_gameover_btn_back_to_main">VOLTAR AO INÍCIO</string>
     <string name="ui_shoot_tv_shoot_instruction">ESCOLHE ONDE QUERES REMATAR!</string>
 </resources>

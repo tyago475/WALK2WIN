@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
@@ -169,8 +168,6 @@ public class GameActivity extends AppCompatActivity {
         isPlayerTurn = userWon;
         coinToss.hide();
 
-        Toast.makeText(this, userWon ? R.string.game_user_starts : R.string.game_bot_starts,
-                Toast.LENGTH_SHORT).show();
         startNewRound();
     }
 
@@ -263,12 +260,11 @@ public class GameActivity extends AppCompatActivity {
         showMessage(getString(R.string.game_time_up_banner), R.drawable.ds_banner_warning);
         setOptionsEnabled(false);
         highlightCorrectAnswer();
-        Toast.makeText(this, R.string.game_time_up_toast, Toast.LENGTH_LONG).show();
 
         later(GameRules.SHOT_RESULT_MS, () -> {
             registerPlayerShot(false);
             if (checkGameEnd()) return;
-            showTransition(R.string.transition_user_missed, R.string.emoji_cross, this::startBotTurn);
+            showTransition(Transition.USER_MISSED, this::startBotTurn);
         });
     }
 
@@ -299,7 +295,7 @@ public class GameActivity extends AppCompatActivity {
                 registerPlayerShot(false);
                 isProcessingClick = false;
                 if (checkGameEnd()) return;
-                showTransition(R.string.transition_user_missed, R.string.emoji_cross, this::startBotTurn);
+                showTransition(Transition.USER_MISSED, this::startBotTurn);
             });
         }
     }
@@ -356,7 +352,7 @@ public class GameActivity extends AppCompatActivity {
             later(GameRules.ANSWER_FEEDBACK_MS, () -> {
                 registerBotShot(false);
                 if (checkGameEnd()) return;
-                showTransition(R.string.transition_bot_missed, R.string.emoji_party, this::startPlayerTurn);
+                showTransition(Transition.BOT_WRONG_ANSWER, this::startPlayerTurn);
             });
         }
     }
@@ -366,18 +362,58 @@ public class GameActivity extends AppCompatActivity {
         startNewRound();
     }
 
-    /** Mostra um ecrã de transição por instantes e depois executa {@code next}. */
-    private void showTransition(@StringRes int message, @StringRes int icon, Runnable next) {
-        View transition = getLayoutInflater().inflate(R.layout.layout_phase_transition, null);
-        ((TextView) transition.findViewById(R.id.tvTransitionMessage)).setText(message);
-        ((TextView) transition.findViewById(R.id.tvTransitionIcon)).setText(icon);
+    /** As transições entre jogadas: título, o que vem a seguir, e a medalha (verde = bom para ti). */
+    private enum Transition {
+        USER_SCORED(R.string.transition_user_scored, R.string.transition_next_defend,
+                R.drawable.icon_sports_soccer, R.drawable.ds_badge_good),
+        USER_MISSED(R.string.transition_user_missed, R.string.transition_next_defend,
+                R.drawable.icon_close, R.drawable.ds_badge_bad),
+        USER_SAVED(R.string.transition_saved, R.string.transition_next_shoot,
+                R.drawable.icon_front_hand, R.drawable.ds_badge_good),
+        BOT_SCORED(R.string.transition_bot_scored, R.string.transition_next_shoot,
+                R.drawable.icon_sports_soccer, R.drawable.ds_badge_bad),
+        BOT_WRONG_ANSWER(R.string.transition_bot_missed, R.string.transition_next_shoot,
+                R.drawable.icon_check, R.drawable.ds_badge_good);
 
-        ViewGroup content = findViewById(android.R.id.content);
-        content.addView(transition);
+        @StringRes final int headline;
+        @StringRes final int next;
+        @DrawableRes final int icon;
+        @DrawableRes final int badge;
+
+        Transition(int headline, int next, int icon, int badge) {
+            this.headline = headline;
+            this.next = next;
+            this.icon = icon;
+            this.badge = badge;
+        }
+    }
+
+    /** Mostra uma transição por instantes (o cabeçalho com a pontuação fica visível) e depois executa {@code next}. */
+    private void showTransition(Transition transition, Runnable next) {
+        showOverlay(getString(transition.headline), getString(transition.next),
+                transition.icon, transition.badge, GameRules.TRANSITION_MS, next);
+    }
+
+    private void showOverlay(String headline, String subtitle, @DrawableRes int icon,
+                             @DrawableRes int badge, long durationMs, Runnable next) {
+        View overlay = getLayoutInflater().inflate(R.layout.layout_phase_transition, null);
+        ((TextView) overlay.findViewById(R.id.tvTransitionMessage)).setText(headline);
+        ((TextView) overlay.findViewById(R.id.tvTransitionSubtitle)).setText(subtitle);
+        ((ImageView) overlay.findViewById(R.id.ivTransitionIcon)).setImageResource(icon);
+        View badgeView = overlay.findViewById(R.id.transitionBadge);
+        badgeView.setBackgroundResource(badge);
+
+        ViewGroup container = findViewById(R.id.mainContainer);
+        container.addView(overlay, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         hideAllPhases();
+        tvTimer.setVisibility(View.GONE);
 
-        later(GameRules.TRANSITION_MS, () -> {
-            content.removeView(transition);
+        Animations.pop(badgeView);
+        Animations.popIn(overlay.findViewById(R.id.tvTransitionMessage));
+
+        later(durationMs, () -> {
+            container.removeView(overlay);
             next.run();
         });
     }
@@ -429,8 +465,8 @@ public class GameActivity extends AppCompatActivity {
                     later(GameRules.SHOT_RESULT_MS, () -> {
                         isProcessingClick = false;
                         if (checkGameEnd()) return;
-                        showTransition(scored ? R.string.transition_user_scored : R.string.transition_user_missed,
-                                scored ? R.string.emoji_ball : R.string.emoji_cross, this::startBotTurn);
+                        showTransition(scored ? Transition.USER_SCORED : Transition.USER_MISSED,
+                                this::startBotTurn);
                     });
                 });
     }
@@ -474,8 +510,8 @@ public class GameActivity extends AppCompatActivity {
                     later(GameRules.SHOT_RESULT_MS, () -> {
                         isProcessingClick = false;
                         if (checkGameEnd()) return;
-                        showTransition(defended ? R.string.transition_bot_missed : R.string.transition_bot_scored,
-                                defended ? R.string.emoji_party : R.string.emoji_ball, this::startPlayerTurn);
+                        showTransition(defended ? Transition.USER_SAVED : Transition.BOT_SCORED,
+                                this::startPlayerTurn);
                     });
                 });
     }
@@ -528,15 +564,13 @@ public class GameActivity extends AppCompatActivity {
         shootout.startSuddenDeath();
         scoreBoard.reset();
 
-        showMessage(getString(R.string.game_sudden_death_banner, PenaltyShootout.REGULAR_PENALTIES,
-                user.getName(), shootout.getPlayerScore(), shootout.getBotScore(), bot.getName()),
-                R.drawable.ds_banner_special);
-        Toast.makeText(this, R.string.game_sudden_death_toast, Toast.LENGTH_LONG).show();
-
-        later(GameRules.SUDDEN_DEATH_BANNER_MS, () -> {
-            isPlayerTurn = userWonToss;
-            startNewRound();
-        });
+        showOverlay(getString(R.string.sudden_death_title),
+                getString(R.string.sudden_death_subtitle, PenaltyShootout.REGULAR_PENALTIES,
+                        shootout.getPlayerScore(), shootout.getBotScore()),
+                R.drawable.icon_bolt, R.drawable.ds_badge_special, GameRules.SUDDEN_DEATH_BANNER_MS, () -> {
+                    isPlayerTurn = userWonToss;
+                    startNewRound();
+                });
     }
 
     private void endGame() {

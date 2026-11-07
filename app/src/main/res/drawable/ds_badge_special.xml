@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Medalha de momento especial (morte súbita) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <gradient android:angle="270" android:startColor="@color/special_500" android:endColor="@color/special_700" />
+    <stroke android:width="4dp" android:color="@color/gold_500" />
+</shape>
