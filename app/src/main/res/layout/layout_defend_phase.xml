@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="🧤"
+                android:text="@string/ui_defend_text_1"
                 android:textSize="24sp"
                 android:gravity="center"
                 android:layout_marginBottom="8dp" />
@@ -42,7 +42,7 @@
                 android:id="@+id/tvDefendInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ESCOLHE ONDE QUERES DEFENDER!"
+                android:text="@string/ui_defend_tv_defend_instruction"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold"

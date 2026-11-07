@@ -24,14 +24,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="❓"
+                android:text="@string/ui_help_text_1"
                 android:textSize="40sp"
                 android:layout_marginBottom="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="COMO JOGAR"
+                android:text="@string/ui_help_text_2"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="#FFD700"
@@ -44,7 +44,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guia completo do Walk2Win"
+                android:text="@string/ui_help_text_3"
                 android:textSize="16sp"
                 android:textColor="#BDBDBD"
                 android:gravity="center"
@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🎯 FASES DO JOGO"
+                    android:text="@string/ui_help_text_4"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#FFD700"
@@ -87,7 +87,7 @@
                     <TextView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:text="1"
+                        android:text="@string/ui_help_text_5"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -104,7 +104,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sorteio Inicial"
+                            android:text="@string/ui_help_text_6"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
@@ -113,7 +113,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Cara ou coroa para decidir quem começa a bater primeiro"
+                            android:text="@string/ui_help_text_7"
                             android:textSize="14sp"
                             android:textColor="#E0E0E0"
                             android:lineSpacingExtra="4dp" />
@@ -132,7 +132,7 @@
                     <TextView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:text="2"
+                        android:text="@string/ui_help_text_8"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -149,7 +149,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Resposta à Pergunta"
+                            android:text="@string/ui_help_text_9"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
@@ -158,7 +158,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Tens 10 segundos para responder corretamente à pergunta de cultura geral"
+                            android:text="@string/ui_help_text_10"
                             android:textSize="14sp"
                             android:textColor="#E0E0E0"
                             android:lineSpacingExtra="4dp" />
@@ -177,7 +177,7 @@
                     <TextView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:text="3"
+                        android:text="@string/ui_help_text_11"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -194,7 +194,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Remate à Baliza"
+                            android:text="@string/ui_help_text_12"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
@@ -203,7 +203,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Escolhe uma zona verde para marcar golo. Jogadores mais caros têm mais zonas verdes disponíveis"
+                            android:text="@string/ui_help_text_13"
                             android:textSize="14sp"
                             android:textColor="#E0E0E0"
                             android:lineSpacingExtra="4dp" />
@@ -222,7 +222,7 @@
                     <TextView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:text="4"
+                        android:text="@string/ui_help_text_14"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -239,7 +239,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Defesa do Penálti"
+                            android:text="@string/ui_help_text_15"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
@@ -248,7 +248,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Tenta adivinhar onde o adversário vai rematar. Acerta na mesma zona para defender o penálti"
+                            android:text="@string/ui_help_text_16"
                             android:textSize="14sp"
                             android:textColor="#E0E0E0"
                             android:lineSpacingExtra="4dp" />
@@ -266,7 +266,7 @@
                     <TextView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:text="5"
+                        android:text="@string/ui_help_text_17"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -283,7 +283,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Morte Súbita"
+                            android:text="@string/ui_help_text_18"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
@@ -292,7 +292,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Se empatarem após 5 penáltis, cada penálti seguinte é decisivo. Quem marcar e o outro falhar, ganha o jogo!"
+                            android:text="@string/ui_help_text_19"
                             android:textSize="14sp"
                             android:textColor="#E0E0E0"
                             android:lineSpacingExtra="4dp" />
@@ -323,7 +323,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="💡 DICAS ESTRATÉGICAS"
+                    android:text="@string/ui_help_text_20"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#4CAF50"
@@ -338,7 +338,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• 🏃‍♂️ Jogadores mais caros = MAIS zonas verdes para rematar"
+                        android:text="@string/ui_help_text_21"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp"
@@ -347,7 +347,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• ✅ Respostas certas = oportunidade de REMATE"
+                        android:text="@string/ui_help_text_22"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp"
@@ -356,7 +356,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• ⚡ Morte súbita ativa automaticamente em caso de empate"
+                        android:text="@string/ui_help_text_23"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp"
@@ -365,7 +365,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• ⏱️ Atenção ao timer de 10 segundos por pergunta"
+                        android:text="@string/ui_help_text_24"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp"
@@ -374,7 +374,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• ⚽ 5 penáltis por jogador na fase regular"
+                        android:text="@string/ui_help_text_25"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp" />
@@ -403,7 +403,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🏆 SISTEMA DE PONTOS"
+                    android:text="@string/ui_help_text_26"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#FF9800"
@@ -418,7 +418,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• 🚶‍♂️ 10.000 passos = 1.000 pontos para jogar"
+                        android:text="@string/ui_help_text_27"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp"
@@ -427,7 +427,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• 💰 Jogadores custam entre 100 e 1.000 pontos"
+                        android:text="@string/ui_help_text_28"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp"
@@ -436,7 +436,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• ⭐ Mais pontos = jogadores melhores com mais zonas verdes"
+                        android:text="@string/ui_help_text_29"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp"
@@ -445,7 +445,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• 🎯 Mínimo de 100 pontos necessários para iniciar um jogo"
+                        android:text="@string/ui_help_text_30"
                         android:textSize="14sp"
                         android:textColor="#E0E0E0"
                         android:lineSpacingExtra="6dp" />
@@ -461,7 +461,7 @@
             android:id="@+id/btnBackToMain"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="🎮 VOLTAR AO MENU PRINCIPAL"
+            android:text="@string/ui_help_btn_back_to_main"
             android:textSize="18sp"
             android:textStyle="bold"
             android:background="@drawable/button_glass_primary"

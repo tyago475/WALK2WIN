@@ -51,11 +51,8 @@ public class ProgressManager {
     public void getWeeklyProgress(ProgressCallback callback) {
         executor.execute(() -> {
             try {
-                Calendar calendar = Calendar.getInstance();
-                Date endDate = calendar.getTime();
-
-                calendar.add(Calendar.DAY_OF_YEAR, -6); // Últimos 7 dias
-                Date startDate = calendar.getTime();
+                Date endDate = new Date();
+                Date startDate = daysAgoAtMidnight(6); // hoje + 6 dias anteriores = 7 dias
 
                 Log.d(TAG, "📅 Buscando dados entre " + dateFormat.format(startDate) + " e " + dateFormat.format(endDate));
 
@@ -90,13 +87,13 @@ public class ProgressManager {
             try {
                 Log.d(TAG, "📅 Criando dados de teste TEMPORÁRIOS para demonstração...");
 
-                Calendar calendar = Calendar.getInstance();
+                // Apagar e inserir na MESMA tarefa evita que o apagar corra depois da 1ª inserção
+                database.userProgressDao().deleteAllProgress();
+
                 int[] stepsData = TEST_WEEK_STEPS;
 
                 for (int i = 6; i >= 0; i--) {
-                    calendar.setTime(new Date());
-                    calendar.add(Calendar.DAY_OF_YEAR, -i);
-                    Date date = calendar.getTime();
+                    Date date = daysAgoAtMidnight(i);
 
                     UserProgress progress = new UserProgress(date, stepsData[6-i]);
                     database.userProgressDao().insertProgress(progress);
@@ -112,7 +109,13 @@ public class ProgressManager {
     }
 
     private Date getTodayDate() {
+        return daysAgoAtMidnight(0);
+    }
+
+    /** Meia-noite de há {@code days} dias. Os registos diários usam sempre meia-noite. */
+    private Date daysAgoAtMidnight(int days) {
         Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -days);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);

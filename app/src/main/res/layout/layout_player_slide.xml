@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,7 +37,7 @@
                 android:id="@+id/tvPlayerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jogador"
+                tools:text="Jogador"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -55,7 +55,7 @@
                 <TextView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:text="💰"
+                    android:text="@string/ui_slide_text_1"
                     android:textSize="14sp"
                     android:gravity="center"
                     android:layout_marginEnd="4dp" />
@@ -64,7 +64,7 @@
                     android:id="@+id/tvPlayerPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="000"
+                    tools:text="000"
                     android:textSize="16sp"
                     android:textColor="#FFD700"
                     android:textStyle="bold" />
@@ -72,7 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" pontos"
+                    android:text="@string/ui_slide_text_2"
                     android:textSize="14sp"
                     android:textColor="#E0E0E0" />
 
@@ -95,7 +95,7 @@
                 android:id="@+id/tvSelectedBadge"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:text="✅"
+                android:text="@string/ui_slide_tv_selected_badge"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:background="@drawable/circle_border_only"

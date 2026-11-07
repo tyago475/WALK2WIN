@@ -169,9 +169,6 @@ public class MainActivity extends AppCompatActivity {
     private void simulateTestWeek() {
         Log.d(TAG, "📅 Criando dados de teste TEMPORÁRIOS...");
 
-        // 🔥 LIMPAR DADOS ANTIGOS PRIMEIRO
-        clearOldTestData();
-
         if (progressManager != null) {
             progressManager.createTestWeekData();
         }
@@ -179,18 +176,6 @@ public class MainActivity extends AppCompatActivity {
         atualizarDisplay();
         Log.d(TAG, "✅ Dados de teste TEMPORÁRIOS criados!");
         Toast.makeText(this, R.string.main_test_week_created, Toast.LENGTH_LONG).show();
-    }
-
-    // 🔥 MÉTODO PARA LIMPAR APENAS DADOS DE TESTE
-    private void clearOldTestData() {
-        new Thread(() -> {
-            try {
-                AppDatabase.getDatabase(this).userProgressDao().deleteAllProgress();
-                Log.d(TAG, "🧹 Dados de teste antigos removidos");
-            } catch (Exception e) {
-                Log.e(TAG, "❌ Erro ao limpar dados de teste: " + e.getMessage());
-            }
-        }).start();
     }
 
     @Override

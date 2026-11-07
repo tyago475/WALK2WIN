@@ -124,4 +124,82 @@
     <string name="coin_face_heads">😊</string>
     <string name="coin_face_tails">👑</string>
     <string name="coin_initial">🪙</string>
+
+    <!-- ===== Textos dos layouts (gerados automaticamente) ===== -->
+    <string name="ui_help_text_1">❓</string>
+    <string name="ui_help_text_2">COMO JOGAR</string>
+    <string name="ui_help_text_3">Guia completo do Walk2Win</string>
+    <string name="ui_help_text_4">🎯 FASES DO JOGO</string>
+    <string name="ui_help_text_5">1</string>
+    <string name="ui_help_text_6">Sorteio Inicial</string>
+    <string name="ui_help_text_7">Cara ou coroa para decidir quem começa a bater primeiro</string>
+    <string name="ui_help_text_8">2</string>
+    <string name="ui_help_text_9">Resposta à Pergunta</string>
+    <string name="ui_help_text_10">Tens 10 segundos para responder corretamente à pergunta de cultura geral</string>
+    <string name="ui_help_text_11">3</string>
+    <string name="ui_help_text_12">Remate à Baliza</string>
+    <string name="ui_help_text_13">Escolhe uma zona verde para marcar golo. Jogadores mais caros têm mais zonas verdes disponíveis</string>
+    <string name="ui_help_text_14">4</string>
+    <string name="ui_help_text_15">Defesa do Penálti</string>
+    <string name="ui_help_text_16">Tenta adivinhar onde o adversário vai rematar. Acerta na mesma zona para defender o penálti</string>
+    <string name="ui_help_text_17">5</string>
+    <string name="ui_help_text_18">Morte Súbita</string>
+    <string name="ui_help_text_19">Se empatarem após 5 penáltis, cada penálti seguinte é decisivo. Quem marcar e o outro falhar, ganha o jogo!</string>
+    <string name="ui_help_text_20">💡 DICAS ESTRATÉGICAS</string>
+    <string name="ui_help_text_21">• 🏃‍♂️ Jogadores mais caros = MAIS zonas verdes para rematar</string>
+    <string name="ui_help_text_22">• ✅ Respostas certas = oportunidade de REMATE</string>
+    <string name="ui_help_text_23">• ⚡ Morte súbita ativa automaticamente em caso de empate</string>
+    <string name="ui_help_text_24">• ⏱️ Atenção ao timer de 10 segundos por pergunta</string>
+    <string name="ui_help_text_25">• ⚽ 5 penáltis por jogador na fase regular</string>
+    <string name="ui_help_text_26">🏆 SISTEMA DE PONTOS</string>
+    <string name="ui_help_text_27">• 🚶‍♂️ 10.000 passos = 1.000 pontos para jogar</string>
+    <string name="ui_help_text_28">• 💰 Jogadores custam entre 100 e 1.000 pontos</string>
+    <string name="ui_help_text_29">• ⭐ Mais pontos = jogadores melhores com mais zonas verdes</string>
+    <string name="ui_help_text_30">• 🎯 Mínimo de 100 pontos necessários para iniciar um jogo</string>
+    <string name="ui_help_btn_back_to_main">🎮 VOLTAR AO MENU PRINCIPAL</string>
+    <string name="ui_main_background_image_content_description">Background do jogo</string>
+    <string name="ui_main_text_1">WALK2WIN</string>
+    <string name="ui_main_text_2">MEU PROGRESSO</string>
+    <string name="ui_main_btn_play">🎯 JOGAR AGORA</string>
+    <string name="ui_main_btn_progress">📊 VER PROGRESSO</string>
+    <string name="ui_main_btn_help">❓ COMO JOGAR</string>
+    <string name="ui_main_btn_test_week">📅</string>
+    <string name="ui_main_btn_test">⚙️</string>
+    <string name="ui_main_footer_text">⚽ Escolhe o teu jogador e marca golos! ⚽</string>
+    <string name="ui_select_text_1">⚽</string>
+    <string name="ui_select_text_2">ESCOLHE O TEU JOGADOR</string>
+    <string name="ui_select_text_3">Desliza para ver os jogadores</string>
+    <string name="ui_select_text_4">💰</string>
+    <string name="ui_select_text_5">🏆</string>
+    <string name="ui_select_btn_confirm_selection">CONFIRMAR ESCOLHA</string>
+    <string name="ui_select_btn_back">VOLTAR</string>
+    <string name="ui_progress_text_1">👣</string>
+    <string name="ui_progress_text_2">MEUS PASSOS</string>
+    <string name="ui_progress_text_3">Acompanha o teu progresso</string>
+    <string name="ui_progress_text_4">📈 Estatísticas de Passos</string>
+    <string name="ui_progress_text_5">Total Passos</string>
+    <string name="ui_progress_text_6">📊</string>
+    <string name="ui_progress_text_7">Média Diária</string>
+    <string name="ui_progress_text_8">⭐</string>
+    <string name="ui_progress_text_9">Melhor Dia</string>
+    <string name="ui_progress_text_10">🎯</string>
+    <string name="ui_progress_text_11">Meta Diária</string>
+    <string name="ui_progress_text_12">📊 Evolução Diária</string>
+    <string name="ui_progress_text_13">👣 passos por dia</string>
+    <string name="ui_progress_btn_back">⬅️ VOLTAR AO MENU</string>
+    <string name="ui_coin_tv_coin_toss_subtitle">Quem começa a bater penalties?</string>
+    <string name="ui_coin_text_1">🙂</string>
+    <string name="ui_coin_text_2">👑</string>
+    <string name="ui_coin_tv_coin_toss_hint">O vencedor do lançamento começa primeiro</string>
+    <string name="ui_defend_text_1">🧤</string>
+    <string name="ui_defend_tv_defend_instruction">ESCOLHE ONDE QUERES DEFENDER!</string>
+    <string name="ui_header_tv_vs">VS</string>
+    <string name="ui_header_btn_back_to_menu">🏠 VOLTAR</string>
+    <string name="ui_gameover_btn_back_to_main">🏠 VOLTAR AO INÍCIO</string>
+    <string name="ui_slide_text_1">💰</string>
+    <string name="ui_slide_text_2"> pontos</string>
+    <string name="ui_slide_tv_selected_badge">✅</string>
+    <string name="ui_quiz_text_1">❓</string>
+    <string name="ui_shoot_text_1">🎯</string>
+    <string name="ui_shoot_tv_shoot_instruction">ESCOLHE ONDE QUERES REMATAR!</string>
 </resources>
