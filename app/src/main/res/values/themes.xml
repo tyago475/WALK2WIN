@@ -1,10 +1,37 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.QuizPenalts" parent="Theme.Material3.DayNight">
-        <!-- Customize your light theme here. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Tema único da app (só modo escuro): Material 3 escuro com a paleta Walk2Win.
+        Mantém o AppCompatViewInflater para que <Button> continue a ser um botão simples
+        (o MaterialButton ignoraria os fundos desenhados pelos estilos W2W).
+    -->
+    <style name="Theme.Walk2Win" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="viewInflaterClass">androidx.appcompat.app.AppCompatViewInflater</item>
+
+        <item name="colorPrimary">@color/gold_500</item>
+        <item name="colorOnPrimary">@color/text_on_gold</item>
+        <item name="colorSecondary">@color/grass_500</item>
+        <item name="colorOnSecondary">@color/text_on_gold</item>
+        <item name="colorSurface">@color/pitch_800</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorError">@color/feedback_error</item>
+
+        <item name="android:colorBackground">@color/pitch_900</item>
+        <item name="android:windowBackground">@color/pitch_900</item>
+        <item name="android:navigationBarColor">@color/pitch_900</item>
+        <item name="android:statusBarColor">@color/pitch_900</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:fontFamily">@font/barlow</item>
+
+        <!-- TEMPORÁRIO: os ecrãs ainda não redesenhados esperam CardViews brancos (como no tema antigo).
+             Remover na Etapa 9, quando todos os ecrãs usarem os estilos ds_*. -->
+        <item name="cardViewStyle">@style/Widget.W2W.LegacyCardView</item>
     </style>
 
-    <style name="Theme.QuizPenalts" parent="Base.Theme.QuizPenalts">
-        <!-- Customize your theme here. -->
+    <style name="Widget.W2W.LegacyCardView" parent="CardView">
+        <item name="cardBackgroundColor">@color/white</item>
     </style>
 </resources>

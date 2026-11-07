@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== Texto =====
+         Display/Título: Barlow Condensed Bold Italic (desportivo).
+         Subtítulo: Barlow Condensed SemiBold. Corpo/rótulo/legenda: Barlow. -->
+    <style name="TextAppearance.W2W" parent="android:TextAppearance">
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.W2W.Display">
+        <item name="android:fontFamily">@font/barlow_condensed</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">@dimen/text_display</item>
+    </style>
+
+    <style name="TextAppearance.W2W.Title">
+        <item name="android:fontFamily">@font/barlow_condensed</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">@dimen/text_title</item>
+    </style>
+
+    <style name="TextAppearance.W2W.Heading">
+        <item name="android:fontFamily">@font/barlow_condensed</item>
+        <item name="android:textSize">@dimen/text_heading</item>
+    </style>
+
+    <style name="TextAppearance.W2W.Body">
+        <item name="android:fontFamily">@font/barlow</item>
+        <item name="android:textSize">@dimen/text_body</item>
+    </style>
+
+    <style name="TextAppearance.W2W.Label">
+        <item name="android:fontFamily">@font/barlow_medium</item>
+        <item name="android:textSize">@dimen/text_label</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="TextAppearance.W2W.Caption">
+        <item name="android:fontFamily">@font/barlow</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="Widget.W2W" parent="" />
+
+    <!-- ===== Botões ===== -->
+    <style name="Widget.W2W.Button" parent="Widget.AppCompat.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:minWidth">@dimen/touch_min</item>
+        <item name="android:paddingStart">@dimen/space_xl</item>
+        <item name="android:paddingEnd">@dimen/space_xl</item>
+        <item name="android:textAppearance">@style/TextAppearance.W2W.Heading</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Ação principal: dourado -->
+    <style name="Widget.W2W.Button.Primary">
+        <item name="android:background">@drawable/ds_button_primary</item>
+        <item name="android:textColor">@color/text_on_gold</item>
+    </style>
+
+    <!-- Ação secundária: superfície escura com contorno dourado -->
+    <style name="Widget.W2W.Button.Secondary">
+        <item name="android:background">@drawable/ds_button_secondary</item>
+        <item name="android:textColor">@color/gold_300</item>
+    </style>
+
+    <!-- ===== Cartões e chips (para usar em LinearLayout, ConstraintLayout, ...) ===== -->
+    <style name="Widget.W2W.Card">
+        <item name="android:background">@drawable/ds_card</item>
+        <item name="android:padding">@dimen/space_lg</item>
+    </style>
+
+    <style name="Widget.W2W.Card.Highlight">
+        <item name="android:background">@drawable/ds_card_highlight</item>
+    </style>
+
+    <style name="Widget.W2W.Chip" parent="TextAppearance.W2W.Label">
+        <item name="android:background">@drawable/ds_chip</item>
+        <item name="android:paddingStart">@dimen/space_md</item>
+        <item name="android:paddingEnd">@dimen/space_md</item>
+        <item name="android:paddingTop">@dimen/space_xs</item>
+        <item name="android:paddingBottom">@dimen/space_xs</item>
+    </style>
+
+    <!-- Ecrã: fundo desenhado (gradiente + brilho de projetor), sem imagens pesadas -->
+    <style name="Widget.W2W.Screen">
+        <item name="android:background">@drawable/ds_screen_background</item>
+    </style>
+</resources>

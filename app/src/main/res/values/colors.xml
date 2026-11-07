@@ -59,4 +59,35 @@
     <color name="result_lose">#FF5252</color>
     <color name="result_draw">#2196F3</color>
     <color name="points_hint">#BDBDBD</color>
+
+    <!-- ===== Design system Walk2Win (estilo Ultimate Team, verde relvado + dourado) ===== -->
+    <!-- Fundos e superfícies -->
+    <color name="pitch_900">#06120B</color>
+    <color name="pitch_800">#0C2216</color>
+    <color name="pitch_700">#14351F</color>
+    <color name="pitch_600">#1E4A2D</color>
+    <!-- Verde relvado: ação / sucesso / golo -->
+    <color name="grass_400">#4ADE80</color>
+    <color name="grass_500">#22C55E</color>
+    <color name="grass_700">#15803D</color>
+    <!-- Dourado -->
+    <color name="gold_300">#FFE08A</color>
+    <color name="gold_500">#F5C542</color>
+    <color name="gold_700">#B8860B</color>
+    <color name="gold_border">#80F5C542</color>
+    <!-- Texto -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#A7C4B0</color>
+    <color name="text_on_gold">#1A1405</color>
+    <!-- Feedback -->
+    <color name="feedback_error">#EF4444</color>
+    <color name="feedback_warning">#F59E0B</color>
+    <color name="feedback_info">#38BDF8</color>
+    <!-- Escalões das cartas -->
+    <color name="tier_bronze_light">#E0A070</color>
+    <color name="tier_bronze_dark">#8A4B22</color>
+    <color name="tier_silver_light">#E5EAEE</color>
+    <color name="tier_silver_dark">#8A97A3</color>
+    <!-- Película escura sobre imagens -->
+    <color name="scrim_60">#99000000</color>
 </resources>
