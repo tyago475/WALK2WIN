@@ -4,26 +4,22 @@ import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.View;
+import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomBarChart extends View {
     private List<ChartData> data = new ArrayList<>();
     private Paint barPaint, textPaint, gridPaint, axisPaint, valuePaint;
-    private int maxValue = 10000; // Escala fixa até 10000
+    private int maxValue = Constants.DAILY_STEP_GOAL; // Escala fixa até à meta diária
     private String title = "";
     private String yAxisLabel = "";
 
-    // Cores melhoradas
-    private final int[] BAR_COLORS = {
-            Color.parseColor("#4CAF50"), // Verde
-            Color.parseColor("#2196F3"), // Azul
-            Color.parseColor("#FF9800"), // Laranja
-            Color.parseColor("#E91E63"), // Rosa
-            Color.parseColor("#9C27B0"), // Roxo
-            Color.parseColor("#FF5722"), // Vermelho
-            Color.parseColor("#00BCD4")  // Ciano
-    };
+    private int[] barColors;
+
+    private int color(int resId) {
+        return ContextCompat.getColor(getContext(), resId);
+    }
 
     public CustomBarChart(Context context) {
         super(context);
@@ -36,6 +32,11 @@ public class CustomBarChart extends View {
     }
 
     private void init() {
+        barColors = new int[]{
+                color(R.color.chart_bar_1), color(R.color.chart_bar_2), color(R.color.chart_bar_3),
+                color(R.color.chart_bar_4), color(R.color.chart_bar_5), color(R.color.chart_bar_6),
+                color(R.color.chart_bar_7)
+        };
         // Paint para as barras
         barPaint = new Paint();
         barPaint.setStyle(Paint.Style.FILL);
@@ -58,13 +59,13 @@ public class CustomBarChart extends View {
 
         // Paint para a grid
         gridPaint = new Paint();
-        gridPaint.setColor(Color.parseColor("#334455"));
+        gridPaint.setColor(color(R.color.chart_grid));
         gridPaint.setStrokeWidth(2f);
         gridPaint.setAntiAlias(true);
 
         // Paint para os eixos
         axisPaint = new Paint();
-        axisPaint.setColor(Color.parseColor("#8899AA"));
+        axisPaint.setColor(color(R.color.chart_axis));
         axisPaint.setStrokeWidth(3f);
         axisPaint.setAntiAlias(true);
     }
@@ -75,7 +76,7 @@ public class CustomBarChart extends View {
         this.yAxisLabel = yAxisLabel != null ? yAxisLabel : "Passos";
 
         // Escala fixa de 0 a 10000
-        maxValue = 10000;
+        maxValue = Constants.DAILY_STEP_GOAL;
 
         invalidate();
     }
@@ -127,7 +128,7 @@ public class CustomBarChart extends View {
     private void drawGrid(Canvas canvas, int startX, int startY, int width, int height) {
         int gridLines = 10; // 10 linhas para 0-10000 (incrementos de 1000)
         textPaint.setTextSize(26f);
-        textPaint.setColor(Color.parseColor("#AAAAAA"));
+        textPaint.setColor(color(R.color.chart_label));
         textPaint.setTextAlign(Paint.Align.RIGHT);
 
         for (int i = 0; i <= gridLines; i++) {
@@ -153,7 +154,7 @@ public class CustomBarChart extends View {
 
         for (int i = 0; i < barCount; i++) {
             ChartData item = data.get(i);
-            int color = BAR_COLORS[i % BAR_COLORS.length];
+            int color = barColors[i % barColors.length];
             barPaint.setColor(color);
 
             int barLeft = startX + (i * (barWidth + barSpacing)) + barSpacing;
@@ -184,14 +185,14 @@ public class CustomBarChart extends View {
 
             // Desenhar label (abreviatura do dia) abaixo da barra
             valuePaint.setTextSize(26f);
-            valuePaint.setColor(Color.parseColor("#CCCCCC"));
+            valuePaint.setColor(color(R.color.chart_value));
             canvas.drawText(item.label, (barLeft + barRight) / 2, barBottom + 32, valuePaint);
         }
     }
 
     // 🔥 MÉTODO NOVO - Formatar valores de forma mais legível
     private String formatStepValue(int value) {
-        if (value >= 10000) {
+        if (value >= Constants.DAILY_STEP_GOAL) {
             return String.format("%.1fk", value / 1000.0);
         } else if (value >= 1000) {
             return String.format("%dk", value / 1000);
@@ -202,7 +203,7 @@ public class CustomBarChart extends View {
 
     private void drawNoData(Canvas canvas) {
         textPaint.setTextSize(36f);
-        textPaint.setColor(Color.parseColor("#666666"));
+        textPaint.setColor(color(R.color.chart_empty));
 
         // Mensagem mais informativa
         String noDataText = "📊\nSem dados disponíveis\n\nOs teus passos aparecerão aqui!";

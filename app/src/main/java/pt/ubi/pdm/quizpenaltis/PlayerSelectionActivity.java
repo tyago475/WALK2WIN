@@ -17,8 +17,6 @@ import java.util.List;
 
 public class PlayerSelectionActivity extends AppCompatActivity {
 
-    private static final int STEPS_MULTIPLIER = 10;
-
     private TextView tvAvailablePoints, tvSelectedPlayer;
     private Button btnConfirmSelection, btnBack;
     private ViewPager2 viewPagerPlayers;
@@ -91,7 +89,7 @@ public class PlayerSelectionActivity extends AppCompatActivity {
 
         // Receber pontos da MainActivity
         Intent intent = getIntent();
-        availablePoints = intent.getIntExtra("PONTOS_DISPONIVEIS", 1000);
+        availablePoints = intent.getIntExtra(Constants.EXTRA_AVAILABLE_POINTS, 1000);
 
         initializeViews();
         setupViewPager();
@@ -166,9 +164,8 @@ public class PlayerSelectionActivity extends AppCompatActivity {
             }
 
             Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra("SELECTED_PLAYER", selectedPlayer);
-            intent.putExtra("DIFFICULTY", difficulty);
-            intent.putExtra("PLAYER_COST", selectedPlayerCost);
+            intent.putExtra(Constants.EXTRA_SELECTED_PLAYER, selectedPlayer);
+            intent.putExtra(Constants.EXTRA_PLAYER_COST, selectedPlayerCost);
             startActivity(intent);
 
             // Fecha a activity de seleção
@@ -176,7 +173,7 @@ public class PlayerSelectionActivity extends AppCompatActivity {
         }
     }
     private void showInsufficientPoints(int requiredPoints) {
-        int missingSteps = (requiredPoints - availablePoints) * STEPS_MULTIPLIER;
+        int missingSteps = (requiredPoints - availablePoints) * Constants.STEPS_PER_POINT;
         String message = String.format(
                 "Pontos insuficientes! Ande mais %d passos!",
                 missingSteps

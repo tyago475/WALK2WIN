@@ -24,4 +24,38 @@
     <color name="success_green">#4CAF50</color>
     <color name="error_dark_red">#B71C1C</color>
     <color name="correct_gold">#FFD700</color>
+
+    <!-- Barra de progresso de passos -->
+    <color name="progress_goal_reached">#FFD700</color>
+    <color name="progress_high">#2E7D32</color>
+    <color name="progress_normal">#4CAF50</color>
+
+    <!-- Gráfico de barras -->
+    <color name="chart_bar_1">#4CAF50</color>
+    <color name="chart_bar_2">#2196F3</color>
+    <color name="chart_bar_3">#FF9800</color>
+    <color name="chart_bar_4">#E91E63</color>
+    <color name="chart_bar_5">#9C27B0</color>
+    <color name="chart_bar_6">#FF5722</color>
+    <color name="chart_bar_7">#00BCD4</color>
+    <color name="chart_grid">#334455</color>
+    <color name="chart_axis">#8899AA</color>
+    <color name="chart_label">#AAAAAA</color>
+    <color name="chart_value">#CCCCCC</color>
+    <color name="chart_empty">#666666</color>
+
+    <!-- Jogo: temporizador e mensagens -->
+    <color name="timer_ok">#00FF00</color>
+    <color name="timer_warning">#FFA500</color>
+    <color name="timer_danger">#FF0000</color>
+    <color name="msg_success">#4CAF50</color>
+    <color name="msg_error">#F44336</color>
+    <color name="msg_wrong_answer">#DC5E5E</color>
+    <color name="msg_timeout">#FF9800</color>
+    <color name="msg_bot_ok">#FF9800</color>
+    <color name="msg_info">#2196F3</color>
+    <color name="msg_sudden_death">#FF6B00</color>
+    <color name="result_win">#FFD700</color>
+    <color name="result_lose">#FF5252</color>
+    <color name="result_draw">#2196F3</color>
 </resources>

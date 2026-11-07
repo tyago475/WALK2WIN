@@ -167,7 +167,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         tvBestDaySteps.setText(bestDaySteps);
 
         // Meta diária fixa
-        tvDailyGoal.setText("10.000");
+        tvDailyGoal.setText(String.format("%,d", Constants.DAILY_STEP_GOAL));
 
         // Atualizar período
         tvPeriodo.setText("Últimos " + progress.getDailyProgress().size() + " Dias");

@@ -55,7 +55,7 @@ public class StepsNotificationService extends Service {
     private void updateNotification() {
         try {
             int currentSteps = StepCounter.getTodaySteps(this);
-            int maxSteps = 10000;
+            int maxSteps = Constants.DAILY_STEP_GOAL;
             int percentage = maxSteps > 0 ? (currentSteps * 100) / maxSteps : 0;
 
             String stepsText = String.format("%,d / %,d passos", currentSteps, maxSteps);
@@ -97,7 +97,7 @@ public class StepsNotificationService extends Service {
     private void showRegularNotification() {
         try {
             int currentSteps = StepCounter.getTodaySteps(this);
-            int maxSteps = 10000;
+            int maxSteps = Constants.DAILY_STEP_GOAL;
             int percentage = maxSteps > 0 ? (currentSteps * 100) / maxSteps : 0;
 
             String stepsText = String.format("%,d / %,d passos", currentSteps, maxSteps);

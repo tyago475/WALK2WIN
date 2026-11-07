@@ -96,7 +96,7 @@ public class StepCounter {
 
     public static int getTodayPoints(Context context) {
         int steps = getTodaySteps(context);
-        int points = (steps / 1000) * 100;
+        int points = Constants.stepsToPoints(steps);
         Log.d(TAG, "💰 getTodayPoints(): " + steps + " passos = " + points + " pontos");
         return points;
     }

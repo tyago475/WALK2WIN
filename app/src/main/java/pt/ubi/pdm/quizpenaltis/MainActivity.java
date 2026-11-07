@@ -6,7 +6,6 @@ import android.Manifest;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
@@ -27,10 +26,9 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int ACTIVITY_RECOGNITION_REQUEST_CODE = 1001;
-    private static final int NOTIFICATION_PERMISSION_CODE = 1002;
-    private static final int MAX_STEPS = 10000;
-    private static final int STEPS_TO_POINTS_RATIO = 10;
+    private static final int ACTIVITY_RECOGNITION_REQUEST_CODE = Constants.REQUEST_ACTIVITY_RECOGNITION;
+    private static final int NOTIFICATION_PERMISSION_CODE = Constants.REQUEST_POST_NOTIFICATIONS;
+    private static final int MAX_STEPS = Constants.DAILY_STEP_GOAL;
 
     private TextView tvSteps, tvPoints, tvPercentage;
     private ProgressBar progressBarSteps;
@@ -122,13 +120,13 @@ public class MainActivity extends AppCompatActivity {
         int pontosDisponiveis = StepCounter.getTodayPoints(this);
         Log.d(TAG, "🎮 Indo para PlayerSelection com " + pontosDisponiveis + " pontos");
 
-        if (pontosDisponiveis < 100) {
-            Toast.makeText(this, "⚠️ Precisa de pelo menos 100 pontos para jogar!", Toast.LENGTH_LONG).show();
+        if (pontosDisponiveis < Constants.MIN_POINTS_TO_PLAY) {
+            Toast.makeText(this, "⚠️ Precisa de pelo menos " + Constants.MIN_POINTS_TO_PLAY + " pontos para jogar!", Toast.LENGTH_LONG).show();
             return;
         }
 
         Intent intent = new Intent(MainActivity.this, PlayerSelectionActivity.class);
-        intent.putExtra("PONTOS_DISPONIVEIS", pontosDisponiveis);
+        intent.putExtra(Constants.EXTRA_AVAILABLE_POINTS, pontosDisponiveis);
         startActivity(intent);
     }
 
@@ -149,11 +147,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "🧪 Simulando 1000 passos...");
 
         // 1. Adicionar passos ao StepCounter
-        StepCounter.addSteps(this, 1000);
+        StepCounter.addSteps(this, Constants.TEST_STEPS_INCREMENT);
 
         // 2. Adicionar passos ao ProgressManager para HOJE
         if (progressManager != null) {
-            progressManager.addSteps(1000);
+            progressManager.addSteps(Constants.TEST_STEPS_INCREMENT);
         }
 
         atualizarDisplay();
@@ -211,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void atualizarDisplay() {
         int passos = StepCounter.getTodaySteps(this);
-        int pontos = passos / STEPS_TO_POINTS_RATIO;
+        int pontos = Constants.stepsToPoints(passos);
         int passosParaBarra = Math.min(passos, MAX_STEPS);
         int percentagem = (passosParaBarra * 100) / MAX_STEPS;
 
@@ -228,11 +226,11 @@ public class MainActivity extends AppCompatActivity {
     private void updateProgressBarColor(int steps) {
         int progress = (steps * 100) / MAX_STEPS;
         if (progress >= 100) {
-            progressBarSteps.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFD700")));
+            progressBarSteps.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.progress_goal_reached)));
         } else if (progress >= 75) {
-            progressBarSteps.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#2E7D32")));
+            progressBarSteps.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.progress_high)));
         } else {
-            progressBarSteps.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+            progressBarSteps.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.progress_normal)));
         }
     }
 
