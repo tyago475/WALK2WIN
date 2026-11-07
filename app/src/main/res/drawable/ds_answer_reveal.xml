@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A resposta certa, mostrada quando o jogador errou ou o tempo acabou -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/pitch_700" />
+    <stroke android:width="3dp" android:color="@color/gold_500" />
+    <corners android:radius="@dimen/radius_md" />
+</shape>

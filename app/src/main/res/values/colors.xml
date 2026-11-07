@@ -89,4 +89,10 @@
     <color name="tier_silver_dark">#AEB9C3</color>
     <!-- Película escura sobre imagens -->
     <color name="scrim_60">#99000000</color>
+    <!-- Faixas de mensagem e estados do quiz -->
+    <color name="error_700">#B91C1C</color>
+    <color name="warning_700">#B45309</color>
+    <color name="info_700">#0369A1</color>
+    <color name="special_700">#C2410C</color>
+    <color name="special_500">#F97316</color>
 </resources>

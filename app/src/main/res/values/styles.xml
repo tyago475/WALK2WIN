@@ -74,6 +74,26 @@
         <item name="android:textColor">@color/gold_300</item>
     </style>
 
+    <!-- Resposta do quiz: o fundo muda conforme o estado (ver GameActivity.setAnswerState) -->
+    <style name="Widget.W2W.Button.Answer">
+        <item name="android:background">@drawable/ds_answer_neutral</item>
+        <item name="android:minHeight">76dp</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:paddingStart">@dimen/space_xl</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <!-- Ponto de pontuação (um penálti) -->
+    <style name="Widget.W2W.ScoreDot">
+        <item name="android:layout_width">14dp</item>
+        <item name="android:layout_height">14dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:src">@drawable/ds_score_empty</item>
+        <item name="android:contentDescription">@null</item>
+    </style>
+
     <!-- ===== Cartões e chips (para usar em LinearLayout, ConstraintLayout, ...) ===== -->
     <style name="Widget.W2W.Card">
         <item name="android:background">@drawable/ds_card</item>

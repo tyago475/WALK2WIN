@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Aviso (tempo esgotado, computador acertou) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:angle="270" android:startColor="@color/feedback_warning" android:endColor="@color/warning_700" />
+    <stroke android:width="2dp" android:color="@color/feedback_warning" />
+    <corners android:radius="@dimen/radius_lg" />
+</shape>

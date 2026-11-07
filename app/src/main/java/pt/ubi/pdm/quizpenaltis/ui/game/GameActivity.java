@@ -9,7 +9,9 @@ import pt.ubi.pdm.quizpenaltis.game.PenaltyShootout;
 import pt.ubi.pdm.quizpenaltis.model.Player;
 import pt.ubi.pdm.quizpenaltis.model.PlayerCatalog;
 import pt.ubi.pdm.quizpenaltis.model.Question;
+import pt.ubi.pdm.quizpenaltis.util.Animations;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
+import pt.ubi.pdm.quizpenaltis.util.SystemBars;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -44,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
     // ----- Views -----
     private TextView tvQuestion, tvTimer;
     private Button[] optionButtons;
-    private View layoutQuestion, layoutShoot, layoutDefend, coinTossView, gameOverView;
+    private View layoutQuestion, layoutShoot, layoutDefend, coinTossView, gameOverView, gameHeader;
 
     // ----- Colaboradores -----
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -77,6 +79,7 @@ public class GameActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (getSupportActionBar() != null) getSupportActionBar().hide();
         setContentView(R.layout.activity_game);
+        SystemBars.applyPadding(findViewById(R.id.gameContent));
 
         user = PlayerCatalog.byName(getIntent().getStringExtra(Constants.EXTRA_SELECTED_PLAYER));
         userCost = getIntent().getIntExtra(Constants.EXTRA_PLAYER_COST, 500);
@@ -101,6 +104,7 @@ public class GameActivity extends AppCompatActivity {
         };
         for (Button b : optionButtons) b.setOnClickListener(this::onOptionClick);
 
+        gameHeader = findViewById(R.id.gameHeader);
         layoutQuestion = findViewById(R.id.layoutQuestion);
         layoutShoot = findViewById(R.id.layoutShoot);
         layoutDefend = findViewById(R.id.layoutDefend);
@@ -156,6 +160,7 @@ public class GameActivity extends AppCompatActivity {
     private void performCoinToss() {
         phase = Phase.COIN_TOSS;
         hideAllPhases();
+        gameHeader.setVisibility(View.GONE);
         coinToss.show();
     }
 
@@ -182,6 +187,8 @@ public class GameActivity extends AppCompatActivity {
     private void showOnly(View phaseView) {
         hideAllPhases();
         phaseView.setVisibility(View.VISIBLE);
+        gameHeader.setVisibility(View.VISIBLE);
+        tvTimer.setVisibility(phaseView == layoutQuestion ? View.VISIBLE : View.GONE);
     }
 
     // =========================================================================
@@ -199,7 +206,7 @@ public class GameActivity extends AppCompatActivity {
         currentOptions = questionManager.getShuffledOptions(currentQuestion);
 
         tvQuestion.setText(currentQuestion.getQuestion());
-        tvQuestion.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+        tvQuestion.setBackgroundResource(R.drawable.ds_banner_neutral);
         for (int i = 0; i < optionButtons.length; i++) {
             optionButtons[i].setText(currentOptions.get(i));
         }
@@ -224,11 +231,25 @@ public class GameActivity extends AppCompatActivity {
 
     private void showTimer(int secondsRemaining) {
         tvTimer.setText(getString(R.string.game_timer_format, secondsRemaining));
-        int color;
-        if (secondsRemaining <= GameRules.TIMER_DANGER_SECONDS) color = R.color.timer_danger;
-        else if (secondsRemaining <= GameRules.TIMER_WARNING_SECONDS) color = R.color.timer_warning;
-        else color = R.color.timer_ok;
-        tvTimer.setBackgroundColor(ContextCompat.getColor(this, color));
+        int background, textColor;
+        if (secondsRemaining <= GameRules.TIMER_DANGER_SECONDS) {
+            background = R.drawable.ds_timer_danger;
+            textColor = R.color.text_primary;
+        } else if (secondsRemaining <= GameRules.TIMER_WARNING_SECONDS) {
+            background = R.drawable.ds_timer_warning;
+            textColor = R.color.text_on_gold;
+        } else {
+            background = R.drawable.ds_timer_ok;
+            textColor = R.color.text_on_gold;
+        }
+        tvTimer.setBackgroundResource(background);
+        int color = ContextCompat.getColor(this, textColor);
+        tvTimer.setTextColor(color);
+        androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(tvTimer, android.content.res.ColorStateList.valueOf(color));
+        // Nos últimos segundos o relógio "bate" a cada tick
+        if (secondsRemaining <= GameRules.TIMER_DANGER_SECONDS && secondsRemaining > 0 && phase == Phase.QUESTION) {
+            Animations.pulse(tvTimer);
+        }
     }
 
     private void resetTimer() {
@@ -239,7 +260,7 @@ public class GameActivity extends AppCompatActivity {
     private void handleTimeUp() {
         if (phase != Phase.QUESTION || !isPlayerTurn) return;
 
-        showMessage(getString(R.string.game_time_up_banner), R.color.msg_timeout);
+        showMessage(getString(R.string.game_time_up_banner), R.drawable.ds_banner_warning);
         setOptionsEnabled(false);
         highlightCorrectAnswer();
         Toast.makeText(this, R.string.game_time_up_toast, Toast.LENGTH_LONG).show();
@@ -262,16 +283,18 @@ public class GameActivity extends AppCompatActivity {
         setOptionsEnabled(false);
 
         if (correct) {
-            clicked.setBackgroundColor(ContextCompat.getColor(this, R.color.success_green));
-            showMessage(getString(R.string.game_answer_correct), R.color.msg_success);
+            setAnswerState(clicked, AnswerState.CORRECT);
+            Animations.pulse(clicked);
+            showMessage(getString(R.string.game_answer_correct), R.drawable.ds_banner_success);
             later(GameRules.ANSWER_FEEDBACK_MS, () -> {
                 startShootPhase();
                 isProcessingClick = false;
             });
         } else {
-            clicked.setBackgroundColor(ContextCompat.getColor(this, R.color.error_dark_red));
+            setAnswerState(clicked, AnswerState.WRONG);
+            Animations.shake(clicked);
             highlightCorrectAnswer();
-            showMessage(getString(R.string.game_answer_wrong), R.color.msg_wrong_answer);
+            showMessage(getString(R.string.game_answer_wrong), R.drawable.ds_banner_error);
             later(GameRules.ANSWER_FEEDBACK_MS, () -> {
                 registerPlayerShot(false);
                 isProcessingClick = false;
@@ -281,26 +304,35 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private enum AnswerState { NEUTRAL, DISABLED, CORRECT, WRONG, REVEAL }
+
+    private void setAnswerState(Button button, AnswerState state) {
+        int background;
+        switch (state) {
+            case DISABLED: background = R.drawable.ds_answer_disabled; break;
+            case CORRECT: background = R.drawable.ds_answer_correct; break;
+            case WRONG: background = R.drawable.ds_answer_wrong; break;
+            case REVEAL: background = R.drawable.ds_answer_reveal; break;
+            default: background = R.drawable.ds_answer_neutral;
+        }
+        button.setBackgroundResource(background);
+    }
+
     private void setOptionsEnabled(boolean enabled) {
         for (Button b : optionButtons) {
             b.setEnabled(enabled);
-            if (!enabled) {
-                b.setBackgroundColor(ContextCompat.getColor(this, android.R.color.darker_gray));
-            }
+            setAnswerState(b, enabled ? AnswerState.NEUTRAL : AnswerState.DISABLED);
         }
-        if (enabled) resetButtonColors();
     }
 
     private void resetButtonColors() {
-        for (Button b : optionButtons) {
-            b.setBackgroundColor(ContextCompat.getColor(this, R.color.primary_neutral));
-        }
+        for (Button b : optionButtons) setAnswerState(b, AnswerState.NEUTRAL);
     }
 
     private void highlightCorrectAnswer() {
         for (int i = 0; i < optionButtons.length; i++) {
             if (currentQuestion.isCorrectOption(currentOptions.get(i))) {
-                optionButtons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.correct_gold));
+                setAnswerState(optionButtons[i], AnswerState.REVEAL);
                 return;
             }
         }
@@ -317,10 +349,10 @@ public class GameActivity extends AppCompatActivity {
         boolean botAnsweredCorrectly = random.nextDouble() < GameRules.BOT_CORRECT_PROBABILITY;
 
         if (botAnsweredCorrectly) {
-            showMessage(getString(R.string.game_bot_answered_right, bot.getName()), R.color.msg_bot_ok);
+            showMessage(getString(R.string.game_bot_answered_right, bot.getName()), R.drawable.ds_banner_warning);
             later(GameRules.ANSWER_FEEDBACK_MS, this::startDefendPhase);
         } else {
-            showMessage(getString(R.string.game_bot_answered_wrong, bot.getName()), R.color.msg_info);
+            showMessage(getString(R.string.game_bot_answered_wrong, bot.getName()), R.drawable.ds_banner_info);
             later(GameRules.ANSWER_FEEDBACK_MS, () -> {
                 registerBotShot(false);
                 if (checkGameEnd()) return;
@@ -385,9 +417,9 @@ public class GameActivity extends AppCompatActivity {
         later(GameRules.SHOT_RESULT_MS, () -> {
             registerPlayerShot(scored);
             if (scored) {
-                showMessage(getString(R.string.game_shot_goal, user.getName()), R.color.msg_success);
+                showMessage(getString(R.string.game_shot_goal, user.getName()), R.drawable.ds_banner_success);
             } else {
-                showMessage(getString(R.string.game_shot_miss, user.getName()), R.color.msg_error);
+                showMessage(getString(R.string.game_shot_miss, user.getName()), R.drawable.ds_banner_error);
             }
             isProcessingClick = false;
             if (checkGameEnd()) return;
@@ -425,9 +457,9 @@ public class GameActivity extends AppCompatActivity {
         later(GameRules.SHOT_RESULT_MS, () -> {
             registerBotShot(!defended);
             if (defended) {
-                showMessage(getString(R.string.game_defense_saved, bot.getName()), R.color.msg_info);
+                showMessage(getString(R.string.game_defense_saved, bot.getName()), R.drawable.ds_banner_info);
             } else {
-                showMessage(getString(R.string.game_defense_conceded, bot.getName()), R.color.msg_error);
+                showMessage(getString(R.string.game_defense_conceded, bot.getName()), R.drawable.ds_banner_error);
             }
             isProcessingClick = false;
             if (checkGameEnd()) return;
@@ -444,7 +476,7 @@ public class GameActivity extends AppCompatActivity {
         String text = getString(R.string.game_defense_summary,
                 bot.getName(), getString(botShot.nameRes), getString(chosen.nameRes),
                 getString(defended ? R.string.game_defense_right : R.string.game_defense_wrong));
-        showMessage(text, defended ? R.color.msg_info : R.color.msg_error);
+        showMessage(text, defended ? R.drawable.ds_banner_info : R.drawable.ds_banner_error);
     }
 
     // =========================================================================
@@ -481,7 +513,7 @@ public class GameActivity extends AppCompatActivity {
 
         showMessage(getString(R.string.game_sudden_death_banner, PenaltyShootout.REGULAR_PENALTIES,
                 user.getName(), shootout.getPlayerScore(), shootout.getBotScore(), bot.getName()),
-                R.color.msg_sudden_death);
+                R.drawable.ds_banner_special);
         Toast.makeText(this, R.string.game_sudden_death_toast, Toast.LENGTH_LONG).show();
 
         later(GameRules.SUDDEN_DEATH_BANNER_MS, () -> {
@@ -493,19 +525,18 @@ public class GameActivity extends AppCompatActivity {
     private void endGame() {
         questionTimer.cancel();
         hideAllPhases();
+        gameHeader.setVisibility(View.GONE);
         new GameOverView(gameOverView).show(shootout, user.getName(), bot.getName(), this::finish);
-
-        View backCard = findViewById(R.id.cardBackButton);
-        if (backCard != null) backCard.setVisibility(View.GONE);
     }
 
     // =========================================================================
     // Pequenos auxiliares de UI
     // =========================================================================
 
-    private void showMessage(String message, @ColorRes int colorRes) {
+    private void showMessage(String message, @DrawableRes int bannerRes) {
         tvQuestion.setText(message);
-        tvQuestion.setBackgroundColor(ContextCompat.getColor(this, colorRes));
+        tvQuestion.setBackgroundResource(bannerRes);
+        Animations.popIn(tvQuestion);
     }
 
     private void resetAllCircles() {
