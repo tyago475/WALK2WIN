@@ -322,7 +322,7 @@
 
                 </LinearLayout>
 
-                <pt.ubi.pdm.quizpenaltis.CustomBarChart
+                <pt.ubi.pdm.quizpenaltis.ui.progress.CustomBarChart
                     android:id="@+id/stepsChart"
                     android:layout_width="match_parent"
                     android:layout_height="250dp" />

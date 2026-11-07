@@ -20,7 +20,7 @@
 
         <!-- MAIN ACTIVITY -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,29 +30,29 @@
 
         <!-- PLAYER SELECTION -->
         <activity
-            android:name=".PlayerSelectionActivity" />
+            android:name=".ui.player.PlayerSelectionActivity" />
 
         <!-- GAME ACTIVITY -->
         <activity
-            android:name=".GameActivity" />
+            android:name=".ui.game.GameActivity" />
 
         <!-- PROGRESS ACTIVITY -->
         <activity
-            android:name=".ProgressActivity" />
+            android:name=".ui.progress.ProgressActivity" />
 
         <!-- HELP ACTIVITY (NOVA) -->
         <activity
-            android:name=".HelpActivity" />
+            android:name=".ui.help.HelpActivity" />
 
         <!-- Service para contagem de passos -->
         <service
-            android:name=".StepTrackingService"
+            android:name=".steps.StepTrackingService"
             android:enabled="true"
             android:exported="false" />
 
         <!-- Service para notificação -->
         <service
-            android:name=".StepsNotificationService"
+            android:name=".steps.StepsNotificationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="health" />
