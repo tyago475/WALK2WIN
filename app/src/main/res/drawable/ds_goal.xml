@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Baliza desenhada: relvado, rede e postes (substitui goal.webp, que tinha fundo bordô) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp" android:height="180dp"
+    android:viewportWidth="300" android:viewportHeight="180">
+    <!-- Relvado em faixas -->
+    <path android:fillColor="@color/grass_700" android:fillAlpha="0.55" android:pathData="M0,150 L300,150 L300,180 L0,180 Z"/>
+    <path android:fillColor="@color/grass_500" android:fillAlpha="0.25" android:pathData="M0,150 L60,150 L40,180 L0,180 Z M120,150 L180,150 L190,180 L110,180 Z M240,150 L300,150 L300,180 L260,180 Z"/>
+    <!-- Rede -->
+    <path android:strokeColor="#FFFFFF" android:strokeAlpha="0.22" android:strokeWidth="0.7"
+        android:pathData="M28,10 L28,150 M42,10 L42,150 M56,10 L56,150 M70,10 L70,150 M84,10 L84,150 M98,10 L98,150 M112,10 L112,150 M126,10 L126,150 M140,10 L140,150 M154,10 L154,150 M168,10 L168,150 M182,10 L182,150 M196,10 L196,150 M210,10 L210,150 M224,10 L224,150 M238,10 L238,150 M252,10 L252,150 M266,10 L266,150 M280,10 L280,150 M14,22 L286,22 M14,34 L286,34 M14,46 L286,46 M14,58 L286,58 M14,70 L286,70 M14,82 L286,82 M14,94 L286,94 M14,106 L286,106 M14,118 L286,118 M14,130 L286,130 M14,142 L286,142"/>
+    <!-- Postes e barra -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="7" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M10,152 L10,18 Q10,8 20,8 L280,8 Q290,8 290,18 L290,152"/>
+    <!-- Linha da baliza -->
+    <path android:strokeColor="#FFFFFF" android:strokeAlpha="0.5" android:strokeWidth="1.5"
+        android:pathData="M0,152 L300,152"/>
+</vector>

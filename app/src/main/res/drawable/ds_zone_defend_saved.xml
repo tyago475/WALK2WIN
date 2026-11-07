@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Defendeste: a tua zona era a do remate -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/grass_500" />
+            <stroke android:width="3dp" android:color="@color/grass_400" />
+            <corners android:radius="@dimen/radius_sm" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/icon_front_hand" android:gravity="center" />
+</layer-list>

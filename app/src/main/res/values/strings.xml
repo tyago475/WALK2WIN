@@ -85,13 +85,11 @@
     <string name="game_answer_wrong">Resposta errada</string>
     <string name="game_bot_answered_right">%1$s acertou!</string>
     <string name="game_bot_answered_wrong">%1$s errou!</string>
-    <string name="game_shot_goal">⚽ GOLO! %1$s marcou!</string>
-    <string name="game_shot_miss">❌ %1$s falhou!</string>
-    <string name="game_defense_saved">🧤 Defendeu! Parou o %1$s!</string>
-    <string name="game_defense_conceded">⚽ Golo do %1$s!</string>
-    <string name="game_defense_summary">%1$s chutou: %2$s\nVocê defendeu: %3$s\n%4$s</string>
-    <string name="game_defense_right">✅ Defesa certa!</string>
-    <string name="game_defense_wrong">❌ Defesa errada!</string>
+    <string name="banner_goal">GOLO!</string>
+    <string name="banner_shot_miss">FALHOU!</string>
+    <string name="banner_saved">DEFENDIDO!</string>
+    <string name="banner_conceded">GOLO DO ADVERSÁRIO</string>
+    <string name="game_defense_summary">%1$s rematou: %2$s\nTu defendeste: %3$s</string>
     <string name="game_sudden_death_banner">EMPATE APÓS %1$d PENÁLTIS!\n%2$s %3$d × %4$d %5$s\n\n⚡ MORTE SÚBITA ATIVADA! ⚡\nCada penálti é decisivo!</string>
     <string name="game_sudden_death_toast">MORTE SÚBITA ATIVADA! Cada penálti é decisivo!</string>
     <string name="game_vs">VS</string>
@@ -133,18 +131,15 @@
 
     <!-- ===== Cara ou coroa ===== -->
     <string name="coin_title">LANÇAMENTO DA MOEDA</string>
-    <string name="coin_prompt">Escolha Cara ou Coroa para determinar quem começa primeiro:</string>
+    <string name="coin_prompt">Escolhe cara ou coroa.\nQuem ganhar remata primeiro.</string>
     <string name="coin_result_title">RESULTADO DO LANÇAMENTO</string>
     <string name="coin_heads">CARA</string>
     <string name="coin_tails">COROA</string>
-    <string name="coin_choice_ok">✅ %1$s</string>
-    <string name="coin_choice_bad">❌ %1$s</string>
-    <string name="coin_result_message">Sua escolha: %1$s\nResultado: %2$s\n\n%3$s\n\n%4$s</string>
-    <string name="coin_user_won">VOCÊ GANHOU! 🎉</string>
-    <string name="coin_bot_won">COMPUTADOR GANHOU! 😞</string>
-    <string name="coin_face_heads">😊</string>
-    <string name="coin_face_tails">👑</string>
-    <string name="coin_initial">🪙</string>
+    <string name="coin_choice_ok">%1$s ✓</string>
+    <string name="coin_choice_bad">%1$s ✗</string>
+    <string name="coin_result_message">Escolheste: %1$s\nSaiu: %2$s\n\n%3$s\n%4$s</string>
+    <string name="coin_user_won">TU GANHASTE!</string>
+    <string name="coin_bot_won">O COMPUTADOR GANHOU!</string>
 
     <!-- ===== Textos dos layouts (gerados automaticamente) ===== -->
     <string name="ui_help_text_1">❓</string>
@@ -193,12 +188,8 @@
     <string name="ui_progress_text_13">👣 passos por dia</string>
     <string name="ui_progress_btn_back">⬅️ VOLTAR AO MENU</string>
     <string name="ui_coin_tv_coin_toss_subtitle">Quem começa a bater penalties?</string>
-    <string name="ui_coin_text_1">🙂</string>
-    <string name="ui_coin_text_2">👑</string>
     <string name="ui_coin_tv_coin_toss_hint">O vencedor do lançamento começa primeiro</string>
-    <string name="ui_defend_text_1">🧤</string>
     <string name="ui_defend_tv_defend_instruction">ESCOLHE ONDE QUERES DEFENDER!</string>
     <string name="ui_gameover_btn_back_to_main">🏠 VOLTAR AO INÍCIO</string>
-    <string name="ui_shoot_text_1">🎯</string>
     <string name="ui_shoot_tv_shoot_instruction">ESCOLHE ONDE QUERES REMATAR!</string>
 </resources>

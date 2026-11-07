@@ -6,9 +6,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
+import androidx.annotation.DrawableRes;
 
 import java.util.Random;
 
@@ -35,7 +36,7 @@ public class CoinTossPhase {
     private final Button btnTails;
     private final TextView tvTitle;
     private final TextView tvMessage;
-    private final TextView tvCoin;
+    private final ImageView ivCoin;
 
     public CoinTossPhase(Activity activity, View root, CoinTossListener listener) {
         this.activity = activity;
@@ -45,7 +46,7 @@ public class CoinTossPhase {
         btnTails = root.findViewById(R.id.btnTails);
         tvTitle = root.findViewById(R.id.tvCoinTossTitle);
         tvMessage = root.findViewById(R.id.tvCoinTossMessage);
-        tvCoin = root.findViewById(R.id.tvCoinAnimation);
+        ivCoin = root.findViewById(R.id.ivCoin);
 
         btnHeads.setOnClickListener(v -> onChoice(true));
         btnTails.setOnClickListener(v -> onChoice(false));
@@ -91,22 +92,22 @@ public class CoinTossPhase {
         Button other = userChoseHeads ? btnTails : btnHeads;
         boolean chosenWasRight = userChoseHeads == coinIsHeads;
 
-        chosen.setBackgroundColor(color(chosenWasRight
-                ? android.R.color.holo_green_dark : android.R.color.holo_red_dark));
+        chosen.setBackgroundResource(chosenWasRight ? R.drawable.ds_answer_correct : R.drawable.ds_answer_wrong);
         chosen.setText(activity.getString(chosenWasRight ? R.string.coin_choice_ok : R.string.coin_choice_bad,
                 faceName(userChoseHeads)));
 
-        other.setBackgroundColor(color(android.R.color.darker_gray));
+        other.setBackgroundResource(R.drawable.ds_answer_disabled);
         other.setText(faceName(!userChoseHeads));
     }
 
     private void animateFlip(boolean finalIsHeads) {
-        tvCoin.animate().rotationYBy(360).setDuration(FLIP_DURATION_MS).start();
+        View coin = (View) ivCoin.getParent();
+        coin.animate().rotationYBy(360).setDuration(FLIP_DURATION_MS).start();
 
         handler.postDelayed(() -> {
-            tvCoin.setText(finalIsHeads ? R.string.coin_face_heads : R.string.coin_face_tails);
-            tvCoin.animate().scaleX(POP_SCALE).scaleY(POP_SCALE).setDuration(POP_DURATION_MS)
-                    .withEndAction(() -> tvCoin.animate().scaleX(1f).scaleY(1f)
+            ivCoin.setImageResource(coinFace(finalIsHeads));
+            coin.animate().scaleX(POP_SCALE).scaleY(POP_SCALE).setDuration(POP_DURATION_MS)
+                    .withEndAction(() -> coin.animate().scaleX(1f).scaleY(1f)
                             .setDuration(POP_DURATION_MS).start())
                     .start();
         }, FACE_REVEAL_DELAY_MS);
@@ -117,23 +118,26 @@ public class CoinTossPhase {
         tvMessage.setText(R.string.coin_prompt);
         setButtonsEnabled(true);
 
-        btnHeads.setBackgroundColor(color(android.R.color.holo_red_dark));
+        btnHeads.setBackgroundResource(R.drawable.ds_answer_neutral);
         btnHeads.setText(R.string.coin_heads);
-        btnTails.setBackgroundColor(color(android.R.color.holo_red_dark));
+        btnTails.setBackgroundResource(R.drawable.ds_answer_neutral);
         btnTails.setText(R.string.coin_tails);
 
-        tvCoin.setText(R.string.coin_initial);
-        tvCoin.setRotationY(0);
-        tvCoin.setScaleX(1f);
-        tvCoin.setScaleY(1f);
+        View coin = (View) ivCoin.getParent();
+        ivCoin.setImageResource(R.drawable.icon_paid);
+        coin.setRotationY(0);
+        coin.setScaleX(1f);
+        coin.setScaleY(1f);
     }
 
     private String faceName(boolean heads) {
         return activity.getString(heads ? R.string.coin_heads : R.string.coin_tails);
     }
 
-    private int color(int resId) {
-        return ContextCompat.getColor(activity, resId);
+    /** Cara = estrela, coroa = bola (ícones iguais aos dos botões). */
+    @DrawableRes
+    private int coinFace(boolean heads) {
+        return heads ? R.drawable.icon_star : R.drawable.icon_sports_soccer;
     }
 
     private void setButtonsEnabled(boolean enabled) {

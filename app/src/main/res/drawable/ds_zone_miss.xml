@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Zona escolhida: falhou -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/feedback_error" />
+            <stroke android:width="3dp" android:color="@color/error_700" />
+            <corners android:radius="@dimen/radius_sm" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/icon_close" android:gravity="center" />
+</layer-list>

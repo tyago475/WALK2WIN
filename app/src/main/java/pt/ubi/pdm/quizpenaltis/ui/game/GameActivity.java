@@ -389,6 +389,7 @@ public class GameActivity extends AppCompatActivity {
     private void startShootPhase() {
         phase = Phase.SHOOT;
         showOnly(layoutShoot);
+        resetShootBanner();
         resetAllCircles();
         resetTimer();
 
@@ -411,21 +412,27 @@ public class GameActivity extends AppCompatActivity {
 
         boolean scored = greenZones.contains(zone);
         resetAllCircles();
-        ((ImageView) findViewById(zone.viewId)).setImageResource(
-                scored ? R.drawable.goal_circle_chosen_green : R.drawable.goal_circle_chosen_red);
+        View target = findViewById(zone.viewId);
 
-        later(GameRules.SHOT_RESULT_MS, () -> {
-            registerPlayerShot(scored);
-            if (scored) {
-                showMessage(getString(R.string.game_shot_goal, user.getName()), R.drawable.ds_banner_success);
-            } else {
-                showMessage(getString(R.string.game_shot_miss, user.getName()), R.drawable.ds_banner_error);
-            }
-            isProcessingClick = false;
-            if (checkGameEnd()) return;
-            showTransition(scored ? R.string.transition_user_scored : R.string.transition_user_missed,
-                    scored ? R.string.emoji_ball : R.string.emoji_cross, this::startBotTurn);
-        });
+        // A bola voa até à zona; só então se vê o resultado.
+        Animations.ballFlight(findViewById(R.id.ballIndicator), findViewById(R.id.goalArea),
+                target, GameRules.BALL_FLIGHT_MS, () -> {
+                    if (isDestroyed()) return;
+                    target.setBackgroundResource(scored ? R.drawable.ds_zone_goal : R.drawable.ds_zone_miss);
+                    Animations.popIn(target);
+                    showResultBanner(findViewById(R.id.cardInstruction), findViewById(R.id.tvShootBanner),
+                            scored ? R.string.banner_goal : R.string.banner_shot_miss,
+                            scored ? R.drawable.ds_banner_success : R.drawable.ds_banner_error);
+                    if (!scored) Animations.shake(target);
+                    registerPlayerShot(scored);
+
+                    later(GameRules.SHOT_RESULT_MS, () -> {
+                        isProcessingClick = false;
+                        if (checkGameEnd()) return;
+                        showTransition(scored ? R.string.transition_user_scored : R.string.transition_user_missed,
+                                scored ? R.string.emoji_ball : R.string.emoji_cross, this::startBotTurn);
+                    });
+                });
     }
 
     // =========================================================================
@@ -435,6 +442,7 @@ public class GameActivity extends AppCompatActivity {
     private void startDefendPhase() {
         phase = Phase.DEFEND;
         showOnly(layoutDefend);
+        resetDefendBanner();
         resetAllRectangles();
         resetTimer();
         isProcessingClick = false;
@@ -452,31 +460,40 @@ public class GameActivity extends AppCompatActivity {
 
         DefenseZone botShot = DefenseZone.random();
         boolean defended = chosen == botShot;
-        showDefenseResult(chosen, botShot, defended);
 
-        later(GameRules.SHOT_RESULT_MS, () -> {
-            registerBotShot(!defended);
-            if (defended) {
-                showMessage(getString(R.string.game_defense_saved, bot.getName()), R.drawable.ds_banner_info);
-            } else {
-                showMessage(getString(R.string.game_defense_conceded, bot.getName()), R.drawable.ds_banner_error);
-            }
-            isProcessingClick = false;
-            if (checkGameEnd()) return;
-            showTransition(defended ? R.string.transition_bot_missed : R.string.transition_bot_scored,
-                    defended ? R.string.emoji_party : R.string.emoji_ball, this::startPlayerTurn);
-        });
+        // A tua escolha fica assinalada a dourado e o remate do adversário voa até à zona dele.
+        resetAllRectangles();
+        findViewById(chosen.viewId).setBackgroundResource(R.drawable.ds_zone_defend_chosen);
+
+        Animations.ballFlight(findViewById(R.id.defendBall), findViewById(R.id.defendGoalArea),
+                findViewById(botShot.viewId), GameRules.BALL_FLIGHT_MS, () -> {
+                    if (isDestroyed()) return;
+                    showDefenseResult(chosen, botShot, defended);
+                    registerBotShot(!defended);
+
+                    later(GameRules.SHOT_RESULT_MS, () -> {
+                        isProcessingClick = false;
+                        if (checkGameEnd()) return;
+                        showTransition(defended ? R.string.transition_bot_missed : R.string.transition_bot_scored,
+                                defended ? R.string.emoji_party : R.string.emoji_ball, this::startPlayerTurn);
+                    });
+                });
     }
 
     private void showDefenseResult(DefenseZone chosen, DefenseZone botShot, boolean defended) {
-        resetAllRectangles();
-        findViewById(botShot.viewId).setBackgroundResource(R.drawable.defense_red);
-        if (defended) findViewById(chosen.viewId).setBackgroundResource(R.drawable.defense_green);
+        View shotZone = findViewById(botShot.viewId);
+        shotZone.setBackgroundResource(defended
+                ? R.drawable.ds_zone_defend_saved : R.drawable.ds_zone_defend_conceded);
+        Animations.popIn(shotZone);
 
-        String text = getString(R.string.game_defense_summary,
-                bot.getName(), getString(botShot.nameRes), getString(chosen.nameRes),
-                getString(defended ? R.string.game_defense_right : R.string.game_defense_wrong));
-        showMessage(text, defended ? R.drawable.ds_banner_info : R.drawable.ds_banner_error);
+        showResultBanner(findViewById(R.id.cardDefendInstruction), findViewById(R.id.tvDefendBanner),
+                defended ? R.string.banner_saved : R.string.banner_conceded,
+                defended ? R.drawable.ds_banner_success : R.drawable.ds_banner_error);
+
+        TextView detail = findViewById(R.id.tvDefendDetail);
+        detail.setText(getString(R.string.game_defense_summary,
+                bot.getName(), getString(botShot.nameRes), getString(chosen.nameRes)));
+        detail.setVisibility(View.VISIBLE);
     }
 
     // =========================================================================
@@ -539,15 +556,38 @@ public class GameActivity extends AppCompatActivity {
         Animations.popIn(tvQuestion);
     }
 
+    /** Troca a instrução pelo banner de resultado (GOLO!, DEFENDIDO!, ...), que "salta" para dentro. */
+    private void showResultBanner(View instruction, TextView banner, @StringRes int text, @DrawableRes int background) {
+        instruction.setVisibility(View.INVISIBLE);
+        banner.setText(text);
+        banner.setBackgroundResource(background);
+        banner.setVisibility(View.VISIBLE);
+        Animations.popIn(banner);
+    }
+
+    /** Volta a mostrar a instrução e esconde o banner e a bola. */
+    private void resetShootBanner() {
+        findViewById(R.id.cardInstruction).setVisibility(View.VISIBLE);
+        findViewById(R.id.tvShootBanner).setVisibility(View.INVISIBLE);
+        findViewById(R.id.ballIndicator).setVisibility(View.INVISIBLE);
+    }
+
+    private void resetDefendBanner() {
+        findViewById(R.id.cardDefendInstruction).setVisibility(View.VISIBLE);
+        findViewById(R.id.tvDefendBanner).setVisibility(View.INVISIBLE);
+        findViewById(R.id.tvDefendDetail).setVisibility(View.INVISIBLE);
+        findViewById(R.id.defendBall).setVisibility(View.INVISIBLE);
+    }
+
     private void resetAllCircles() {
         for (GoalZone zone : GoalZone.values()) {
-            ((ImageView) findViewById(zone.viewId)).setImageResource(R.drawable.goal_circle);
+            findViewById(zone.viewId).setBackgroundResource(R.drawable.ds_zone_idle);
         }
     }
 
     private void resetAllRectangles() {
         for (DefenseZone zone : DefenseZone.values()) {
-            findViewById(zone.viewId).setBackgroundResource(R.drawable.defense_normal);
+            findViewById(zone.viewId).setBackgroundResource(R.drawable.ds_zone_defend_idle);
         }
     }
 }

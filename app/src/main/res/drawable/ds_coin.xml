@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Moeda: aro dourado, face e anel interior -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/gold_700" />
+        </shape>
+    </item>
+    <item android:bottom="4dp">
+        <shape android:shape="oval">
+            <gradient android:angle="270" android:startColor="@color/gold_300" android:endColor="@color/gold_500" />
+        </shape>
+    </item>
+    <item android:bottom="4dp" android:left="14dp" android:right="14dp" android:top="14dp">
+        <shape android:shape="oval">
+            <stroke android:width="2dp" android:color="@color/gold_700" />
+        </shape>
+    </item>
+</layer-list>

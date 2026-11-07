@@ -1,113 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fase de defesa: o jogador escolhe uma de 5 zonas; o adversário remata para uma delas.
+    O banner DEFENDIDO!/GOLO! substitui a instrução, e o detalhe aparece por baixo da baliza.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutDefend"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/stadium_background">
+    android:paddingStart="@dimen/space_lg"
+    android:paddingEnd="@dimen/space_lg"
+    android:paddingTop="@dimen/space_sm"
+    android:paddingBottom="@dimen/space_lg">
 
-    <!-- Instruções estilo vidro -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardDefendInstruction"
+    <FrameLayout
+        android:id="@+id/slotDefend"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="8dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/player_card_selected"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/cardDefendInstruction"
+            style="@style/Widget.W2W.Card.Highlight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="12dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <!-- Ícone decorativo -->
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:text="@string/ui_defend_text_1"
-                android:textSize="24sp"
-                android:gravity="center"
-                android:layout_marginBottom="8dp" />
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_front_hand"
+                app:tint="@color/gold_500" />
 
             <TextView
                 android:id="@+id/tvDefendInstruction"
-                android:layout_width="match_parent"
+                style="@style/TextAppearance.W2W.Heading"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_md"
+                android:layout_weight="1"
                 android:text="@string/ui_defend_tv_defend_instruction"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:paddingVertical="12dp"
-                android:letterSpacing="0.02"
-                android:shadowColor="#000000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="4" />
-
+                android:textColor="@color/text_primary" />
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <!-- Área da baliza com fundo melhorado -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="12dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintTop_toBottomOf="@id/cardDefendInstruction"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="5:3"
-        android:background="@drawable/player_card_normal">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/goalArea"
+        <TextView
+            android:id="@+id/tvDefendBanner"
+            style="@style/TextAppearance.W2W.Display"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/goal_area_background">
+            android:background="@drawable/ds_banner_info"
+            android:gravity="center"
+            android:visibility="invisible"
+            tools:text="DEFENDIDO!" />
+    </FrameLayout>
 
-            <!-- Imagem da baliza -->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/goal"
-                android:scaleType="fitXY"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="ContentDescription" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/defendGoalArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_lg"
+        android:background="@drawable/ds_goal_backdrop"
+        android:padding="@dimen/space_sm"
+        app:layout_constraintBottom_toTopOf="@id/tvDefendDetail"
+        app:layout_constraintDimensionRatio="H,5:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/slotDefend"
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintVertical_chainStyle="packed">
 
-            <!-- GridLayout para evitar sobreposição de cliques -->
-            <GridLayout
-                android:id="@+id/defenseGrid"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@android:color/transparent"
-                android:columnCount="3"
-                android:rowCount="3"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/ds_goal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- Linha 1 -->
+        <GridLayout
+            android:id="@+id/defenseGrid"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:columnCount="3"
+            android:paddingStart="@dimen/space_lg"
+            android:paddingEnd="@dimen/space_lg"
+            android:paddingTop="@dimen/space_lg"
+            android:paddingBottom="@dimen/space_xl"
+            android:rowCount="3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
                 <View
                     android:id="@+id/rect_top_left"
                     android:layout_width="0dp"
@@ -116,21 +108,17 @@
                     android:layout_row="0"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:minWidth="40dp"
-                    android:minHeight="40dp"
-                    android:tag="top_left"
-                    android:background="@drawable/defense_normal" />
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_defend_idle"
+                    android:tag="top_left" />
 
-                <View
+                <Space
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_column="1"
                     android:layout_row="0"
                     android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:visibility="invisible" />
+                    android:layout_rowWeight="1" />
 
                 <View
                     android:id="@+id/rect_top_right"
@@ -140,22 +128,17 @@
                     android:layout_row="0"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:minWidth="40dp"
-                    android:minHeight="40dp"
-                    android:tag="top_right"
-                    android:background="@drawable/defense_normal" />
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_defend_idle"
+                    android:tag="top_right" />
 
-                <!-- Linha 2 -->
-                <View
+                <Space
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_column="0"
                     android:layout_row="1"
                     android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:visibility="invisible" />
+                    android:layout_rowWeight="1" />
 
                 <View
                     android:id="@+id/rect_center"
@@ -165,23 +148,18 @@
                     android:layout_row="1"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:minWidth="40dp"
-                    android:minHeight="40dp"
-                    android:tag="center"
-                    android:background="@drawable/defense_normal" />
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_defend_idle"
+                    android:tag="center" />
 
-                <View
+                <Space
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_column="2"
                     android:layout_row="1"
                     android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:visibility="invisible" />
+                    android:layout_rowWeight="1" />
 
-                <!-- Linha 3 -->
                 <View
                     android:id="@+id/rect_bottom_left"
                     android:layout_width="0dp"
@@ -190,21 +168,17 @@
                     android:layout_row="2"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:minWidth="40dp"
-                    android:minHeight="40dp"
-                    android:tag="bottom_left"
-                    android:background="@drawable/defense_normal" />
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_defend_idle"
+                    android:tag="bottom_left" />
 
-                <View
+                <Space
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_column="1"
                     android:layout_row="2"
                     android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:visibility="invisible" />
+                    android:layout_rowWeight="1" />
 
                 <View
                     android:id="@+id/rect_bottom_right"
@@ -214,15 +188,38 @@
                     android:layout_row="2"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    android:layout_margin="8dp"
-                    android:minWidth="40dp"
-                    android:minHeight="40dp"
-                    android:tag="bottom_right"
-                    android:background="@drawable/defense_normal" />
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_defend_idle"
+                    android:tag="bottom_right" />
 
-            </GridLayout>
+        </GridLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        <!-- Bola do adversário -->
+        <ImageView
+            android:id="@+id/defendBall"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_sports_soccer"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/tvDefendDetail"
+        style="@style/TextAppearance.W2W.Body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_lg"
+        android:gravity="center"
+        android:minLines="2"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/defendGoalArea"
+        tools:text="Adversário chutou: Canto superior esquerdo\nDefendeste: Centro" />
 </androidx.constraintlayout.widget.ConstraintLayout>

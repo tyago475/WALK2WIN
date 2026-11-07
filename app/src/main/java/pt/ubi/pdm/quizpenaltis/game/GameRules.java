@@ -18,6 +18,8 @@ public final class GameRules {
     public static final long BOT_THINK_DELAY_MS = 1000;
     public static final long ANSWER_FEEDBACK_MS = 1500;
     public static final long SHOT_RESULT_MS = 2000;
+    /** Duração do voo da bola até à zona escolhida. */
+    public static final long BALL_FLIGHT_MS = 450;
     public static final long TRANSITION_MS = 2000;
     public static final long SUDDEN_DEATH_BANNER_MS = 3000;
 

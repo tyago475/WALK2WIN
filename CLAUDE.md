@@ -29,7 +29,7 @@ Para correr os testes, copiar o projeto para uma pasta com caminho ASCII e corre
 - Para testar no emulador: TESTAR (+1000 passos = +100 pontos); "meia-noite" simula-se pondo `last_reset_date` de ontem em `shared_prefs/<pkg>_preferences.xml`.
 
 ## Design system (estilo Ultimate Team, verde relvado + dourado, só modo escuro)
-Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Etapa 0 feita (fundações); ecrãs ainda no visual antigo.
+Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fundações), principal, seleção de jogador, cabeçalho+quiz e etapa 4 (moeda, remate, defesa). Falta: transições e fim de jogo, sons, Progresso/Ajuda, ícone/splash, limpeza.
 - Tema: `Theme.Walk2Win` (Material 3 escuro, mas com `AppCompatViewInflater`: `<Button>` continua simples; usar `MaterialButton` só de propósito).
 - Cores: tokens em `colors.xml` (`pitch_900..600` fundos, `grass_*`, `gold_300/500/700`, `text_primary/secondary/on_gold`, `feedback_*`). **Não escrever hex nos layouts.**
 - Medidas: `dimens.xml` (`space_xs..xxl` = 4/8/12/16/24/32dp; `radius_sm/md/lg`; 6 tamanhos de texto `text_display..caption`).
@@ -37,6 +37,7 @@ Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Etapa 0 feita (funda�
 - Componentes: `Widget.W2W.Button.Primary` (dourado) / `.Secondary`; `Widget.W2W.Card` / `.Card.Highlight`; `Widget.W2W.Chip`; fundo de ecrã `Widget.W2W.Screen` (`ds_screen_background`).
 - Ícones: vetores Material `icon_*.xml` (brancos; colorir com `app:tint`/`android:tint`). Sem emojis como ícones.
 - Android 15+ desenha por baixo das barras do sistema: aplicar `SystemBars.applyPadding(root)` nos ecrãs redesenhados.
+- Remate/defesa: baliza em vetor (`ds_goal`), zonas `ds_zone_*` aplicadas como *background* de `View` (não `ImageView`, para preencherem a célula); a bola voa com `Animations.ballFlight` e o resultado vem num banner que substitui a instrução.
 - Imagens: WebP (jogadores, baliza). Evitar PNG grandes; sem fotos de marcas/troféus.
 - TEMPORÁRIO: `cardViewStyle` no tema força CardViews brancos para os ecrãs antigos. Remover quando todos estiverem redesenhados.
 

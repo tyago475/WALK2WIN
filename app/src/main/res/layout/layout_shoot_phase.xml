@@ -1,332 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fase de remate: instrução (substituída pelo banner GOLO!/FALHOU! no fim),
+    baliza desenhada com 15 zonas e a bola que voa até à zona escolhida.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutShoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/stadium_background">
+    android:paddingStart="@dimen/space_lg"
+    android:paddingEnd="@dimen/space_lg"
+    android:paddingTop="@dimen/space_sm"
+    android:paddingBottom="@dimen/space_lg">
 
-    <!-- Instruções estilo vidro -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardInstruction"
+    <FrameLayout
+        android:id="@+id/slotShoot"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="60dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/player_card_selected">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/cardInstruction"
+            style="@style/Widget.W2W.Card.Highlight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="12dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <!-- Ícone decorativo -->
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:text="@string/ui_shoot_text_1"
-                android:textSize="24sp"
-                android:gravity="center"
-                android:layout_marginBottom="8dp" />
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_sports_soccer"
+                app:tint="@color/gold_500" />
 
             <TextView
                 android:id="@+id/tvShootInstruction"
-                android:layout_width="match_parent"
+                style="@style/TextAppearance.W2W.Heading"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingVertical="12dp"
+                android:layout_marginStart="@dimen/space_md"
+                android:layout_weight="1"
                 android:text="@string/ui_shoot_tv_shoot_instruction"
-                android:textColor="#FAF6F6"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.02"
-                android:shadowColor="#000000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="4" />
-
+                android:textColor="@color/text_primary" />
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <!-- Área da baliza -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="80dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/shootFeedback"
-        app:layout_constraintDimensionRatio="5:3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardInstruction"
-        android:background="@drawable/player_card_normal">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/goalArea"
+        <TextView
+            android:id="@+id/tvShootBanner"
+            style="@style/TextAppearance.W2W.Display"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/goal_area_background">
+            android:background="@drawable/ds_banner_success"
+            android:gravity="center"
+            android:visibility="invisible"
+            tools:text="GOLO!" />
+    </FrameLayout>
 
-            <!-- Imagem da baliza -->
-            <ImageView
-                android:id="@+id/goalImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/goal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/goalArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_lg"
+        android:background="@drawable/ds_goal_backdrop"
+        android:padding="@dimen/space_sm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,5:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/slotShoot"
+        app:layout_constraintVertical_bias="0.3">
 
-            <!-- GridLayout centralizado -->
-            <GridLayout
-                android:id="@+id/layoutCircles"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@android:color/transparent"
-                android:columnCount="5"
-                android:padding="8dp"
-                android:rowCount="3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/ds_goal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- Linha 1 -->
-                <ImageView
+        <GridLayout
+            android:id="@+id/layoutCircles"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:columnCount="5"
+            android:paddingStart="@dimen/space_lg"
+            android:paddingEnd="@dimen/space_lg"
+            android:paddingTop="@dimen/space_lg"
+            android:paddingBottom="@dimen/space_xl"
+            android:rowCount="3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Fila 1 -->
+                <View
                     android:id="@+id/circle_1_1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="top_left" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_1_2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="top_left_center" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_1_3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="top_center" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_1_4"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="top_right_center" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_1_5"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="top_right" />
 
-                <!-- Linha 2 -->
-                <ImageView
+                <!-- Fila 2 -->
+                <View
                     android:id="@+id/circle_2_1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="middle_left" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_2_2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="middle_center_left" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_2_3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="middle_center" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_2_4"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="middle_center_right" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_2_5"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="middle_right" />
 
-                <!-- Linha 3 -->
-                <ImageView
+                <!-- Fila 3 -->
+                <View
                     android:id="@+id/circle_3_1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="bottom_left" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_3_2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="bottom_left_center" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_3_3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="bottom_center" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_3_4"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="bottom_right_center" />
 
-                <ImageView
+                <View
                     android:id="@+id/circle_3_5"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:layout_rowWeight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/goal_circle"
+                    android:layout_margin="@dimen/space_xs"
+                    android:background="@drawable/ds_zone_idle"
                     android:tag="bottom_right" />
 
-            </GridLayout>
+        </GridLayout>
 
-            <!-- Bola (será posicionada dinamicamente) -->
-            <ImageView
-                android:id="@+id/ballIndicator"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:visibility="invisible"
-                android:src="@drawable/soccer_ball"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Feedback Message -->
-    <TextView
-        android:id="@+id/shootFeedback"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/selected_player_background"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        <!-- Bola: o código posiciona-a e anima-a até à zona escolhida -->
+        <ImageView
+            android:id="@+id/ballIndicator"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_sports_soccer"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

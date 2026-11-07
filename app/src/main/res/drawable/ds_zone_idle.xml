@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Zona de remate livre -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/white_20" />
+    <stroke android:width="2dp" android:color="@color/white_60" />
+    <corners android:radius="@dimen/radius_sm" />
+</shape>

@@ -87,6 +87,9 @@
     <color name="tier_bronze_dark">#B5703A</color>
     <color name="tier_silver_light">#EEF2F5</color>
     <color name="tier_silver_dark">#AEB9C3</color>
+    <!-- Transparências sobre o campo -->
+    <color name="white_20">#33FFFFFF</color>
+    <color name="white_60">#99FFFFFF</color>
     <!-- Película escura sobre imagens -->
     <color name="scrim_60">#99000000</color>
     <!-- Faixas de mensagem e estados do quiz -->
