@@ -1,0 +1,1052 @@
+[
+ {
+  "question": "Qual é a capital do Brasil?",
+  "a": "A) São Paulo",
+  "b": "B) Brasília",
+  "c": "C) Rio de Janeiro",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o maior país do mundo em área territorial?",
+  "a": "A) China",
+  "b": "B) Rússia",
+  "c": "C) Canadá",
+  "answer": "B"
+ },
+ {
+  "question": "Em que continente fica o Egito?",
+  "a": "A) África",
+  "b": "B) Ásia",
+  "c": "C) Europa",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o rio mais longo do mundo?",
+  "a": "A) Amazonas",
+  "b": "B) Nilo",
+  "c": "C) Yangtzé",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a capital do Japão?",
+  "a": "A) Osaka",
+  "b": "B) Kyoto",
+  "c": "C) Tóquio",
+  "answer": "C"
+ },
+ {
+  "question": "Em que país fica a cidade de Barcelona?",
+  "a": "A) Itália",
+  "b": "B) Espanha",
+  "c": "C) França",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o menor país do mundo?",
+  "a": "A) Mónaco",
+  "b": "B) Vaticano",
+  "c": "C) San Marino",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o deserto mais quente do mundo?",
+  "a": "A) Saara",
+  "b": "B) Kalahari",
+  "c": "C) Gobi",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é a montanha mais alta do mundo?",
+  "a": "A) K2",
+  "b": "B) Monte Everest",
+  "c": "C) Mont Blanc",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos oceanos existem no planeta Terra?",
+  "a": "A) 4",
+  "b": "B) 5",
+  "c": "C) 6",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a capital da Argentina?",
+  "a": "A) Buenos Aires",
+  "b": "B) Córdoba",
+  "c": "C) Rosário",
+  "answer": "A"
+ },
+ {
+  "question": "Em que país fica a Grande Muralha?",
+  "a": "A) Japão",
+  "b": "B) China",
+  "c": "C) Índia",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o maior oceano do mundo?",
+  "a": "A) Atlântico",
+  "b": "B) Índico",
+  "c": "C) Pacífico",
+  "answer": "C"
+ },
+ {
+  "question": "Qual é a capital da Austrália?",
+  "a": "A) Sydney",
+  "b": "B) Melbourne",
+  "c": "C) Camberra",
+  "answer": "C"
+ },
+ {
+  "question": "Quantos estados tem o Brasil?",
+  "a": "A) 26",
+  "b": "B) 27",
+  "c": "C) 28",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o país mais populoso do mundo?",
+  "a": "A) Índia",
+  "b": "B) China",
+  "c": "C) Estados Unidos",
+  "answer": "B"
+ },
+ {
+  "question": "Em que continente fica o México?",
+  "a": "A) América do Norte",
+  "b": "B) América do Sul",
+  "c": "C) América Central",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é a capital do Canadá?",
+  "a": "A) Toronto",
+  "b": "B) Vancouver",
+  "c": "C) Ottawa",
+  "answer": "C"
+ },
+ {
+  "question": "Qual é o maior lago de África?",
+  "a": "A) Lago Vitória",
+  "b": "B) Lago Tanganica",
+  "c": "C) Lago Niassa",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos países fazem fronteira com Portugal?",
+  "a": "A) 1",
+  "b": "B) 2",
+  "c": "C) 3",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é a capital da Itália?",
+  "a": "A) Roma",
+  "b": "B) Milão",
+  "c": "C) Veneza",
+  "answer": "A"
+ },
+ {
+  "question": "Em que país fica o Monte Fuji?",
+  "a": "A) China",
+  "b": "B) Coreia do Sul",
+  "c": "C) Japão",
+  "answer": "C"
+ },
+ {
+  "question": "Qual é o maior arquipélago do mundo?",
+  "a": "A) Filipinas",
+  "b": "B) Indonésia",
+  "c": "C) Japão",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a capital da Rússia?",
+  "a": "A) São Petersburgo",
+  "b": "B) Moscovo",
+  "c": "C) Kiev",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos fusos horários tem a Rússia?",
+  "a": "A) 9",
+  "b": "B) 10",
+  "c": "C) 11",
+  "answer": "C"
+ },
+ {
+  "question": "Em que ano terminou a Segunda Guerra Mundial?",
+  "a": "A) 1945",
+  "b": "B) 1939",
+  "c": "C) 1950",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o primeiro presidente de Portugal?",
+  "a": "A) Teófilo Braga",
+  "b": "B) Manuel de Arriaga",
+  "c": "C) Sidónio Pais",
+  "answer": "B"
+ },
+ {
+  "question": "Quem descobriu o Brasil?",
+  "a": "A) Pedro Álvares Cabral",
+  "b": "B) Cristóvão Colombo",
+  "c": "C) Vasco da Gama",
+  "answer": "A"
+ },
+ {
+  "question": "Em que ano começou a Primeira Guerra Mundial?",
+  "a": "A) 1914",
+  "b": "B) 1918",
+  "c": "C) 1939",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o primeiro homem a pisar na Lua?",
+  "a": "A) Neil Armstrong",
+  "b": "B) Buzz Aldrin",
+  "c": "C) Yuri Gagarin",
+  "answer": "A"
+ },
+ {
+  "question": "Qual foi o último imperador do Brasil?",
+  "a": "A) Dom Pedro I",
+  "b": "B) Dom Pedro II",
+  "c": "C) Dom João VI",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano foi a Revolução dos Cravos em Portugal?",
+  "a": "A) 1974",
+  "b": "B) 1975",
+  "c": "C) 1976",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o líder da União Soviética durante a 2ª Guerra?",
+  "a": "A) Lenin",
+  "b": "B) Stalin",
+  "c": "C) Khrushchev",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano o Brasil se tornou independente?",
+  "a": "A) 1822",
+  "b": "B) 1825",
+  "c": "C) 1815",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o primeiro rei de Portugal?",
+  "a": "A) D. Afonso Henriques",
+  "b": "B) D. Sancho I",
+  "c": "C) D. Dinis",
+  "answer": "A"
+ },
+ {
+  "question": "Em que século Vasco da Gama chegou à Índia?",
+  "a": "A) XV",
+  "b": "B) XVI",
+  "c": "C) XVII",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o faraó mais famoso do Egito Antigo?",
+  "a": "A) Ramsés II",
+  "b": "B) Tutancâmon",
+  "c": "C) Cleópatra",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano caiu o Muro de Berlim?",
+  "a": "A) 1989",
+  "b": "B) 1991",
+  "c": "C) 1987",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o primeiro presidente dos EUA?",
+  "a": "A) Thomas Jefferson",
+  "b": "B) George Washington",
+  "c": "C) Abraham Lincoln",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano terminou a Guerra Colonial Portuguesa?",
+  "a": "A) 1974",
+  "b": "B) 1975",
+  "c": "C) 1973",
+  "answer": "A"
+ },
+ {
+  "question": "Quem escreveu 'Os Lusíadas'?",
+  "a": "A) Fernando Pessoa",
+  "b": "B) Luís de Camões",
+  "c": "C) Eça de Queirós",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano D. João VI fugiu para o Brasil?",
+  "a": "A) 1807",
+  "b": "B) 1808",
+  "c": "C) 1810",
+  "answer": "B"
+ },
+ {
+  "question": "Quem foi o líder da Revolução Russa?",
+  "a": "A) Stalin",
+  "b": "B) Lenin",
+  "c": "C) Trotsky",
+  "answer": "B"
+ },
+ {
+  "question": "Em que século ocorreu o Descobrimento do Brasil?",
+  "a": "A) XV",
+  "b": "B) XVI",
+  "c": "C) XVII",
+  "answer": "B"
+ },
+ {
+  "question": "Quem foi o imperador francês que invadiu Portugal?",
+  "a": "A) Luís XVI",
+  "b": "B) Napoleão",
+  "c": "C) Carlos Magno",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano foi proclamada a República Portuguesa?",
+  "a": "A) 1910",
+  "b": "B) 1908",
+  "c": "C) 1912",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o último imperador romano?",
+  "a": "A) Nero",
+  "b": "B) Júlio César",
+  "c": "C) Rómulo Augusto",
+  "answer": "C"
+ },
+ {
+  "question": "Em que ano ocorreu o terramoto de Lisboa?",
+  "a": "A) 1755",
+  "b": "B) 1750",
+  "c": "C) 1760",
+  "answer": "A"
+ },
+ {
+  "question": "Quem foi o primeiro papa da Igreja Católica?",
+  "a": "A) São Pedro",
+  "b": "B) São Paulo",
+  "c": "C) São João",
+  "answer": "A"
+ },
+ {
+  "question": "Em que ano terminou a Idade Média?",
+  "a": "A) 1453",
+  "b": "B) 1492",
+  "c": "C) 1500",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o elemento químico com símbolo 'O'?",
+  "a": "A) Ouro",
+  "b": "B) Oxigénio",
+  "c": "C) Ósmio",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos planetas existem no sistema solar?",
+  "a": "A) 8",
+  "b": "B) 9",
+  "c": "C) 7",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o planeta conhecido como Planeta Vermelho?",
+  "a": "A) Vénus",
+  "b": "B) Marte",
+  "c": "C) Júpiter",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos ossos tem o corpo humano adulto?",
+  "a": "A) 206",
+  "b": "B) 210",
+  "c": "C) 200",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o gás mais abundante na atmosfera terrestre?",
+  "a": "A) Oxigénio",
+  "b": "B) Nitrogénio",
+  "c": "C) Dióxido de Carbono",
+  "answer": "B"
+ },
+ {
+  "question": "Quem desenvolveu a teoria da relatividade?",
+  "a": "A) Isaac Newton",
+  "b": "B) Albert Einstein",
+  "c": "C) Stephen Hawking",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o animal mais rápido do mundo?",
+  "a": "A) Guepardo",
+  "b": "B) Leopardo",
+  "c": "C) Falcão-peregrino",
+  "answer": "C"
+ },
+ {
+  "question": "Quantos cromossomas tem uma célula humana normal?",
+  "a": "A) 23",
+  "b": "B) 46",
+  "c": "C) 48",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o metal líquido à temperatura ambiente?",
+  "a": "A) Chumbo",
+  "b": "B) Mercúrio",
+  "c": "C) Ferro",
+  "answer": "B"
+ },
+ {
+  "question": "Quantas patas tem uma aranha?",
+  "a": "A) 6",
+  "b": "B) 8",
+  "c": "C) 10",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o maior órgão do corpo humano?",
+  "a": "A) Coração",
+  "b": "B) Pele",
+  "c": "C) Pulmão",
+  "answer": "B"
+ },
+ {
+  "question": "Quem descobriu a penicilina?",
+  "a": "A) Marie Curie",
+  "b": "B) Alexander Fleming",
+  "c": "C) Louis Pasteur",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a velocidade da luz no vácuo?",
+  "a": "A) 300.000 km/s",
+  "b": "B) 150.000 km/s",
+  "c": "C) 450.000 km/s",
+  "answer": "A"
+ },
+ {
+  "question": "Quantas câmaras tem o coração humano?",
+  "a": "A) 2",
+  "b": "B) 3",
+  "c": "C) 4",
+  "answer": "C"
+ },
+ {
+  "question": "Qual é o planeta mais próximo do Sol?",
+  "a": "A) Vénus",
+  "b": "B) Mercúrio",
+  "c": "C) Marte",
+  "answer": "B"
+ },
+ {
+  "question": "Quantas luas tem Marte?",
+  "a": "A) 1",
+  "b": "B) 2",
+  "c": "C) 3",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a unidade básica da vida?",
+  "a": "A) Átomo",
+  "b": "B) Célula",
+  "c": "C) Molécula",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos elementos tem a tabela periódica?",
+  "a": "A) 118",
+  "b": "B) 120",
+  "c": "C) 116",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o gás que as plantas absorvem?",
+  "a": "A) Oxigénio",
+  "b": "B) Nitrogénio",
+  "c": "C) Dióxido de Carbono",
+  "answer": "C"
+ },
+ {
+  "question": "Quantos anos tem a Terra aproximadamente?",
+  "a": "A) 4,5 mil milhões",
+  "b": "B) 10 mil milhões",
+  "c": "C) 1 milhão",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o animal mais pesado do mundo?",
+  "a": "A) Elefante",
+  "b": "B) Baleia-azul",
+  "c": "C) Girafa",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos litros de sangue tem o corpo humano?",
+  "a": "A) 3-4",
+  "b": "B) 5-6",
+  "c": "C) 7-8",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o planeta com anéis mais visíveis?",
+  "a": "A) Júpiter",
+  "b": "B) Saturno",
+  "c": "C) Urano",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos sentidos tem o ser humano?",
+  "a": "A) 5",
+  "b": "B) 6",
+  "c": "C) 7",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é a estrela mais próxima da Terra?",
+  "a": "A) Sirius",
+  "b": "B) Sol",
+  "c": "C) Alpha Centauri",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos jogadores tem uma equipa de futebol em campo?",
+  "a": "A) 10",
+  "b": "B) 11",
+  "c": "C) 12",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano Portugal ganhou o Euro?",
+  "a": "A) 2004",
+  "b": "B) 2016",
+  "c": "C) 2012",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o desporto mais popular do mundo?",
+  "a": "A) Basquetebol",
+  "b": "B) Futebol",
+  "c": "C) Ténis",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos tempos tem um jogo de futebol?",
+  "a": "A) 2",
+  "b": "B) 3",
+  "c": "C) 4",
+  "answer": "A"
+ },
+ {
+  "question": "Qual país ganhou mais Copas do Mundo de futebol?",
+  "a": "A) Alemanha",
+  "b": "B) Brasil",
+  "c": "C) Itália",
+  "answer": "B"
+ },
+ {
+  "question": "Em que ano foram os primeiros Jogos Olímpicos modernos?",
+  "a": "A) 1896",
+  "b": "B) 1900",
+  "c": "C) 1924",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos jogadores tem uma equipa de basquetebol em campo?",
+  "a": "A) 5",
+  "b": "B) 6",
+  "c": "C) 7",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é a prova mais rápida do atletismo?",
+  "a": "A) 100m",
+  "b": "B) 200m",
+  "c": "C) 400m",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos Grand Slams tem o ténis?",
+  "a": "A) 3",
+  "b": "B) 4",
+  "c": "C) 5",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a modalidade desportiva de Michael Phelps?",
+  "a": "A) Atletismo",
+  "b": "B) Natação",
+  "c": "C) Ciclismo",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos jogadores tem uma equipa de andebol?",
+  "a": "A) 6",
+  "b": "B) 7",
+  "c": "C) 8",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o país de origem do judo?",
+  "a": "A) China",
+  "b": "B) Coreia",
+  "c": "C) Japão",
+  "answer": "C"
+ },
+ {
+  "question": "Quantos sets tem um jogo de ténis?",
+  "a": "A) 3 ou 5",
+  "b": "B) 2 ou 4",
+  "c": "C) 4 ou 6",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o clube com mais Champions League?",
+  "a": "A) Barcelona",
+  "b": "B) Real Madrid",
+  "c": "C) Bayern Munique",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos minutos dura uma partida de futebol?",
+  "a": "A) 80",
+  "b": "B) 90",
+  "c": "C) 100",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o desporto nacional do Brasil?",
+  "a": "A) Futebol",
+  "b": "B) Voleibol",
+  "c": "C) Capoeira",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos jogadores tem uma equipa de rugby?",
+  "a": "A) 13",
+  "b": "B) 14",
+  "c": "C) 15",
+  "answer": "C"
+ },
+ {
+  "question": "Qual país organizou os Jogos Olímpicos de 2016?",
+  "a": "A) China",
+  "b": "B) Brasil",
+  "c": "C) Grécia",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos buracos tem um campo de golfe padrão?",
+  "a": "A) 16",
+  "b": "B) 18",
+  "c": "C) 20",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o desporto de Serena Williams?",
+  "a": "A) Ténis",
+  "b": "B) Golfe",
+  "c": "C) Atletismo",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos jogadores tem uma equipa de basebol?",
+  "a": "A) 8",
+  "b": "B) 9",
+  "c": "C) 10",
+  "answer": "B"
+ },
+ {
+  "question": "Qual país inventou o futebol?",
+  "a": "A) Brasil",
+  "b": "B) Inglaterra",
+  "c": "C) Itália",
+  "answer": "B"
+ },
+ {
+  "question": "Quantas voltas tem a F1 em Mónaco?",
+  "a": "A) 76",
+  "b": "B) 78",
+  "c": "C) 80",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o desporto de Usain Bolt?",
+  "a": "A) Atletismo",
+  "b": "B) Futebol",
+  "c": "C) Basquetebol",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos jogadores tem uma equipa de voleibol?",
+  "a": "A) 5",
+  "b": "B) 6",
+  "c": "C) 7",
+  "answer": "B"
+ },
+ {
+  "question": "Quem pintou a Mona Lisa?",
+  "a": "A) Van Gogh",
+  "b": "B) Picasso",
+  "c": "C) Leonardo da Vinci",
+  "answer": "C"
+ },
+ {
+  "question": "Qual é o instrumento musical nacional de Portugal?",
+  "a": "A) Guitarra",
+  "b": "B) Cavaquinho",
+  "c": "C) Bandolim",
+  "answer": "B"
+ },
+ {
+  "question": "Quem escreveu 'Os Lusíadas'?",
+  "a": "A) Fernando Pessoa",
+  "b": "B) Luís de Camões",
+  "c": "C) Eça de Queirós",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a sétima arte?",
+  "a": "A) Pintura",
+  "b": "B) Cinema",
+  "c": "C) Música",
+  "answer": "B"
+ },
+ {
+  "question": "Quem compôs a '9ª Sinfonia'?",
+  "a": "A) Mozart",
+  "b": "B) Beethoven",
+  "c": "C) Bach",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o estilo arquitetónico da Torre de Belém?",
+  "a": "A) Gótico",
+  "b": "B) Manuelino",
+  "c": "C) Românico",
+  "answer": "B"
+ },
+ {
+  "question": "Quem escreveu 'Dom Quixote'?",
+  "a": "A) Cervantes",
+  "b": "B) Shakespeare",
+  "c": "C) Camões",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é a nacionalidade de Frida Kahlo?",
+  "a": "A) Espanhola",
+  "b": "B) Mexicana",
+  "c": "C) Brasileira",
+  "answer": "B"
+ },
+ {
+  "question": "Quantas cordas tem uma guitarra clássica?",
+  "a": "A) 5",
+  "b": "B) 6",
+  "c": "C) 7",
+  "answer": "B"
+ },
+ {
+  "question": "Quem pintou 'A Noite Estrelada'?",
+  "a": "A) Picasso",
+  "b": "B) Van Gogh",
+  "c": "C) Monet",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o romance mais famoso de José Saramago?",
+  "a": "A) Memorial do Convento",
+  "b": "B) Ensaio sobre a Cegueira",
+  "c": "C) O Ano da Morte",
+  "answer": "A"
+ },
+ {
+  "question": "Quantas teclas tem um piano standard?",
+  "a": "A) 85",
+  "b": "B) 88",
+  "c": "C) 92",
+  "answer": "B"
+ },
+ {
+  "question": "Quem esculpiu 'O Pensador'?",
+  "a": "A) Michelangelo",
+  "b": "B) Rodin",
+  "c": "C) Donatello",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o instrumento de Astor Piazzolla?",
+  "a": "A) Guitarra",
+  "b": "B) Bandoneón",
+  "c": "C) Violino",
+  "answer": "B"
+ },
+ {
+  "question": "Quem escreveu 'Romeu e Julieta'?",
+  "a": "A) Shakespeare",
+  "b": "B) Dickens",
+  "c": "C) Hemingway",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o estilo musical de Amália Rodrigues?",
+  "a": "A) Fado",
+  "b": "B) Flamenco",
+  "c": "C) Tango",
+  "answer": "A"
+ },
+ {
+  "question": "Quantas sinfonias compôs Beethoven?",
+  "a": "A) 7",
+  "b": "B) 8",
+  "c": "C) 9",
+  "answer": "C"
+ },
+ {
+  "question": "Quem pintou 'Guernica'?",
+  "a": "A) Dalí",
+  "b": "B) Picasso",
+  "c": "C) Miró",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o romance de Machado de Assis?",
+  "a": "A) Dom Casmurro",
+  "b": "B) O Cortiço",
+  "c": "C) Iracema",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos atos tem uma ópera tradicional?",
+  "a": "A) 2",
+  "b": "B) 3",
+  "c": "C) 4",
+  "answer": "B"
+ },
+ {
+  "question": "Quem compôs 'As Quatro Estações'?",
+  "a": "A) Vivaldi",
+  "b": "B) Mozart",
+  "c": "C) Bach",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o país de origem do tango?",
+  "a": "A) Argentina",
+  "b": "B) Brasil",
+  "c": "C) Espanha",
+  "answer": "A"
+ },
+ {
+  "question": "Quem escreveu '1984'?",
+  "a": "A) Orwell",
+  "b": "B) Huxley",
+  "c": "C) Kafka",
+  "answer": "A"
+ },
+ {
+  "question": "Quantos violinos tem uma orquestra sinfónica?",
+  "a": "A) 20-30",
+  "b": "B) 30-40",
+  "c": "C) 40-50",
+  "answer": "B"
+ },
+ {
+  "question": "Quem pintou 'A Última Ceia'?",
+  "a": "A) Michelangelo",
+  "b": "B) Leonardo da Vinci",
+  "c": "C) Rafael",
+  "answer": "B"
+ },
+ {
+  "question": "Quem interpretou o Harry Potter nos filmes?",
+  "a": "A) Daniel Radcliffe",
+  "b": "B) Rupert Grint",
+  "c": "C) Tom Felton",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o super-herói também conhecido como Homem-Aranha?",
+  "a": "A) Peter Parker",
+  "b": "B) Bruce Wayne",
+  "c": "C) Clark Kent",
+  "answer": "A"
+ },
+ {
+  "question": "Em que ano foi lançado o primeiro iPhone?",
+  "a": "A) 2005",
+  "b": "B) 2007",
+  "c": "C) 2010",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a rede social mais popular do mundo?",
+  "a": "A) Facebook",
+  "b": "B) Instagram",
+  "c": "C) TikTok",
+  "answer": "A"
+ },
+ {
+  "question": "Quem é o criador da Microsoft?",
+  "a": "A) Steve Jobs",
+  "b": "B) Bill Gates",
+  "c": "C) Mark Zuckerberg",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos filmes tem a saga 'Star Wars' principal?",
+  "a": "A) 8",
+  "b": "B) 9",
+  "c": "C) 10",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o jogo mais vendido de todos os tempos?",
+  "a": "A) Minecraft",
+  "b": "B) GTA V",
+  "c": "C) Tetris",
+  "answer": "A"
+ },
+ {
+  "question": "Quem canta 'Shape of You'?",
+  "a": "A) Ed Sheeran",
+  "b": "B) Justin Bieber",
+  "c": "C) Bruno Mars",
+  "answer": "A"
+ },
+ {
+  "question": "Quantas temporadas tem 'Game of Thrones'?",
+  "a": "A) 7",
+  "b": "B) 8",
+  "c": "C) 9",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o filme com maior bilheteira da história?",
+  "a": "A) Avatar",
+  "b": "B) Vingadores: Ultimato",
+  "c": "C) Titanic",
+  "answer": "A"
+ },
+ {
+  "question": "Quem é o criador da Apple?",
+  "a": "A) Bill Gates",
+  "b": "B) Steve Jobs",
+  "c": "C) Mark Zuckerberg",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos episódios tem 'Friends'?",
+  "a": "A) 236",
+  "b": "B) 226",
+  "c": "C) 216",
+  "answer": "A"
+ },
+ {
+  "question": "Qual é o youtuber com mais subscritores?",
+  "a": "A) PewDiePie",
+  "b": "B) MrBeast",
+  "c": "C) Dude Perfect",
+  "answer": "B"
+ },
+ {
+  "question": "Quem dirige a Marvel Studios?",
+  "a": "A) J.J. Abrams",
+  "b": "B) Christopher Nolan",
+  "c": "C) Kevin Feige",
+  "answer": "C"
+ },
+ {
+  "question": "Quantos livros tem a saga 'Harry Potter'?",
+  "a": "A) 6",
+  "b": "B) 7",
+  "c": "C) 8",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é a série mais cara já produzida?",
+  "a": "A) The Crown",
+  "b": "B) O Senhor dos Anéis",
+  "c": "C) Stranger Things",
+  "answer": "B"
+ },
+ {
+  "question": "Quem canta 'Bad Guy'?",
+  "a": "A) Ariana Grande",
+  "b": "B) Billie Eilish",
+  "c": "C) Taylor Swift",
+  "answer": "B"
+ },
+ {
+  "question": "Quantos Oscars tem 'Titanic'?",
+  "a": "A) 10",
+  "b": "B) 11",
+  "c": "C) 12",
+  "answer": "B"
+ },
+ {
+  "question": "Qual é o anime mais popular do mundo?",
+  "a": "A) Dragon Ball",
+  "b": "B) Naruto",
+  "c": "C) One Piece",
+  "answer": "C"
+ },
+ {
+  "question": "Quem criou 'The Simpsons'?",
+  "a": "A) Seth MacFarlane",
+  "b": "B) Matt Groening",
+  "c": "C) Trey Parker",
+  "answer": "B"
+ },
+ {
+  "question": "Quantas temporadas tem 'The Office' (US)?",
+  "a": "A) 7",
+  "b": "B) 8",
+  "c": "C) 9",
+  "answer": "C"
+ },
+ {
+  "question": "Qual é o filme de animação da Disney mais recente?",
+  "a": "A) Encanto",
+  "b": "B) Moana",
+  "c": "C) Frozen II",
+  "answer": "A"
+ },
+ {
+  "question": "Quem é o ator mais bem pago de Hollywood?",
+  "a": "A) Tom Cruise",
+  "b": "B) Dwayne Johnson",
+  "c": "C) Robert Downey Jr.",
+  "answer": "B"
+ },
+ {
+  "question": "Quantas músicas tem o álbum 'Thriller'?",
+  "a": "A) 7",
+  "b": "B) 8",
+  "c": "C) 9",
+  "answer": "C"
+ },
+ {
+  "question": "Qual é a plataforma de streaming mais popular?",
+  "a": "A) Netflix",
+  "b": "B) Disney+",
+  "c": "C) Amazon Prime",
+  "answer": "A"
+ }
+]
