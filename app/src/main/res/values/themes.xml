@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.QuizPenalts" parent="Theme.Material3.DayNight">
+        <!-- Customize your light theme here. -->
+    </style>
+
+    <style name="Theme.QuizPenalts" parent="Base.Theme.QuizPenalts">
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

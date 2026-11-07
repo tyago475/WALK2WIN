@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#0F1A2F">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- CABEÇALHO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👣"
+                android:textSize="40sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MEUS PASSOS"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:letterSpacing="0.05" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Acompanha o teu progresso"
+                android:textSize="12sp"
+                android:textColor="#B0BEC5"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- MENSAGEM DE ESTADO VAZIO -->
+        <TextView
+            android:id="@+id/tvEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:gravity="center"
+            android:text="📊 Ainda não há dados de progresso\n\nUse o botão &quot;📅 TESTAR SEMANA&quot; no menu principal\npara gerar dados de exemplo para 7 dias"
+            android:textColor="#BDBDBD"
+            android:textSize="16sp"
+            android:lineSpacingExtra="8dp"
+            android:visibility="gone" />
+
+        <!-- CARTAZ DE ESTATÍSTICAS PRINCIPAIS -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="#1E2A3F"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- CABEÇALHO DA CARTAZ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📈 Estatísticas de Passos"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tvPeriodo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Últimos 7 Dias"
+                        android:textSize="11sp"
+                        android:textColor="#78909C"
+                        android:background="@drawable/chip_background"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp" />
+
+                </LinearLayout>
+
+                <!-- ESTATÍSTICAS DE PASSOS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <!-- Total de Passos -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_green"
+                        android:padding="12dp"
+                        android:layout_margin="3dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="👣"
+                            android:textSize="18sp"
+                            android:layout_marginBottom="6dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Total Passos"
+                            android:textSize="11sp"
+                            android:textColor="#E8F5E8"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvTotalSteps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textColor="#4CAF50"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_marginTop="3dp" />
+
+                    </LinearLayout>
+
+                    <!-- Média Diária -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_blue"
+                        android:padding="12dp"
+                        android:layout_margin="3dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📊"
+                            android:textSize="18sp"
+                            android:layout_marginBottom="6dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Média Diária"
+                            android:textSize="11sp"
+                            android:textColor="#E3F2FD"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvAverageSteps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textColor="#2196F3"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_marginTop="3dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- SEGUNDA LINHA DE ESTATÍSTICAS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <!-- Melhor Dia -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_gold"
+                        android:padding="12dp"
+                        android:layout_margin="3dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐"
+                            android:textSize="18sp"
+                            android:layout_marginBottom="6dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Melhor Dia"
+                            android:textSize="11sp"
+                            android:textColor="#FFFDE7"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvBestDaySteps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="14sp"
+                            android:textColor="#FFD700"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_marginTop="3dp" />
+
+                    </LinearLayout>
+
+                    <!-- Meta Diária -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_purple"
+                        android:padding="12dp"
+                        android:layout_margin="3dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎯"
+                            android:textSize="18sp"
+                            android:layout_marginBottom="6dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Meta Diária"
+                            android:textSize="11sp"
+                            android:textColor="#F3E5F5"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvDailyGoal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="10.000"
+                            android:textSize="14sp"
+                            android:textColor="#E91E63"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_marginTop="3dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- GRÁFICO DE PASSOS -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#1E2A3F"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📊 Evolução Diária"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="👣 passos por dia"
+                        android:textSize="11sp"
+                        android:textColor="#78909C" />
+
+                </LinearLayout>
+
+                <pt.ubi.pdm.quizpenaltis.CustomBarChart
+                    android:id="@+id/stepsChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- BOTÃO VOLTAR -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="⬅️ VOLTAR AO MENU"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/button_glass_secondary"
+            android:textColor="#FFFFFF"
+            android:stateListAnimator="@null"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutShoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/stadium_background">
+
+    <!-- Instruções estilo vidro -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardInstruction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="60dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/player_card_selected">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp">
+
+            <!-- Ícone decorativo -->
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="🎯"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvShootInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="12dp"
+                android:text="ESCOLHE ONDE QUERES REMATAR!"
+                android:textColor="#FAF6F6"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Área da baliza -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="80dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/shootFeedback"
+        app:layout_constraintDimensionRatio="5:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardInstruction"
+        android:background="@drawable/player_card_normal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/goalArea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/goal_area_background">
+
+            <!-- Imagem da baliza -->
+            <ImageView
+                android:id="@+id/goalImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/goal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <!-- GridLayout centralizado -->
+            <GridLayout
+                android:id="@+id/layoutCircles"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:columnCount="5"
+                android:padding="8dp"
+                android:rowCount="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Linha 1 -->
+                <ImageView
+                    android:id="@+id/circle_1_1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="top_left" />
+
+                <ImageView
+                    android:id="@+id/circle_1_2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="top_left_center" />
+
+                <ImageView
+                    android:id="@+id/circle_1_3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="top_center" />
+
+                <ImageView
+                    android:id="@+id/circle_1_4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="top_right_center" />
+
+                <ImageView
+                    android:id="@+id/circle_1_5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="top_right" />
+
+                <!-- Linha 2 -->
+                <ImageView
+                    android:id="@+id/circle_2_1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="middle_left" />
+
+                <ImageView
+                    android:id="@+id/circle_2_2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="middle_center_left" />
+
+                <ImageView
+                    android:id="@+id/circle_2_3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="middle_center" />
+
+                <ImageView
+                    android:id="@+id/circle_2_4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="middle_center_right" />
+
+                <ImageView
+                    android:id="@+id/circle_2_5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="middle_right" />
+
+                <!-- Linha 3 -->
+                <ImageView
+                    android:id="@+id/circle_3_1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="bottom_left" />
+
+                <ImageView
+                    android:id="@+id/circle_3_2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="bottom_left_center" />
+
+                <ImageView
+                    android:id="@+id/circle_3_3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="bottom_center" />
+
+                <ImageView
+                    android:id="@+id/circle_3_4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="bottom_right_center" />
+
+                <ImageView
+                    android:id="@+id/circle_3_5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/goal_circle"
+                    android:tag="bottom_right" />
+
+            </GridLayout>
+
+            <!-- Bola (será posicionada dinamicamente) -->
+            <ImageView
+                android:id="@+id/ballIndicator"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="invisible"
+                android:src="@drawable/soccer_ball"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Feedback Message -->
+    <TextView
+        android:id="@+id/shootFeedback"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/selected_player_background"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

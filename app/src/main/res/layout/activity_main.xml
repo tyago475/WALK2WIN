@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- BACKGROUND IMAGE -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/main_background"
+        android:scaleType="centerCrop"
+        android:contentDescription="Background do jogo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- OVERLAY ESCURO -->
+    <View
+        android:id="@+id/darkOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <ScrollView
+        android:id="@+id/mainScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- LOGO -->
+            <LinearLayout
+                android:id="@+id/logoLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="50dp">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_soccer_ball"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WALK2WIN"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFD700"
+                    android:shadowColor="#FF6B35"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="20"
+                    android:letterSpacing="0.08"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+            <!-- CARD ESTATÍSTICAS -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/statsCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#1A4CAF50"
+                app:layout_constraintTop_toBottomOf="@id/logoLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp">
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_trophy"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="MEU PROGRESSO"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF" />
+
+                    </LinearLayout>
+
+                    <!-- Barra de Progresso -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:background="@drawable/progress_background"
+                        android:layout_marginBottom="12dp">
+
+                        <ProgressBar
+                            android:id="@+id/progressBarSteps"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:progress="4000"
+                            android:max="10000"
+                            android:progressDrawable="@drawable/progress_bar_soccer"
+                            android:indeterminate="false" />
+
+                        <TextView
+                            android:id="@+id/tvPercentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="40%"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:padding="6dp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:id="@+id/tvSteps"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="4.000 / 10.000 passos"
+                            android:textSize="12sp"
+                            android:textColor="#E8F5E8"
+                            android:textStyle="bold"
+                            android:gravity="start" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_soccer_ball"
+                            android:gravity="end" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvPoints"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="400 PONTOS"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFD700"
+                        android:background="@drawable/points_badge"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- BOTÕES PRINCIPAIS TRANSPARENTES -->
+            <LinearLayout
+                android:id="@+id/mainButtonsLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/statsCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp">
+
+                <!-- Botão JOGAR AGORA (Transparente) -->
+                <Button
+                    android:id="@+id/btnPlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="🎯 JOGAR AGORA"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_glass_primary"
+                    android:textColor="#FFFFFF"
+                    android:stateListAnimator="@null"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Botão VER PROGRESSO (Transparente) -->
+                <Button
+                    android:id="@+id/btnProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:text="📊 VER PROGRESSO"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_glass_secondary"
+                    android:textColor="#FFFFFF"
+                    android:stateListAnimator="@null"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- NOVO BOTÃO: AJUDA -->
+                <Button
+                    android:id="@+id/btnHelp"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:text="❓ COMO JOGAR"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_glass_secondary"
+                    android:textColor="#FFFFFF"
+                    android:stateListAnimator="@null"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginBottom="16dp" />
+
+            </LinearLayout>
+
+            <!-- BOTÕES DE TESTE TRANSPARENTES -->
+            <LinearLayout
+                android:id="@+id/testButtonsLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/mainButtonsLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="24dp">
+
+                <!-- Botão TESTAR SEMANA (Transparente) -->
+                <Button
+                    android:id="@+id/btnTestWeek"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:text="📅"
+                    android:textSize="14sp"
+                    android:background="@drawable/button_glass_small"
+                    android:textColor="#FFFFFF"
+                    android:stateListAnimator="@null"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginEnd="6dp" />
+
+                <!-- Botão TESTAR (Transparente) -->
+                <Button
+                    android:id="@+id/btnTest"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:text="⚙️"
+                    android:textSize="14sp"
+                    android:background="@drawable/button_glass_small"
+                    android:textColor="#FFFFFF"
+                    android:stateListAnimator="@null"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginStart="6dp" />
+
+            </LinearLayout>
+
+            <!-- RODAPÉ -->
+            <TextView
+                android:id="@+id/footerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚽ Escolhe o teu jogador e marca golos! ⚽"
+                android:textSize="11sp"
+                android:textColor="#BDBDBD"
+                app:layout_constraintTop_toBottomOf="@id/testButtonsLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="60dp"
+                android:padding="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

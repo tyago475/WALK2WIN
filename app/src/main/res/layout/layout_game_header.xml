@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/stadium_background"
+    android:padding="16dp">
+
+    <!-- Timer (mantido igual) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp"
+        android:background="@drawable/timer_background_dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⏱️ 10s"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:shadowColor="#000000"
+            android:shadowDx="2.0"
+            android:shadowDy="2.0"
+            android:shadowRadius="4.0"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
+            android:gravity="center" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Jogador 1 (Esquerda) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPlayer1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="5dp"
+        android:background="@drawable/player_card_green"
+        app:layout_constraintTop_toBottomOf="@+id/cardTimer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardVS"
+        app:layout_constraintBottom_toBottomOf="@+id/cardPlayer2"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.32">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp">
+
+            <!-- Avatar Jogador 1 - FIT CENTER para não cortar -->
+            <ImageView
+                android:id="@+id/ivPlayer1"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/cr7"
+                android:background="@drawable/player_avatar_border_green"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true" />
+
+            <!-- Nome Jogador 1 -->
+            <TextView
+                android:id="@+id/tvPlayer1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ronaldo"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Score Jogador 1 -->
+            <LinearLayout
+                android:id="@+id/scorePlayer1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
+
+                <ImageView
+                    android:id="@+id/score_circle_1_1"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_1_2"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_1_3"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_1_4"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_1_5"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- VS Central -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardVS"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="8dp"
+        android:background="@drawable/vs_circle_background"
+        app:layout_constraintTop_toBottomOf="@id/cardTimer"
+        app:layout_constraintStart_toEndOf="@id/cardPlayer1"
+        app:layout_constraintEnd_toStartOf="@id/cardPlayer2"
+        app:layout_constraintBottom_toBottomOf="@id/cardPlayer1"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/tvVS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="VS"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Jogador 2 (Direita) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPlayer2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="5dp"
+        android:background="@drawable/player_card_red"
+        app:layout_constraintTop_toBottomOf="@id/cardTimer"
+        app:layout_constraintStart_toEndOf="@id/cardVS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/cardPlayer1"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.32">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp">
+
+            <!-- Avatar Jogador 2 - FIT CENTER para não cortar -->
+            <ImageView
+                android:id="@+id/ivPlayer2"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/messi"
+                android:background="@drawable/player_avatar_border_red"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true" />
+
+            <!-- Nome Jogador 2 -->
+            <TextView
+                android:id="@+id/tvPlayer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Messi"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Score Jogador 2 -->
+            <LinearLayout
+                android:id="@+id/scorePlayer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
+
+                <ImageView
+                    android:id="@+id/score_circle_2_1"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_2_2"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_2_3"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_2_4"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+
+                <ImageView
+                    android:id="@+id/score_circle_2_5"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/score_circle_gray"
+                    android:layout_margin="1dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Botão Voltar (mantido igual) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardBackButton"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="5dp"
+        android:background="@drawable/back_button_background"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/cardPlayer1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp">
+
+        <Button
+            android:id="@+id/btnBackToMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="🏠 VOLTAR"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:background="@drawable/back_button_selector"
+            android:textColor="#FFFFFF"
+            android:stateListAnimator="@null"
+            style="@style/Widget.AppCompat.Button.Borderless" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,368 @@
+package pt.ubi.pdm.quizpenaltis;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.Manifest;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+
+import java.util.Calendar;
+import java.util.Date;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+    private static final int ACTIVITY_RECOGNITION_REQUEST_CODE = 1001;
+    private static final int NOTIFICATION_PERMISSION_CODE = 1002;
+    private static final int MAX_STEPS = 10000;
+    private static final int STEPS_TO_POINTS_RATIO = 10;
+
+    private TextView tvSteps, tvPoints, tvPercentage;
+    private ProgressBar progressBarSteps;
+    private Button btnPlay, btnTest, btnProgress, btnTestWeek, btnHelp;
+    private StepsNotificationManager stepsNotificationManager;
+    private ProgressManager progressManager;
+
+    private SensorManager sensorManager;
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_main);
+
+        Log.d(TAG, "🚀 MainActivity onCreate()");
+
+        initializeViews();
+        setupClickListeners();
+
+        // Verificar sensores disponíveis
+        checkSensors();
+
+        // INICIALIZAR NOTIFICAÇÃO E PROGRESS MANAGER
+        stepsNotificationManager = new StepsNotificationManager(this);
+        progressManager = new ProgressManager(this);
+
+        // Verificar permissões e estado
+        checkPermissions();
+        checkCurrentSteps();
+
+        Log.d(TAG, "✅ MainActivity inicializada com sucesso");
+    }
+
+    private void checkSensors() {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (sensorManager != null) {
+            boolean hasStepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null;
+            boolean hasStepDetector = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) != null;
+
+            Log.d(TAG, "📱 Sensores disponíveis:");
+            Log.d(TAG, "   TYPE_STEP_COUNTER: " + hasStepCounter);
+            Log.d(TAG, "   TYPE_STEP_DETECTOR: " + hasStepDetector);
+
+            if (hasStepCounter || hasStepDetector) {
+                String sensorType = hasStepCounter ? "STEP_COUNTER" : "STEP_DETECTOR";
+                Log.d(TAG, "🎯 Sensor " + sensorType + " disponível - Pode testar andando!");
+                Toast.makeText(this, "✅ Sensor detectado! Ande para testar", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d(TAG, "📝 Nenhum sensor - Use botão TESTAR");
+                Toast.makeText(this, "📝 Use o botão TESTAR para adicionar passos", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void checkCurrentSteps() {
+        int currentSteps = StepCounter.getTodaySteps(this);
+        Log.d(TAG, "📊 Passos atuais: " + currentSteps);
+    }
+
+    private void initializeViews() {
+        tvSteps = findViewById(R.id.tvSteps);
+        tvPoints = findViewById(R.id.tvPoints);
+        tvPercentage = findViewById(R.id.tvPercentage);
+        progressBarSteps = findViewById(R.id.progressBarSteps);
+        btnPlay = findViewById(R.id.btnPlay);
+        btnTest = findViewById(R.id.btnTest);
+        btnProgress = findViewById(R.id.btnProgress);
+        btnTestWeek = findViewById(R.id.btnTestWeek);
+        btnHelp = findViewById(R.id.btnHelp);
+
+        progressBarSteps.setMax(MAX_STEPS);
+
+        Log.d(TAG, "✅ Views inicializadas");
+    }
+
+    private void setupClickListeners() {
+        btnPlay.setOnClickListener(v -> navigateToPlayerSelection());
+        btnTest.setOnClickListener(v -> simulateTestSteps());
+        btnProgress.setOnClickListener(v -> navigateToProgress());
+        btnTestWeek.setOnClickListener(v -> simulateTestWeek());
+        btnHelp.setOnClickListener(v -> navigateToHelp());
+
+        Log.d(TAG, "✅ Listeners configurados");
+    }
+
+    private void navigateToPlayerSelection() {
+        int pontosDisponiveis = StepCounter.getTodayPoints(this);
+        Log.d(TAG, "🎮 Indo para PlayerSelection com " + pontosDisponiveis + " pontos");
+
+        if (pontosDisponiveis < 100) {
+            Toast.makeText(this, "⚠️ Precisa de pelo menos 100 pontos para jogar!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Intent intent = new Intent(MainActivity.this, PlayerSelectionActivity.class);
+        intent.putExtra("PONTOS_DISPONIVEIS", pontosDisponiveis);
+        startActivity(intent);
+    }
+
+    private void navigateToProgress() {
+        Log.d(TAG, "📊 Indo para ProgressActivity");
+        Intent intent = new Intent(MainActivity.this, ProgressActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToHelp() {
+        Log.d(TAG, "❓ Indo para HelpActivity");
+        Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+        startActivity(intent);
+    }
+
+    // BOTÃO TESTAR ORIGINAL (adiciona passos manualmente)
+    private void simulateTestSteps() {
+        Log.d(TAG, "🧪 Simulando 1000 passos...");
+
+        // 1. Adicionar passos ao StepCounter
+        StepCounter.addSteps(this, 1000);
+
+        // 2. Adicionar passos ao ProgressManager para HOJE
+        if (progressManager != null) {
+            progressManager.addSteps(1000);
+        }
+
+        atualizarDisplay();
+
+        if (stepsNotificationManager != null) {
+            stepsNotificationManager.updateStepsNotification();
+        }
+
+        int currentSteps = StepCounter.getTodaySteps(this);
+        Log.d(TAG, "✅ 1000 passos adicionados! Total: " + currentSteps);
+        Toast.makeText(this, "🧪 1000 passos adicionados! Total: " + currentSteps, Toast.LENGTH_SHORT).show();
+    }
+
+    // ✅ BOTÃO: TESTAR SEMANA (apenas dados temporários para mostrar ao professor)
+    private void simulateTestWeek() {
+        Log.d(TAG, "📅 Criando dados de teste TEMPORÁRIOS...");
+
+        // 🔥 LIMPAR DADOS ANTIGOS PRIMEIRO
+        clearOldTestData();
+
+        if (progressManager != null) {
+            progressManager.createTestWeekData();
+        }
+
+        atualizarDisplay();
+        Log.d(TAG, "✅ Dados de teste TEMPORÁRIOS criados!");
+        Toast.makeText(this, "📊 Dados de exemplo criados! (São temporários)", Toast.LENGTH_LONG).show();
+    }
+
+    // 🔥 MÉTODO PARA LIMPAR APENAS DADOS DE TESTE
+    private void clearOldTestData() {
+        new Thread(() -> {
+            try {
+                AppDatabase.getDatabase(this).userProgressDao().deleteAllProgress();
+                Log.d(TAG, "🧹 Dados de teste antigos removidos");
+            } catch (Exception e) {
+                Log.e(TAG, "❌ Erro ao limpar dados de teste: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    // ✅ MÉTODO: Adicionar dados de teste para uma semana
+    private void addWeekTestData() {
+        new Thread(() -> {
+            try {
+                Calendar calendar = Calendar.getInstance();
+
+                // Dados apenas de passos
+                int[] stepsData = {4231, 5876, 3210, 7890, 6543, 2345, 8765};
+
+                for (int i = 6; i >= 0; i--) {
+                    calendar.setTime(new Date());
+                    calendar.add(Calendar.DAY_OF_YEAR, -i);
+                    Date date = calendar.getTime();
+
+                    UserProgress progress = new UserProgress(date, stepsData[6-i]);
+                    AppDatabase.getDatabase(this).userProgressDao().insertProgress(progress);
+                    Log.d(TAG, "📅 Dia " + i + ": " + stepsData[6-i] + " passos");
+                }
+
+                Log.d(TAG, "✅ Dados da semana criados com sucesso!");
+
+            } catch (Exception e) {
+                Log.e(TAG, "❌ Erro ao criar dados da semana: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    // ✅ MÉTODO: Limpar dados antigos (opcional)
+    private void clearOldData() {
+        new Thread(() -> {
+            try {
+                AppDatabase.getDatabase(this).userProgressDao().deleteAllProgress();
+                Log.d(TAG, "🧹 Dados antigos limpos");
+            } catch (Exception e) {
+                Log.e(TAG, "Erro ao limpar dados: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "🔄 MainActivity onResume()");
+        atualizarDisplay();
+
+        if (stepsNotificationManager != null) {
+            stepsNotificationManager.updateStepsNotification();
+        }
+
+        // Verificar estado atual
+        checkCurrentSteps();
+    }
+
+    private void atualizarDisplay() {
+        int passos = StepCounter.getTodaySteps(this);
+        int pontos = passos / STEPS_TO_POINTS_RATIO;
+        int passosParaBarra = Math.min(passos, MAX_STEPS);
+        int percentagem = (passosParaBarra * 100) / MAX_STEPS;
+
+        tvSteps.setText(String.format("%,d / %,d passos", passos, MAX_STEPS));
+        tvPoints.setText(String.format("%,d Pontos", pontos));
+        tvPercentage.setText(percentagem + "%");
+
+        progressBarSteps.setProgress(passosParaBarra);
+        updateProgressBarColor(passosParaBarra);
+
+        Log.d(TAG, "📊 Display atualizado: " + passos + " passos, " + pontos + " pontos");
+    }
+
+    private void updateProgressBarColor(int steps) {
+        int progress = (steps * 100) / MAX_STEPS;
+        if (progress >= 100) {
+            progressBarSteps.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFD700")));
+        } else if (progress >= 75) {
+            progressBarSteps.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#2E7D32")));
+        } else {
+            progressBarSteps.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+        }
+    }
+
+    private void checkPermissions() {
+        Log.d(TAG, "🔐 Verificando permissões...");
+
+        // 🔥 PEDIR PERMISSÃO ACTIVITY_RECOGNITION (OBRIGATÓRIA)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "📋 A PEDIR permissão ACTIVITY_RECOGNITION...");
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACTIVITY_RECOGNITION},
+                        ACTIVITY_RECOGNITION_REQUEST_CODE);
+                return;
+            } else {
+                Log.d(TAG, "✅ Permissão ACTIVITY_RECOGNITION JÁ CONCEDIDA");
+            }
+        }
+
+        // Permissão para notificações (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "📋 A pedir permissão POST_NOTIFICATIONS");
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_CODE);
+                return;
+            } else {
+                Log.d(TAG, "✅ Permissão POST_NOTIFICATIONS já concedida");
+            }
+        }
+
+        Log.d(TAG, "✅ Todas as permissões concedidas - iniciando serviços");
+        startServices();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        Log.d(TAG, "📋 Resultado da permissão: " + requestCode);
+
+        if (requestCode == ACTIVITY_RECOGNITION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "🎉 PERMISSÃO ACTIVITY_RECOGNITION CONCEDIDA!");
+                Toast.makeText(this, "✅ Permissão concedida! Sensor ativo.", Toast.LENGTH_SHORT).show();
+                startServices();
+            } else {
+                Log.e(TAG, "❌ PERMISSÃO ACTIVITY_RECOGNITION NEGADA!");
+                Toast.makeText(this,
+                        "❌ Sem permissão para sensor!\n" +
+                                "Use o botão TESTAR para adicionar passos manualmente",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "✅ Permissão POST_NOTIFICATIONS concedida");
+                startServices();
+            }
+        }
+    }
+
+    private void startServices() {
+        Log.d(TAG, "🚀 Iniciando serviços...");
+        startStepTrackingService();
+        startStepsNotification();
+    }
+
+    private void startStepTrackingService() {
+        Log.d(TAG, "🔄 Iniciando StepTrackingService");
+        Intent serviceIntent = new Intent(this, StepTrackingService.class);
+        startService(serviceIntent);
+    }
+
+    private void startStepsNotification() {
+        if (stepsNotificationManager != null) {
+            stepsNotificationManager.startStepsNotification();
+            Log.d(TAG, "🔔 StepsNotification iniciado");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "🛑 MainActivity onDestroy()");
+        if (progressManager != null) {
+            progressManager.close();
+        }
+    }
+}

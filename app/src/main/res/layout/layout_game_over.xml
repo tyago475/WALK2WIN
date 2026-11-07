@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/stadium_background"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="15dp"
+        android:background="@drawable/game_over_card_background"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="20dp">
+
+            <!-- Troféu -->
+            <TextView
+                android:id="@+id/tvGameOverIcon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:text="🏆"
+                android:textSize="50sp"
+                android:gravity="center"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/tvGameOverTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FIM DE JOGO"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:layout_marginBottom="6dp" />
+
+            <!-- Resultado -->
+            <TextView
+                android:id="@+id/tvGameOverResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="VOCÊ VENCEU!"
+                android:textColor="#FFD700"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Placar -->
+            <TextView
+                android:id="@+id/tvGameOverScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 × 2"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Mensagem final -->
+            <TextView
+                android:id="@+id/tvGameOverMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Parabéns! Foi um grande jogo!"
+                android:textColor="#BDBDBD"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:paddingHorizontal="12dp"
+                android:layout_marginBottom="20dp"
+                android:maxLines="2" />
+
+            <!-- Botão Voltar ao Início -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="180dp"
+                android:layout_height="45dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp"
+                android:layout_gravity="center">
+
+                <Button
+                    android:id="@+id/btnBackToMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="🏠 VOLTAR AO INÍCIO"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_soccer_primary"
+                    android:textColor="#FFFFFF"
+                    android:stateListAnimator="@null"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

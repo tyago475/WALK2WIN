@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutDefend"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/stadium_background">
+
+    <!-- Instruções estilo vidro -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDefendInstruction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/player_card_selected"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp">
+
+            <!-- Ícone decorativo -->
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="🧤"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvDefendInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ESCOLHE ONDE QUERES DEFENDER!"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingVertical="12dp"
+                android:letterSpacing="0.02"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Área da baliza com fundo melhorado -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintTop_toBottomOf="@id/cardDefendInstruction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="5:3"
+        android:background="@drawable/player_card_normal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/goalArea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/goal_area_background">
+
+            <!-- Imagem da baliza -->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/goal"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <!-- GridLayout para evitar sobreposição de cliques -->
+            <GridLayout
+                android:id="@+id/defenseGrid"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:columnCount="3"
+                android:rowCount="3"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Linha 1 -->
+                <View
+                    android:id="@+id/rect_top_left"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:tag="top_left"
+                    android:background="@drawable/defense_normal" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="1"
+                    android:layout_row="0"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/rect_top_right"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="2"
+                    android:layout_row="0"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:tag="top_right"
+                    android:background="@drawable/defense_normal" />
+
+                <!-- Linha 2 -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="0"
+                    android:layout_row="1"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/rect_center"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="1"
+                    android:layout_row="1"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:tag="center"
+                    android:background="@drawable/defense_normal" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="2"
+                    android:layout_row="1"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:visibility="invisible" />
+
+                <!-- Linha 3 -->
+                <View
+                    android:id="@+id/rect_bottom_left"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="0"
+                    android:layout_row="2"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:tag="bottom_left"
+                    android:background="@drawable/defense_normal" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="1"
+                    android:layout_row="2"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/rect_bottom_right"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_column="2"
+                    android:layout_row="2"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="8dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:tag="bottom_right"
+                    android:background="@drawable/defense_normal" />
+
+            </GridLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

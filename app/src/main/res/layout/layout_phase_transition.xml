@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/stadium_background">
+
+    <!-- Container maior para caber mais texto -->
+    <LinearLayout
+        android:id="@+id/transitionCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/elegant_border_background"
+        android:padding="16dp">
+
+        <!-- Ícone menor para dar mais espaço ao texto -->
+        <TextView
+            android:id="@+id/tvTransitionIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="🧤"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/modern_icon_background" />
+
+        <!-- Mensagem com texto menor e mais linhas -->
+        <TextView
+            android:id="@+id/tvTransitionMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="PREPARE-SE PARA DEFENDER!"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:maxLines="3"
+            android:lineSpacingExtra="4dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="5"
+            android:letterSpacing="0.02"
+            android:paddingHorizontal="8dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
