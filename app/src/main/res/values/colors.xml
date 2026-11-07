@@ -26,9 +26,9 @@
     <color name="correct_gold">#FFD700</color>
 
     <!-- Barra de progresso de passos -->
-    <color name="progress_goal_reached">#FFD700</color>
-    <color name="progress_high">#2E7D32</color>
-    <color name="progress_normal">#4CAF50</color>
+    <color name="progress_goal_reached">@color/gold_500</color>
+    <color name="progress_high">@color/grass_400</color>
+    <color name="progress_normal">@color/grass_500</color>
 
     <!-- Gráfico de barras -->
     <color name="chart_bar_1">#4CAF50</color>
@@ -58,7 +58,6 @@
     <color name="result_win">#FFD700</color>
     <color name="result_lose">#FF5252</color>
     <color name="result_draw">#2196F3</color>
-    <color name="points_hint">#BDBDBD</color>
 
     <!-- ===== Design system Walk2Win (estilo Ultimate Team, verde relvado + dourado) ===== -->
     <!-- Fundos e superfícies -->

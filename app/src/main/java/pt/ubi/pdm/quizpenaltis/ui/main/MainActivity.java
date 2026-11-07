@@ -10,6 +10,7 @@ import pt.ubi.pdm.quizpenaltis.ui.help.HelpActivity;
 import pt.ubi.pdm.quizpenaltis.ui.player.PlayerSelectionActivity;
 import pt.ubi.pdm.quizpenaltis.ui.progress.ProgressActivity;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
+import pt.ubi.pdm.quizpenaltis.util.SystemBars;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.Manifest;
@@ -19,11 +20,13 @@ import android.content.res.ColorStateList;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import pt.ubi.pdm.quizpenaltis.BuildConfig;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -48,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
     private StepsNotificationManager stepsNotificationManager;
     private ProgressManager progressManager;
 
+    private static final long DISPLAY_ANIMATION_MS = 700;
+    // O que o ecrã está a mostrar; o próximo valor anima a partir daqui
+    private int shownSteps = 0;
+    private int shownPoints = 0;
+    private ValueAnimator displayAnimator;
+
     private SensorManager sensorManager;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+        SystemBars.applyPadding(findViewById(R.id.mainScroll));
 
         Log.d(TAG, "🚀 MainActivity onCreate()");
 
@@ -116,9 +126,10 @@ public class MainActivity extends AppCompatActivity {
         progressBarSteps.setMax(MAX_STEPS);
 
         // Botões de demonstração só existem nas versões de debug
-        if (!BuildConfig.DEBUG) {
-            btnTest.setVisibility(android.view.View.GONE);
-            btnTestWeek.setVisibility(android.view.View.GONE);
+        if (BuildConfig.DEBUG) {
+            btnTest.setText(getString(R.string.main_debug_add_steps, Constants.TEST_STEPS_INCREMENT));
+        } else {
+            findViewById(R.id.debugRow).setVisibility(android.view.View.GONE);
         }
 
         Log.d(TAG, "✅ Views inicializadas");
@@ -206,20 +217,43 @@ public class MainActivity extends AppCompatActivity {
         checkCurrentSteps();
     }
 
+    /** Mostra passos, barra e pontos; os números "sobem" a partir do que estava no ecrã. */
     private void atualizarDisplay() {
-        int passos = StepCounter.getTodaySteps(this);
-        int pontos = StepCounter.getTodayPoints(this); // saldo: ganhos − gastos
-        int passosParaBarra = Math.min(passos, MAX_STEPS);
-        int percentagem = (passosParaBarra * 100) / MAX_STEPS;
+        final int targetSteps = StepCounter.getTodaySteps(this);
+        final int targetPoints = StepCounter.getTodayPoints(this); // saldo: ganhos − gastos
 
-        tvSteps.setText(getString(R.string.main_steps_display, passos, MAX_STEPS));
-        tvPoints.setText(getString(R.string.main_points_display, pontos));
-        tvPercentage.setText(getString(R.string.main_percentage, percentagem));
+        if (displayAnimator != null) displayAnimator.cancel();
 
-        progressBarSteps.setProgress(passosParaBarra);
-        updateProgressBarColor(passosParaBarra);
+        if (targetSteps == shownSteps && targetPoints == shownPoints) {
+            render(targetSteps, targetPoints);
+            return;
+        }
 
-        Log.d(TAG, "📊 Display atualizado: " + passos + " passos, " + pontos + " pontos");
+        final int fromSteps = shownSteps;
+        final int fromPoints = shownPoints;
+        displayAnimator = ValueAnimator.ofFloat(0f, 1f);
+        displayAnimator.setDuration(DISPLAY_ANIMATION_MS);
+        displayAnimator.setInterpolator(new DecelerateInterpolator());
+        displayAnimator.addUpdateListener(animation -> {
+            float t = (float) animation.getAnimatedValue();
+            render(Math.round(fromSteps + (targetSteps - fromSteps) * t),
+                    Math.round(fromPoints + (targetPoints - fromPoints) * t));
+        });
+        displayAnimator.start();
+
+        // Guarda já o destino: se o ecrã for atualizado outra vez a meio, anima a partir daí
+        shownSteps = targetSteps;
+        shownPoints = targetPoints;
+        Log.d(TAG, "📊 Display atualizado: " + targetSteps + " passos, " + targetPoints + " pontos");
+    }
+
+    private void render(int steps, int points) {
+        int barSteps = Math.min(steps, MAX_STEPS);
+        tvSteps.setText(getString(R.string.main_steps_display, steps, MAX_STEPS));
+        tvPoints.setText(getString(R.string.main_points_display, points));
+        tvPercentage.setText(getString(R.string.main_percentage, (barSteps * 100) / MAX_STEPS));
+        progressBarSteps.setProgress(barSteps);
+        updateProgressBarColor(barSteps);
     }
 
     private void updateProgressBarColor(int steps) {
@@ -291,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (displayAnimator != null) displayAnimator.cancel();
         Log.d(TAG, "🛑 MainActivity onDestroy()");
     }
 }

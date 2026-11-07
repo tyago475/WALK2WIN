@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Marcações de um campo de futebol (vista de cima), muito subtis, para dar ambiente ao fundo -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="720dp"
+    android:viewportWidth="360"
+    android:viewportHeight="720">
+
+    <!-- Linhas laterais e de fundo -->
+    <path
+        android:pathData="M16,16h328v688h-328z"
+        android:strokeColor="@color/pitch_600"
+        android:strokeWidth="2" />
+    <!-- Linha de meio-campo -->
+    <path
+        android:pathData="M16,360h328"
+        android:strokeColor="@color/pitch_600"
+        android:strokeWidth="2" />
+    <!-- Círculo central -->
+    <path
+        android:pathData="M124,360a56,56 0,1 0,112 0a56,56 0,1 0,-112 0"
+        android:strokeColor="@color/pitch_600"
+        android:strokeWidth="2" />
+    <!-- Grandes áreas -->
+    <path
+        android:pathData="M96,16v88h168v-88"
+        android:strokeColor="@color/pitch_600"
+        android:strokeWidth="2" />
+    <path
+        android:pathData="M96,704v-88h168v88"
+        android:strokeColor="@color/pitch_600"
+        android:strokeWidth="2" />
+    <!-- Pequenas áreas -->
+    <path
+        android:pathData="M140,16v36h80v-36"
+        android:strokeColor="@color/pitch_600"
+        android:strokeWidth="2" />
+    <path
+        android:pathData="M140,704v-36h80v36"
+        android:strokeColor="@color/pitch_600"
+        android:strokeWidth="2" />
+</vector>

@@ -21,6 +21,14 @@
     <string name="main_permission_denied">❌ Sem permissão para sensor!\nUse o botão TESTAR para adicionar passos manualmente</string>
     <string name="main_steps_display">%1$,d / %2$,d passos</string>
     <string name="main_points_display">%1$,d Pontos</string>
+    <string name="main_tagline">Escolhe o teu jogador e marca golos!</string>
+    <string name="main_progress_title">Meu progresso</string>
+    <string name="main_btn_play">Jogar agora</string>
+    <string name="main_btn_progress">Ver progresso</string>
+    <string name="main_btn_help">Como jogar</string>
+    <string name="main_debug_label">Só em versões de debug</string>
+    <string name="main_debug_add_steps">+%1$d passos</string>
+    <string name="main_debug_test_week">Semana de teste</string>
     <string name="main_points_expiry">Os pontos expiram à meia-noite</string>
     <string name="main_percentage">%1$d%%</string>
 
@@ -161,15 +169,6 @@
     <string name="ui_help_text_29">• ⭐ Mais pontos = jogadores melhores com mais zonas verdes</string>
     <string name="ui_help_text_30">• 🎯 Mínimo de 100 pontos necessários para iniciar um jogo</string>
     <string name="ui_help_btn_back_to_main">🎮 VOLTAR AO MENU PRINCIPAL</string>
-    <string name="ui_main_background_image_content_description">Background do jogo</string>
-    <string name="ui_main_text_1">WALK2WIN</string>
-    <string name="ui_main_text_2">MEU PROGRESSO</string>
-    <string name="ui_main_btn_play">🎯 JOGAR AGORA</string>
-    <string name="ui_main_btn_progress">📊 VER PROGRESSO</string>
-    <string name="ui_main_btn_help">❓ COMO JOGAR</string>
-    <string name="ui_main_btn_test_week">📅</string>
-    <string name="ui_main_btn_test">⚙️</string>
-    <string name="ui_main_footer_text">⚽ Escolhe o teu jogador e marca golos! ⚽</string>
     <string name="ui_select_text_1">⚽</string>
     <string name="ui_select_text_2">ESCOLHE O TEU JOGADOR</string>
     <string name="ui_select_text_3">Desliza para ver os jogadores</string>
