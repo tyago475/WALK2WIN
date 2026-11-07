@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ponto do indicador do carrossel: dourado quando ativo -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <inset android:insetLeft="8dp" android:insetRight="8dp" android:insetTop="8dp" android:insetBottom="8dp">
+            <shape android:shape="oval">
+                <size android:width="8dp" android:height="8dp" />
+                <solid android:color="@color/gold_500" />
+            </shape>
+        </inset>
+    </item>
+    <item>
+        <inset android:insetLeft="8dp" android:insetRight="8dp" android:insetTop="8dp" android:insetBottom="8dp">
+            <shape android:shape="oval">
+                <size android:width="8dp" android:height="8dp" />
+                <solid android:color="@color/pitch_600" />
+            </shape>
+        </inset>
+    </item>
+</selector>

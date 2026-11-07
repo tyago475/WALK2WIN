@@ -1,24 +1,25 @@
 package pt.ubi.pdm.quizpenaltis.ui.player;
 
-import pt.ubi.pdm.quizpenaltis.R;
-import pt.ubi.pdm.quizpenaltis.model.Player;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-/** Carrossel de jogadores do ecrã de seleção. */
+import pt.ubi.pdm.quizpenaltis.R;
+import pt.ubi.pdm.quizpenaltis.model.Player;
+
+/** Carrossel de cartas de jogador do ecrã de seleção. */
 public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.PlayerViewHolder> {
 
-    private static final float ALPHA_LOCKED = 0.6f;
-    private static final float SELECTED_SCALE = 1.02f;
+    private static final float ALPHA_LOCKED = 0.55f;
+    private static final float SELECTED_SCALE = 1.04f;
     private static final long SCALE_ANIMATION_MS = 200;
 
     private final Context context;
@@ -70,28 +71,37 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         Player player = players.get(position);
         boolean canSelect = player.getCost() <= availablePoints;
+        boolean isSelected = position == selectedPosition && canSelect;
 
+        holder.cardPlayer.setBackgroundResource(tierBackground(player.getTier()));
         holder.ivPlayerPhoto.setImageResource(player.getImageResource());
         holder.tvPlayerName.setText(player.getName());
         holder.tvPlayerPrice.setText(String.valueOf(player.getCost()));
         holder.tvPlayerStatus.setText(player.getDifficultyRes());
-        holder.itemView.setAlpha(canSelect ? 1.0f : ALPHA_LOCKED);
 
-        updateSelectionUI(holder, position == selectedPosition && canSelect);
+        holder.cardPlayer.setAlpha(canSelect ? 1.0f : ALPHA_LOCKED);
+        holder.ivLock.setVisibility(canSelect ? View.GONE : View.VISIBLE);
+        holder.selectedRing.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
+        holder.selectedBadge.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
 
-        holder.itemView.setOnClickListener(v -> {
-            if (!canSelect || listener == null) return;
-            setSelectedPosition(holder.getBindingAdapterPosition());
+        float scale = isSelected ? SELECTED_SCALE : 1.0f;
+        holder.cardPlayer.animate().scaleX(scale).scaleY(scale).setDuration(SCALE_ANIMATION_MS).start();
+
+        // O cartão inteiro é o botão. Mesmo bloqueado, o toque avisa quantos passos faltam.
+        holder.cardPlayer.setOnClickListener(v -> {
+            if (listener == null) return;
+            if (canSelect) setSelectedPosition(holder.getBindingAdapterPosition());
             listener.onPlayerSelected(player);
         });
     }
 
-    private void updateSelectionUI(@NonNull PlayerViewHolder holder, boolean isSelected) {
-        holder.cardPlayer.setBackgroundResource(
-                isSelected ? R.drawable.player_card_selected : R.drawable.player_card_normal);
-        holder.tvSelectedBadge.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
-        float scale = isSelected ? SELECTED_SCALE : 1.0f;
-        holder.cardPlayer.animate().scaleX(scale).scaleY(scale).setDuration(SCALE_ANIMATION_MS).start();
+    @DrawableRes
+    private static int tierBackground(Player.Tier tier) {
+        switch (tier) {
+            case BRONZE: return R.drawable.ds_card_tier_bronze;
+            case SILVER: return R.drawable.ds_card_tier_silver;
+            default: return R.drawable.ds_card_tier_gold;
+        }
     }
 
     @Override
@@ -100,18 +110,20 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
     }
 
     static class PlayerViewHolder extends RecyclerView.ViewHolder {
-        final CardView cardPlayer;
+        final View cardPlayer, selectedRing, selectedBadge, ivLock;
         final ImageView ivPlayerPhoto;
-        final TextView tvPlayerName, tvPlayerPrice, tvPlayerStatus, tvSelectedBadge;
+        final TextView tvPlayerName, tvPlayerPrice, tvPlayerStatus;
 
         PlayerViewHolder(@NonNull View itemView) {
             super(itemView);
             cardPlayer = itemView.findViewById(R.id.cardPlayer);
+            selectedRing = itemView.findViewById(R.id.selectedRing);
+            selectedBadge = itemView.findViewById(R.id.tvSelectedBadge);
+            ivLock = itemView.findViewById(R.id.ivLock);
             ivPlayerPhoto = itemView.findViewById(R.id.ivPlayerPhoto);
             tvPlayerName = itemView.findViewById(R.id.tvPlayerName);
             tvPlayerPrice = itemView.findViewById(R.id.tvPlayerPrice);
             tvPlayerStatus = itemView.findViewById(R.id.tvPlayerStatus);
-            tvSelectedBadge = itemView.findViewById(R.id.tvSelectedBadge);
         }
     }
 }

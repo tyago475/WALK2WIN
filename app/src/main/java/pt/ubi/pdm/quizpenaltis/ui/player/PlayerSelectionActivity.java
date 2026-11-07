@@ -5,6 +5,9 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,12 +21,14 @@ import pt.ubi.pdm.quizpenaltis.model.PlayerCatalog;
 import pt.ubi.pdm.quizpenaltis.steps.StepCounter;
 import pt.ubi.pdm.quizpenaltis.ui.game.GameActivity;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
+import pt.ubi.pdm.quizpenaltis.util.SystemBars;
 
 /** Escolha do jogador. Confirmar a escolha gasta os pontos do jogador escolhido. */
 public class PlayerSelectionActivity extends AppCompatActivity {
 
     private TextView tvAvailablePoints, tvSelectedPlayer;
-    private Button btnConfirmSelection, btnBack;
+    private Button btnConfirmSelection;
+    private View btnBack;
     private ViewPager2 viewPagerPlayers;
     private TabLayout tabLayoutDots;
     private PlayerPagerAdapter adapter;
@@ -36,6 +41,7 @@ public class PlayerSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_player_selection);
+        SystemBars.applyPadding(findViewById(R.id.selectionContent));
 
         // O saldo vem sempre da fonte real (StepCounter), nunca de um valor copiado de outro ecrã
         availablePoints = StepCounter.getTodayPoints(this);
@@ -68,6 +74,23 @@ public class PlayerSelectionActivity extends AppCompatActivity {
     private void setupViewPager() {
         adapter = new PlayerPagerAdapter(this, PlayerCatalog.ALL, availablePoints);
         viewPagerPlayers.setAdapter(adapter);
+
+        // Mostra um pouco das cartas vizinhas e reduz as que estão ao lado da central
+        int peek = getResources().getDimensionPixelSize(R.dimen.space_xxl)
+                + getResources().getDimensionPixelSize(R.dimen.space_md);
+        RecyclerView pages = (RecyclerView) viewPagerPlayers.getChildAt(0);
+        pages.setPadding(peek, 0, peek, 0);
+        pages.setClipToPadding(false);
+        viewPagerPlayers.setOffscreenPageLimit(3);
+        CompositePageTransformer transformer = new CompositePageTransformer();
+        transformer.addTransformer(new MarginPageTransformer(getResources().getDimensionPixelSize(R.dimen.space_sm)));
+        transformer.addTransformer((page, position) -> {
+            float distance = Math.min(1f, Math.abs(position));
+            page.setScaleX(1f - 0.12f * distance);
+            page.setScaleY(1f - 0.12f * distance);
+            page.setAlpha(1f - 0.4f * distance);
+        });
+        viewPagerPlayers.setPageTransformer(transformer);
 
         // Os "pontinhos" por baixo do carrossel
         new TabLayoutMediator(tabLayoutDots, viewPagerPlayers, (tab, position) -> { }).attach();
@@ -104,12 +127,12 @@ public class PlayerSelectionActivity extends AppCompatActivity {
         if (selectedPlayer != null) {
             tvSelectedPlayer.setText(getString(R.string.select_selected_player, selectedPlayer.getName()));
             tvSelectedPlayer.setVisibility(View.VISIBLE);
+            btnConfirmSelection.setText(getString(R.string.select_confirm_cost, selectedPlayer.getCost()));
             btnConfirmSelection.setEnabled(true);
-            btnConfirmSelection.setAlpha(1.0f);
         } else {
-            tvSelectedPlayer.setVisibility(View.GONE);
+            tvSelectedPlayer.setVisibility(View.INVISIBLE);
+            btnConfirmSelection.setText(R.string.select_confirm);
             btnConfirmSelection.setEnabled(false);
-            btnConfirmSelection.setAlpha(0.5f);
         }
     }
 

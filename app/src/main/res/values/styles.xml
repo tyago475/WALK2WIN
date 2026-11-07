@@ -65,7 +65,7 @@
     <!-- Ação principal: dourado -->
     <style name="Widget.W2W.Button.Primary">
         <item name="android:background">@drawable/ds_button_primary</item>
-        <item name="android:textColor">@color/text_on_gold</item>
+        <item name="android:textColor">@color/ds_button_primary_text</item>
     </style>
 
     <!-- Ação secundária: superfície escura com contorno dourado -->

@@ -1,109 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Carta de jogador (estilo Ultimate Team). O fundo muda com o escalão
+    (bronze, prata, ouro) e é definido no adaptador.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="12dp"
-    android:background="@android:color/transparent">
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardPlayer"
-        android:layout_width="250dp"
-        android:layout_height="360dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="18dp"
-        app:cardElevation="10dp"
-        android:background="@drawable/player_card_border_only">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/space_sm"
+        android:background="@drawable/ds_card_tier_gold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidePlate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.64" />
+
+        <!-- Preço: o "rating" da carta -->
+        <TextView
+            android:id="@+id/tvPlayerPrice"
+            style="@style/TextAppearance.W2W.Display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_lg"
+            android:layout_marginTop="@dimen/space_lg"
+            android:textColor="@color/text_on_gold"
+            android:textSize="44sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/tvPriceUnit"
+            style="@style/TextAppearance.W2W.Heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:text="@string/slide_points_unit"
+            android:textColor="@color/text_on_gold"
+            app:layout_constraintStart_toStartOf="@id/tvPlayerPrice"
+            app:layout_constraintTop_toBottomOf="@id/tvPlayerPrice" />
+
+        <ImageView
+            android:id="@+id/ivPlayerPhoto"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/space_xl"
+            android:layout_marginEnd="@dimen/space_xl"
+            android:layout_marginTop="@dimen/space_md"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@id/guidePlate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/maguire" />
+
+        <!-- Placa do nome -->
+        <TextView
+            android:id="@+id/tvPlayerName"
+            style="@style/TextAppearance.W2W.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_lg"
+            android:layout_marginEnd="@dimen/space_lg"
+            android:layout_marginTop="@dimen/space_sm"
+            android:ellipsize="end"
             android:gravity="center"
-            android:padding="16dp"
-            android:background="@android:color/transparent">
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@color/text_on_gold"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guidePlate"
+            tools:text="MAGUIRE" />
 
-            <ImageView
-                android:id="@+id/ivPlayerPhoto"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:scaleType="centerInside"
-                android:background="@drawable/player_photo_border_only"
-                android:layout_marginBottom="16dp" />
+        <View
+            android:id="@+id/plateDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/space_xxl"
+            android:layout_marginEnd="@dimen/space_xxl"
+            android:layout_marginTop="@dimen/space_xs"
+            android:alpha="0.35"
+            android:background="@color/text_on_gold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPlayerName" />
 
-            <TextView
-                android:id="@+id/tvPlayerName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Jogador"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginBottom="8dp" />
+        <TextView
+            android:id="@+id/tvPlayerStatus"
+            style="@style/TextAppearance.W2W.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/ds_chip_on_card"
+            android:paddingStart="@dimen/space_md"
+            android:paddingEnd="@dimen/space_md"
+            android:paddingTop="@dimen/space_xs"
+            android:paddingBottom="@dimen/space_xs"
+            android:textColor="@color/text_on_gold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plateDivider"
+            tools:text="Muito Difícil" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="12dp">
+        <!-- Anel e visto de "selecionado" -->
+        <View
+            android:id="@+id/selectedRing"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ds_card_selected_ring"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:text="@string/ui_slide_text_1"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginEnd="4dp" />
+        <ImageView
+            android:id="@+id/tvSelectedBadge"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="@dimen/space_md"
+            android:layout_marginEnd="@dimen/space_md"
+            android:background="@drawable/ds_badge_selected"
+            android:contentDescription="@string/slide_selected_description"
+            android:padding="6dp"
+            android:src="@drawable/icon_check"
+            android:tint="@color/text_primary"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvPlayerPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="000"
-                    android:textSize="16sp"
-                    android:textColor="#FFD700"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ui_slide_text_2"
-                    android:textSize="14sp"
-                    android:textColor="#E0E0E0" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvPlayerStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="3dp"
-                android:background="@drawable/status_border_only" />
-
-            <!-- Badge de selecionado -->
-            <TextView
-                android:id="@+id/tvSelectedBadge"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:text="@string/ui_slide_tv_selected_badge"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:background="@drawable/circle_border_only"
-                android:layout_gravity="top|end"
-                android:visibility="invisible" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+        <!-- Cadeado: jogador que ainda não se pode pagar -->
+        <ImageView
+            android:id="@+id/ivLock"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="@dimen/space_md"
+            android:layout_marginEnd="@dimen/space_md"
+            android:contentDescription="@string/slide_locked_description"
+            android:src="@drawable/icon_lock"
+            android:tint="@color/text_on_gold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

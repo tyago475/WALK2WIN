@@ -83,10 +83,10 @@
     <color name="feedback_warning">#F59E0B</color>
     <color name="feedback_info">#38BDF8</color>
     <!-- Escalões das cartas -->
-    <color name="tier_bronze_light">#E0A070</color>
-    <color name="tier_bronze_dark">#8A4B22</color>
-    <color name="tier_silver_light">#E5EAEE</color>
-    <color name="tier_silver_dark">#8A97A3</color>
+    <color name="tier_bronze_light">#E8AE80</color>
+    <color name="tier_bronze_dark">#B5703A</color>
+    <color name="tier_silver_light">#EEF2F5</color>
+    <color name="tier_silver_dark">#AEB9C3</color>
     <!-- Película escura sobre imagens -->
     <color name="scrim_60">#99000000</color>
 </resources>

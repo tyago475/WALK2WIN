@@ -1,173 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Escolha do jogador: carrossel de cartas estilo Ultimate Team, saldo no topo
+    e botão de confirmar em baixo (mostra o custo).
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.W2W.Screen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@drawable/stadium_background">
+    android:layout_height="match_parent">
 
-    <!-- Cabeçalho mais compacto -->
     <LinearLayout
+        android:id="@+id/selectionContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginBottom="12dp">
+        android:paddingStart="@dimen/space_lg"
+        android:paddingEnd="@dimen/space_lg"
+        android:paddingTop="@dimen/space_sm"
+        android:paddingBottom="@dimen/space_lg">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ui_select_text_1"
-            android:textSize="36sp"
-            android:layout_marginBottom="6dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ui_select_text_2"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:shadowColor="#000000"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="4"
-            android:letterSpacing="0.05" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ui_select_text_3"
-            android:textSize="11sp"
-            android:textColor="#E0E0E0"
-            android:layout_marginTop="3dp" />
-
-    </LinearLayout>
-
-    <!-- Card de Pontos mais compacto -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#1AFF9800"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/points_card_background">
-
-        <LinearLayout
+        <!-- Barra de topo: voltar + título -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/touch_min"
+                android:layout_height="@dimen/touch_min"
+                android:background="@drawable/ds_icon_button"
+                android:contentDescription="@string/select_back_description"
+                android:src="@drawable/icon_arrow_back"
+                android:tint="@color/gold_300" />
 
             <TextView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:text="@string/ui_select_text_4"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginEnd="10dp" />
+                style="@style/TextAppearance.W2W.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/touch_min"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:text="@string/select_title"
+                android:textAllCaps="true" />
+        </FrameLayout>
+
+        <TextView
+            style="@style/TextAppearance.W2W.Label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/select_subtitle" />
+
+        <!-- Saldo -->
+        <LinearLayout
+            style="@style/Widget.W2W.Card.Highlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/space_md"
+            android:paddingBottom="@dimen/space_md">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/icon_bolt"
+                android:tint="@color/gold_500" />
 
             <TextView
                 android:id="@+id/tvAvailablePoints"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="Pontos Disponíveis: 650"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF" />
-
-            <TextView
+                style="@style/TextAppearance.W2W.Heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ui_select_text_5"
-                android:textSize="16sp" />
-
+                android:layout_marginStart="@dimen/space_sm"
+                android:textColor="@color/gold_300"
+                tools:text="Pontos disponíveis: 300" />
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        <!-- Carrossel -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerPlayers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/space_md"
+            android:layout_weight="1" />
 
-    <!-- ViewPager -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPagerPlayers"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="8dp" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutDots"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@android:color/transparent"
+            app:tabBackground="@drawable/ds_tab_dot"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMinWidth="0dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="@null" />
 
-    <!-- Dots indicator -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutDots"
-        android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/tvSelectedPlayer"
+            style="@style/TextAppearance.W2W.Label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:gravity="center"
+            tools:text="Jogador selecionado: Maguire" />
 
-    <!-- Jogador selecionado -->
-    <TextView
-        android:id="@+id/tvSelectedPlayer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Jogador selecionado: Nenhum"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_marginBottom="12dp"
-        android:padding="8dp"
-        android:background="@drawable/selected_player_background" />
-
-    <!-- Botões mais compactos -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="220dp"
-            android:layout_height="50dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="8dp">
-
-            <Button
-                android:id="@+id/btnConfirmSelection"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/ui_select_btn_confirm_selection"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:background="@drawable/button_soccer_primary"
-                android:textColor="#FFFFFF"
-                android:stateListAnimator="@null"
-                android:enabled="false"
-                style="@style/Widget.AppCompat.Button.Borderless" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="160dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="2dp">
-
-            <Button
-                android:id="@+id/btnBack"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/ui_select_btn_back"
-                android:textSize="12sp"
-                android:background="@drawable/button_soccer_primary"
-                android:textColor="#FFFFFF"
-                android:stateListAnimator="@null"
-                style="@style/Widget.AppCompat.Button.Borderless" />
-
-        </androidx.cardview.widget.CardView>
-
+        <Button
+            android:id="@+id/btnConfirmSelection"
+            style="@style/Widget.W2W.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:text="@string/select_confirm" />
     </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

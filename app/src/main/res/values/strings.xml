@@ -33,9 +33,17 @@
     <string name="main_percentage">%1$d%%</string>
 
     <!-- ===== Seleção de jogador ===== -->
+    <string name="select_title">Escolhe o teu jogador</string>
+    <string name="select_subtitle">Desliza para ver os jogadores</string>
+    <string name="select_confirm">Confirmar escolha</string>
+    <string name="select_confirm_cost">Confirmar · %1$d pontos</string>
+    <string name="select_back_description">Voltar</string>
+    <string name="slide_points_unit">PONTOS</string>
+    <string name="slide_selected_description">Selecionado</string>
+    <string name="slide_locked_description">Pontos insuficientes</string>
     <string name="select_swipe_hint">Desliza para ver os jogadores!</string>
     <string name="select_player_selected">%1$s selecionado! ✅</string>
-    <string name="select_available_points">Pontos Disponíveis: %1$d</string>
+    <string name="select_available_points">Pontos disponíveis: %1$d</string>
     <string name="select_selected_player">Jogador selecionado: %1$s</string>
     <string name="select_insufficient_points">Pontos insuficientes! Ande mais %1$d passos!</string>
 
@@ -169,13 +177,6 @@
     <string name="ui_help_text_29">• ⭐ Mais pontos = jogadores melhores com mais zonas verdes</string>
     <string name="ui_help_text_30">• 🎯 Mínimo de 100 pontos necessários para iniciar um jogo</string>
     <string name="ui_help_btn_back_to_main">🎮 VOLTAR AO MENU PRINCIPAL</string>
-    <string name="ui_select_text_1">⚽</string>
-    <string name="ui_select_text_2">ESCOLHE O TEU JOGADOR</string>
-    <string name="ui_select_text_3">Desliza para ver os jogadores</string>
-    <string name="ui_select_text_4">💰</string>
-    <string name="ui_select_text_5">🏆</string>
-    <string name="ui_select_btn_confirm_selection">CONFIRMAR ESCOLHA</string>
-    <string name="ui_select_btn_back">VOLTAR</string>
     <string name="ui_progress_text_1">👣</string>
     <string name="ui_progress_text_2">MEUS PASSOS</string>
     <string name="ui_progress_text_3">Acompanha o teu progresso</string>
@@ -199,9 +200,6 @@
     <string name="ui_header_tv_vs">VS</string>
     <string name="ui_header_btn_back_to_menu">🏠 VOLTAR</string>
     <string name="ui_gameover_btn_back_to_main">🏠 VOLTAR AO INÍCIO</string>
-    <string name="ui_slide_text_1">💰</string>
-    <string name="ui_slide_text_2"> pontos</string>
-    <string name="ui_slide_tv_selected_badge">✅</string>
     <string name="ui_quiz_text_1">❓</string>
     <string name="ui_shoot_text_1">🎯</string>
     <string name="ui_shoot_tv_shoot_instruction">ESCOLHE ONDE QUERES REMATAR!</string>
