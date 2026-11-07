@@ -1,6 +1,5 @@
 package pt.ubi.pdm.quizpenaltis.steps;
 
-import pt.ubi.pdm.quizpenaltis.util.Constants;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
@@ -16,6 +15,7 @@ public class StepCounter {
     private static final String LAST_RESET_DATE = "last_reset_date";
     private static final String INITIAL_STEP_COUNT = "initial_step_count";
     private static final String LAST_STEP_COUNT = "last_step_count";
+    private static final String POINTS_SPENT_TODAY = "points_spent_today";
 
     public static int getTodaySteps(Context context) {
         checkDailyReset(context);
@@ -25,7 +25,7 @@ public class StepCounter {
         return steps;
     }
 
-    public static void addSteps(Context context, int steps) {
+    public static synchronized void addSteps(Context context, int steps) {
         Log.d(TAG, "➕ addSteps() adicionando: " + steps + " passos");
         checkDailyReset(context);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -91,6 +91,7 @@ public class StepCounter {
             Log.d(TAG, "🔄 Novo dia detectado - resetando contador de passos");
             prefs.edit()
                     .putInt(STEPS_TODAY, 0)
+                    .putInt(POINTS_SPENT_TODAY, 0) // os pontos gastos também recomeçam a zero
                     .putString(LAST_RESET_DATE, today)
                     .putInt(INITIAL_STEP_COUNT, 0) // Reseta também o contador do sensor
                     .putInt(LAST_STEP_COUNT, 0)
@@ -98,11 +99,39 @@ public class StepCounter {
         }
     }
 
+    /** Pontos que o jogador pode gastar agora: ganhos com os passos de hoje menos os já gastos. */
     public static int getTodayPoints(Context context) {
         int steps = getTodaySteps(context);
-        int points = Constants.stepsToPoints(steps);
-        Log.d(TAG, "💰 getTodayPoints(): " + steps + " passos = " + points + " pontos");
+        int spent = getPointsSpentToday(context);
+        int points = PointsBalance.available(steps, spent);
+        Log.d(TAG, "💰 getTodayPoints(): " + steps + " passos, " + spent + " gastos = " + points + " disponíveis");
         return points;
+    }
+
+    public static int getPointsSpentToday(Context context) {
+        checkDailyReset(context);
+        return PreferenceManager.getDefaultSharedPreferences(context).getInt(POINTS_SPENT_TODAY, 0);
+    }
+
+    /**
+     * Gasta pontos de hoje, se houver saldo. A verificação e o desconto são feitos de uma vez,
+     * para dois cliques seguidos não gastarem o mesmo saldo duas vezes.
+     *
+     * @return true se descontou; false se o saldo não chegava (nada foi alterado)
+     */
+    public static synchronized boolean spendPoints(Context context, int cost) {
+        checkDailyReset(context);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int steps = prefs.getInt(STEPS_TODAY, 0);
+        int spent = prefs.getInt(POINTS_SPENT_TODAY, 0);
+
+        if (!PointsBalance.canSpend(steps, spent, cost)) {
+            Log.d(TAG, "💸 spendPoints(" + cost + ") recusado: saldo " + PointsBalance.available(steps, spent));
+            return false;
+        }
+        prefs.edit().putInt(POINTS_SPENT_TODAY, spent + cost).commit();
+        Log.d(TAG, "💸 spendPoints(" + cost + ") ok: gastos hoje = " + (spent + cost));
+        return true;
     }
 
     // MÉTODO PARA RESETAR MANUALMENTE (para testes)
@@ -110,6 +139,7 @@ public class StepCounter {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit()
                 .putInt(STEPS_TODAY, 0)
+                .putInt(POINTS_SPENT_TODAY, 0)
                 .putInt(INITIAL_STEP_COUNT, 0)
                 .putInt(LAST_STEP_COUNT, 0)
                 .apply();

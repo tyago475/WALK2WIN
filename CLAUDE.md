@@ -20,6 +20,14 @@ Para correr os testes, copiar o projeto para uma pasta com caminho ASCII e corre
 - `steps` – contagem de passos, serviços e notificação
 - `util.Constants` – meta de passos, passos por ponto, chaves de Intent
 
+## Pontos (regras)
+- Pontos ganhos = passos de hoje ÷ 10. **Saldo = ganhos − gastos.** Só existe "hoje": à meia-noite passos e gastos voltam a 0 (pontos por gastar perdem-se; o ecrã principal avisa).
+- Escolher um jogador custa o preço dele (`PlayerCatalog`). É cobrado ao carregar em CONFIRMAR e **não há reembolso** (sair a meio perde os pontos). Ganhar não dá prémio.
+- Única fonte do saldo: `StepCounter.getTodayPoints()`; gastar com `StepCounter.spendPoints()` (verifica e desconta de uma vez, devolve false se não chegar). A conta pura está em `PointsBalance` (testada).
+- Os ecrãs nunca copiam o saldo entre si: `PlayerSelectionActivity` relê-o ao abrir e no `onResume`.
+- Mínimo para jogar = custo do jogador mais barato (`PlayerCatalog.cheapestCost()`).
+- Para testar no emulador: TESTAR (+1000 passos = +100 pontos); "meia-noite" simula-se pondo `last_reset_date` de ontem em `shared_prefs/<pkg>_preferences.xml`.
+
 ## Convenções
 - Sem números mágicos: `Constants` (passos/pontos) e `GameRules` (jogo, tempos).
 - Textos em `strings.xml`, cores em `colors.xml`. Placeholders de layout com `tools:text`.

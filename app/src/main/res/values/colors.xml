@@ -58,4 +58,5 @@
     <color name="result_win">#FFD700</color>
     <color name="result_lose">#FF5252</color>
     <color name="result_draw">#2196F3</color>
+    <color name="points_hint">#BDBDBD</color>
 </resources>

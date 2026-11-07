@@ -23,7 +23,7 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
 
     private final Context context;
     private final List<Player> players;
-    private final int availablePoints;
+    private int availablePoints;
     private OnPlayerSelectedListener listener;
     private int selectedPosition = RecyclerView.NO_POSITION;
 
@@ -39,6 +39,17 @@ public class PlayerPagerAdapter extends RecyclerView.Adapter<PlayerPagerAdapter.
 
     public void setOnPlayerSelectedListener(OnPlayerSelectedListener listener) {
         this.listener = listener;
+    }
+
+    /** Atualiza o saldo e redesenha, para os jogadores que já não se pagam ficarem bloqueados. */
+    public void setAvailablePoints(int points) {
+        availablePoints = points;
+        notifyDataSetChanged();
+    }
+
+    public void clearSelection() {
+        selectedPosition = RecyclerView.NO_POSITION;
+        notifyDataSetChanged();
     }
 
     private void setSelectedPosition(int position) {

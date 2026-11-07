@@ -28,6 +28,13 @@ public final class PlayerCatalog {
 
     private static final Random RANDOM = new Random();
 
+    /** Custo do jogador mais barato: o mínimo de pontos para poder jogar. */
+    public static int cheapestCost() {
+        int min = Integer.MAX_VALUE;
+        for (Player p : ALL) min = Math.min(min, p.getCost());
+        return min;
+    }
+
     /** Procura pelo nome; devolve o primeiro jogador se não existir. */
     public static Player byName(String name) {
         for (Player p : ALL) {

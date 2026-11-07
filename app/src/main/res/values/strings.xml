@@ -21,6 +21,7 @@
     <string name="main_permission_denied">❌ Sem permissão para sensor!\nUse o botão TESTAR para adicionar passos manualmente</string>
     <string name="main_steps_display">%1$,d / %2$,d passos</string>
     <string name="main_points_display">%1$,d Pontos</string>
+    <string name="main_points_expiry">Os pontos expiram à meia-noite</string>
     <string name="main_percentage">%1$d%%</string>
 
     <!-- ===== Seleção de jogador ===== -->

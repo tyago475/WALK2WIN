@@ -1,6 +1,7 @@
 package pt.ubi.pdm.quizpenaltis.ui.main;
 
 import pt.ubi.pdm.quizpenaltis.R;
+import pt.ubi.pdm.quizpenaltis.model.PlayerCatalog;
 import pt.ubi.pdm.quizpenaltis.data.progress.ProgressManager;
 import pt.ubi.pdm.quizpenaltis.steps.StepCounter;
 import pt.ubi.pdm.quizpenaltis.steps.StepTrackingService;
@@ -137,13 +138,13 @@ public class MainActivity extends AppCompatActivity {
         int pontosDisponiveis = StepCounter.getTodayPoints(this);
         Log.d(TAG, "🎮 Indo para PlayerSelection com " + pontosDisponiveis + " pontos");
 
-        if (pontosDisponiveis < Constants.MIN_POINTS_TO_PLAY) {
-            Toast.makeText(this, getString(R.string.main_need_points, Constants.MIN_POINTS_TO_PLAY), Toast.LENGTH_LONG).show();
+        int minimo = PlayerCatalog.cheapestCost();
+        if (pontosDisponiveis < minimo) {
+            Toast.makeText(this, getString(R.string.main_need_points, minimo), Toast.LENGTH_LONG).show();
             return;
         }
 
         Intent intent = new Intent(MainActivity.this, PlayerSelectionActivity.class);
-        intent.putExtra(Constants.EXTRA_AVAILABLE_POINTS, pontosDisponiveis);
         startActivity(intent);
     }
 
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void atualizarDisplay() {
         int passos = StepCounter.getTodaySteps(this);
-        int pontos = Constants.stepsToPoints(passos);
+        int pontos = StepCounter.getTodayPoints(this); // saldo: ganhos − gastos
         int passosParaBarra = Math.min(passos, MAX_STEPS);
         int percentagem = (passosParaBarra * 100) / MAX_STEPS;
 
