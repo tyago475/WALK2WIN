@@ -35,10 +35,10 @@ public class StepsNotificationService extends Service {
             try {
                 NotificationChannel channel = new NotificationChannel(
                         CHANNEL_ID,
-                        "Progresso de Passos",
+                        getString(R.string.notif_channel_name),
                         NotificationManager.IMPORTANCE_LOW
                 );
-                channel.setDescription("Mostra o progresso diário de passos");
+                channel.setDescription(getString(R.string.notif_channel_description));
                 channel.setShowBadge(false);
                 channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
 
@@ -58,8 +58,7 @@ public class StepsNotificationService extends Service {
             int maxSteps = Constants.DAILY_STEP_GOAL;
             int percentage = maxSteps > 0 ? (currentSteps * 100) / maxSteps : 0;
 
-            String stepsText = String.format("%,d / %,d passos", currentSteps, maxSteps);
-            String percentageText = percentage + "%";
+            String contentText = getString(R.string.notif_text, currentSteps, maxSteps, percentage);
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -69,8 +68,8 @@ public class StepsNotificationService extends Service {
             );
 
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("🚶‍♂️ Walk2Win")
-                    .setContentText(stepsText + " • " + percentageText)
+                    .setContentTitle(getString(R.string.notif_title))
+                    .setContentText(contentText)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
@@ -100,7 +99,7 @@ public class StepsNotificationService extends Service {
             int maxSteps = Constants.DAILY_STEP_GOAL;
             int percentage = maxSteps > 0 ? (currentSteps * 100) / maxSteps : 0;
 
-            String stepsText = String.format("%,d / %,d passos", currentSteps, maxSteps);
+            String contentText = getString(R.string.notif_text, currentSteps, maxSteps, percentage);
 
             Intent intent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(
@@ -108,8 +107,8 @@ public class StepsNotificationService extends Service {
             );
 
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("🚶‍♂️ Walk2Win")
-                    .setContentText(stepsText + " • " + percentage + "%")
+                    .setContentTitle(getString(R.string.notif_title))
+                    .setContentText(contentText)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(false)

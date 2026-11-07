@@ -76,9 +76,9 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
 
                 // 🔥 AVISO DE QUE SÃO DADOS TEMPORÁRIOS
                 if (isTestData(weeklyProgress)) {
-                    Toast.makeText(this, "📊 Dados de demonstração (temporários)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.progress_demo_data, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "✅ Dados reais de passos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.progress_real_data, Toast.LENGTH_SHORT).show();
                 }
 
                 Log.d(TAG, "✅ Mostrando dados do ProgressManager");
@@ -95,7 +95,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         // Verifica se os dados correspondem ao padrão de teste
         if (progress.getDailyProgress().size() != 7) return false;
 
-        int[] testPattern = {4231, 5876, 3210, 7890, 6543, 2345, 8765};
+        int[] testPattern = ProgressManager.TEST_WEEK_STEPS;
         List<UserProgress> sorted = new ArrayList<>(progress.getDailyProgress());
 
         // CORREÇÃO: Usar Collections.sort em vez de List.sort para compatibilidade com API 21
@@ -126,9 +126,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         // MOSTRAR mensagem de estado vazio
         if (tvEmptyState != null) {
             tvEmptyState.setVisibility(android.view.View.VISIBLE);
-            tvEmptyState.setText("📊 Ainda não há dados de progresso\n\n" +
-                    "Use o botão \"📅 TESTAR SEMANA\" no menu principal\n" +
-                    "para gerar dados de exemplo para 7 dias");
+            tvEmptyState.setText(R.string.progress_empty_state);
         }
     }
 
@@ -159,18 +157,18 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
                 totalSteps / progress.getDailyProgress().size() : 0;
 
         // Atualizar estatísticas
-        tvTotalSteps.setText(String.format("%,d", totalSteps));
-        tvAverageSteps.setText(String.format("%,d", averageSteps));
+        tvTotalSteps.setText(getString(R.string.progress_number, totalSteps));
+        tvAverageSteps.setText(getString(R.string.progress_number, averageSteps));
 
         // Encontrar melhor dia de passos
         String bestDaySteps = findBestStepsDay(progress.getDailyProgress());
         tvBestDaySteps.setText(bestDaySteps);
 
         // Meta diária fixa
-        tvDailyGoal.setText(String.format("%,d", Constants.DAILY_STEP_GOAL));
+        tvDailyGoal.setText(getString(R.string.progress_number, Constants.DAILY_STEP_GOAL));
 
         // Atualizar período
-        tvPeriodo.setText("Últimos " + progress.getDailyProgress().size() + " Dias");
+        tvPeriodo.setText(getString(R.string.progress_period, progress.getDailyProgress().size()));
 
         Log.d(TAG, "📊 Estatísticas: Total=" + totalSteps + ", Média=" + averageSteps + ", Melhor=" + bestDaySteps);
     }
@@ -184,7 +182,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         List<CustomBarChart.ChartData> chartData = new ArrayList<>();
 
 
-        String[] portugueseDays = {"Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"};
+        String[] portugueseDays = getResources().getStringArray(R.array.weekdays_short);
 
 
         List<UserProgress> sortedProgress = new ArrayList<>(dailyProgress);
@@ -205,7 +203,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         }
 
         if (stepsChart != null) {
-            stepsChart.setData(chartData, "Evolução de Passos", "Passos");
+            stepsChart.setData(chartData, getString(R.string.progress_chart_title), getString(R.string.progress_chart_y_label));
             Log.d(TAG, "✅ Gráfico atualizado com " + chartData.size() + " dias");
         }
     }
@@ -220,7 +218,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
             }
         }
 
-        return String.format("%,d", bestSteps);
+        return getString(R.string.progress_number, bestSteps);
     }
 
     @Override

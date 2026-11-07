@@ -12,6 +12,10 @@ import java.util.concurrent.Executors;
 
 public class ProgressManager {
     private static final String TAG = "ProgressManager";
+
+    /** Passos da semana de demonstração (do dia mais antigo para hoje). */
+    public static final int[] TEST_WEEK_STEPS = {4231, 5876, 3210, 7890, 6543, 2345, 8765};
+
     private AppDatabase database;
     private ExecutorService executor;
     private SimpleDateFormat dateFormat;
@@ -87,7 +91,7 @@ public class ProgressManager {
                 Log.d(TAG, "📅 Criando dados de teste TEMPORÁRIOS para demonstração...");
 
                 Calendar calendar = Calendar.getInstance();
-                int[] stepsData = {4231, 5876, 3210, 7890, 6543, 2345, 8765};
+                int[] stepsData = TEST_WEEK_STEPS;
 
                 for (int i = 6; i >= 0; i--) {
                     calendar.setTime(new Date());

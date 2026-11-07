@@ -1,20 +1,24 @@
 package pt.ubi.pdm.quizpenaltis;
 
-public class Player {
-    private String name;
-    private int cost;
-    private int imageResource;
-    private String difficulty;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 
-    public Player(String name, int cost, int imageResource, String difficulty) {
-        this.name = name != null ? name : "Jogador";
+/** Um jogador que se pode "comprar" com pontos. */
+public class Player {
+    private final String name;
+    private final int cost;
+    private final int imageResource;
+    private final int difficultyRes;
+
+    public Player(String name, int cost, @DrawableRes int imageResource, @StringRes int difficultyRes) {
+        this.name = name;
         this.cost = cost;
         this.imageResource = imageResource;
-        this.difficulty = difficulty != null ? difficulty : "Normal";
+        this.difficultyRes = difficultyRes;
     }
 
     public String getName() { return name; }
     public int getCost() { return cost; }
-    public int getImageResource() { return imageResource; }
-    public String getDifficulty() { return difficulty; }
+    @DrawableRes public int getImageResource() { return imageResource; }
+    @StringRes public int getDifficultyRes() { return difficultyRes; }
 }

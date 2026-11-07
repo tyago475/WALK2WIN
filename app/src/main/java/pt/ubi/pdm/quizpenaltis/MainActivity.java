@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
             if (hasStepCounter || hasStepDetector) {
                 String sensorType = hasStepCounter ? "STEP_COUNTER" : "STEP_DETECTOR";
                 Log.d(TAG, "🎯 Sensor " + sensorType + " disponível - Pode testar andando!");
-                Toast.makeText(this, "✅ Sensor detectado! Ande para testar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.main_sensor_detected, Toast.LENGTH_SHORT).show();
             } else {
                 Log.d(TAG, "📝 Nenhum sensor - Use botão TESTAR");
-                Toast.makeText(this, "📝 Use o botão TESTAR para adicionar passos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.main_sensor_missing, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "🎮 Indo para PlayerSelection com " + pontosDisponiveis + " pontos");
 
         if (pontosDisponiveis < Constants.MIN_POINTS_TO_PLAY) {
-            Toast.makeText(this, "⚠️ Precisa de pelo menos " + Constants.MIN_POINTS_TO_PLAY + " pontos para jogar!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.main_need_points, Constants.MIN_POINTS_TO_PLAY), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         int currentSteps = StepCounter.getTodaySteps(this);
         Log.d(TAG, "✅ 1000 passos adicionados! Total: " + currentSteps);
-        Toast.makeText(this, "🧪 1000 passos adicionados! Total: " + currentSteps, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.main_test_steps_added, Constants.TEST_STEPS_INCREMENT, currentSteps), Toast.LENGTH_SHORT).show();
     }
 
     // ✅ BOTÃO: TESTAR SEMANA (apenas dados temporários para mostrar ao professor)
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         atualizarDisplay();
         Log.d(TAG, "✅ Dados de teste TEMPORÁRIOS criados!");
-        Toast.makeText(this, "📊 Dados de exemplo criados! (São temporários)", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.main_test_week_created, Toast.LENGTH_LONG).show();
     }
 
     // 🔥 MÉTODO PARA LIMPAR APENAS DADOS DE TESTE
@@ -213,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
         int passosParaBarra = Math.min(passos, MAX_STEPS);
         int percentagem = (passosParaBarra * 100) / MAX_STEPS;
 
-        tvSteps.setText(String.format("%,d / %,d passos", passos, MAX_STEPS));
-        tvPoints.setText(String.format("%,d Pontos", pontos));
-        tvPercentage.setText(percentagem + "%");
+        tvSteps.setText(getString(R.string.main_steps_display, passos, MAX_STEPS));
+        tvPoints.setText(getString(R.string.main_points_display, pontos));
+        tvPercentage.setText(getString(R.string.main_percentage, percentagem));
 
         progressBarSteps.setProgress(passosParaBarra);
         updateProgressBarColor(passosParaBarra);
@@ -278,14 +278,11 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == ACTIVITY_RECOGNITION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "🎉 PERMISSÃO ACTIVITY_RECOGNITION CONCEDIDA!");
-                Toast.makeText(this, "✅ Permissão concedida! Sensor ativo.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.main_permission_granted, Toast.LENGTH_SHORT).show();
                 startServices();
             } else {
                 Log.e(TAG, "❌ PERMISSÃO ACTIVITY_RECOGNITION NEGADA!");
-                Toast.makeText(this,
-                        "❌ Sem permissão para sensor!\n" +
-                                "Use o botão TESTAR para adicionar passos manualmente",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.main_permission_denied, Toast.LENGTH_LONG).show();
             }
         }
 

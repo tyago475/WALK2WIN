@@ -72,8 +72,8 @@ public class CustomBarChart extends View {
 
     public void setData(List<ChartData> data, String title, String yAxisLabel) {
         this.data = data != null ? data : new ArrayList<>();
-        this.title = title != null ? title : "Gráfico de Passos";
-        this.yAxisLabel = yAxisLabel != null ? yAxisLabel : "Passos";
+        this.title = title != null ? title : getContext().getString(R.string.progress_chart_default_title);
+        this.yAxisLabel = yAxisLabel != null ? yAxisLabel : getContext().getString(R.string.progress_chart_y_label);
 
         // Escala fixa de 0 a 10000
         maxValue = Constants.DAILY_STEP_GOAL;

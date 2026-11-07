@@ -43,6 +43,12 @@ public class Question {
     public String getCorrectAnswer() { return correctAnswer; }
     public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
 
+    /** O texto de uma opção ("B) Lisboa") é a resposta certa? Compara só a letra inicial. */
+    public boolean isCorrectOption(String optionText) {
+        return optionText != null && !optionText.isEmpty()
+                && optionText.substring(0, 1).equals(correctAnswer);
+    }
+
     // Verifica se a resposta está correta (método mantido)
     public boolean isCorrect(String answer) {
         return correctAnswer.equals(answer);

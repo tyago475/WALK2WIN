@@ -1,3 +1,127 @@
 <resources>
-    <string name="app_name">QuizPenaltis</string>
+    <string name="app_name">Walk2Win</string>
+
+    <!-- ===== Dificuldades ===== -->
+    <string name="difficulty_very_hard">Muito Difícil</string>
+    <string name="difficulty_hard">Difícil</string>
+    <string name="difficulty_medium">Médio</string>
+    <string name="difficulty_easy">Fácil</string>
+    <string name="difficulty_very_easy">Muito Fácil</string>
+    <string name="difficulty_super_easy">Super Fácil 🐐</string>
+    <string name="difficulty_normal">Normal</string>
+    <string name="player_fallback_name">Jogador</string>
+
+    <!-- ===== Ecrã principal ===== -->
+    <string name="main_sensor_detected">✅ Sensor detectado! Ande para testar</string>
+    <string name="main_sensor_missing">📝 Use o botão TESTAR para adicionar passos</string>
+    <string name="main_need_points">⚠️ Precisa de pelo menos %1$d pontos para jogar!</string>
+    <string name="main_test_steps_added">🧪 %1$d passos adicionados! Total: %2$d</string>
+    <string name="main_test_week_created">📊 Dados de exemplo criados! (São temporários)</string>
+    <string name="main_permission_granted">✅ Permissão concedida! Sensor ativo.</string>
+    <string name="main_permission_denied">❌ Sem permissão para sensor!\nUse o botão TESTAR para adicionar passos manualmente</string>
+    <string name="main_steps_display">%1$,d / %2$,d passos</string>
+    <string name="main_points_display">%1$,d Pontos</string>
+    <string name="main_percentage">%1$d%%</string>
+
+    <!-- ===== Seleção de jogador ===== -->
+    <string name="select_swipe_hint">Desliza para ver os jogadores!</string>
+    <string name="select_player_selected">%1$s selecionado! ✅</string>
+    <string name="select_available_points">Pontos Disponíveis: %1$d</string>
+    <string name="select_selected_player">Jogador selecionado: %1$s</string>
+    <string name="select_insufficient_points">Pontos insuficientes! Ande mais %1$d passos!</string>
+
+    <!-- ===== Progresso ===== -->
+    <string name="progress_demo_data">📊 Dados de demonstração (temporários)</string>
+    <string name="progress_real_data">✅ Dados reais de passos</string>
+    <string name="progress_empty_state">📊 Ainda não há dados de progresso\n\nUse o botão \"📅 TESTAR SEMANA\" no menu principal\npara gerar dados de exemplo para 7 dias</string>
+    <string name="progress_period">Últimos %1$d Dias</string>
+    <string name="progress_number">%1$,d</string>
+    <string name="progress_chart_title">Evolução de Passos</string>
+    <string name="progress_chart_y_label">Passos</string>
+    <string name="progress_chart_default_title">Gráfico de Passos</string>
+    <string-array name="weekdays_short">
+        <item>Seg</item>
+        <item>Ter</item>
+        <item>Qua</item>
+        <item>Qui</item>
+        <item>Sex</item>
+        <item>Sáb</item>
+        <item>Dom</item>
+    </string-array>
+
+    <!-- ===== Notificação de passos ===== -->
+    <string name="notif_channel_name">Progresso de Passos</string>
+    <string name="notif_channel_description">Mostra o progresso diário de passos</string>
+    <string name="notif_title">🚶‍♂️ Walk2Win</string>
+    <string name="notif_text">%1$,d / %2$,d passos • %3$d%%</string>
+
+    <!-- ===== Jogo: geral ===== -->
+    <string name="game_user_starts">Você começa primeiro!</string>
+    <string name="game_bot_starts">Computador começa primeiro!</string>
+    <string name="game_timer_format">⏱️ %1$ds</string>
+    <string name="game_time_up_banner">⏰ TEMPO ESGOTADO!</string>
+    <string name="game_time_up_toast">Tempo esgotado!</string>
+    <string name="game_answer_correct">✅ Resposta certa!</string>
+    <string name="game_answer_wrong">❌ Resposta errada</string>
+    <string name="game_bot_answered_right">%1$s acertou!</string>
+    <string name="game_bot_answered_wrong">%1$s errou!</string>
+    <string name="game_shot_goal">⚽ GOLO! %1$s marcou!</string>
+    <string name="game_shot_miss">❌ %1$s falhou!</string>
+    <string name="game_defense_saved">🧤 Defendeu! Parou o %1$s!</string>
+    <string name="game_defense_conceded">⚽ Golo do %1$s!</string>
+    <string name="game_defense_summary">%1$s chutou: %2$s\nVocê defendeu: %3$s\n%4$s</string>
+    <string name="game_defense_right">✅ Defesa certa!</string>
+    <string name="game_defense_wrong">❌ Defesa errada!</string>
+    <string name="game_sudden_death_banner">EMPATE APÓS %1$d PENÁLTIS!\n%2$s %3$d × %4$d %5$s\n\n⚡ MORTE SÚBITA ATIVADA! ⚡\nCada penálti é decisivo!</string>
+    <string name="game_sudden_death_toast">MORTE SÚBITA ATIVADA! Cada penálti é decisivo!</string>
+    <string name="game_score_format">%1$d × %2$d</string>
+
+    <!-- ===== Jogo: transições ===== -->
+    <string name="transition_user_scored">GOLAÇO!\nVAI DEFENDER</string>
+    <string name="transition_user_missed">FALHANÇO!\nVAI DEFENDER</string>
+    <string name="transition_bot_scored">ADVERSÁRIO MARCOU!\nSUA VEZ</string>
+    <string name="transition_bot_missed">DEFENDEU!\nSUA VEZ</string>
+    <string name="emoji_ball">⚽</string>
+    <string name="emoji_cross">❌</string>
+    <string name="emoji_party">🎉</string>
+
+    <!-- ===== Jogo: zonas da baliza ===== -->
+    <string name="zone_top_left">Canto Superior Esquerdo</string>
+    <string name="zone_top_right">Canto Superior Direito</string>
+    <string name="zone_center">Centro</string>
+    <string name="zone_bottom_left">Canto Inferior Esquerdo</string>
+    <string name="zone_bottom_right">Canto Inferior Direito</string>
+
+    <!-- ===== Jogo: fim ===== -->
+    <string name="gameover_sd_title">MORTE SÚBITA</string>
+    <string name="gameover_sd_win">VITÓRIA NA MORTE SÚBITA!</string>
+    <string name="gameover_sd_win_message">%1$s foi decisivo!\nGanhou na morte súbita!</string>
+    <string name="gameover_sd_lose">DERROTA NA MORTE SÚBITA!</string>
+    <string name="gameover_sd_lose_message">%1$s foi mais forte!\nPerdeu na morte súbita!</string>
+    <string name="gameover_win">VOCÊ VENCEU!</string>
+    <string name="gameover_win_message">%1$s foi decisivo!\nParabéns pela vitória!</string>
+    <string name="gameover_lose">VOCÊ PERDEU!</string>
+    <string name="gameover_lose_message">Mais sorte na próxima!\n%1$s foi melhor.</string>
+    <string name="gameover_draw">EMPATE!</string>
+    <string name="gameover_draw_message">Foi um jogo equilibrado!\nMorte súbita!</string>
+    <string name="emoji_bolt">⚡</string>
+    <string name="emoji_broken_heart">💔</string>
+    <string name="emoji_trophy">🏆</string>
+    <string name="emoji_sad">😞</string>
+    <string name="emoji_handshake">🤝</string>
+
+    <!-- ===== Cara ou coroa ===== -->
+    <string name="coin_title">LANÇAMENTO DA MOEDA</string>
+    <string name="coin_prompt">Escolha Cara ou Coroa para determinar quem começa primeiro:</string>
+    <string name="coin_result_title">RESULTADO DO LANÇAMENTO</string>
+    <string name="coin_heads">CARA</string>
+    <string name="coin_tails">COROA</string>
+    <string name="coin_choice_ok">✅ %1$s</string>
+    <string name="coin_choice_bad">❌ %1$s</string>
+    <string name="coin_result_message">Sua escolha: %1$s\nResultado: %2$s\n\n%3$s\n\n%4$s</string>
+    <string name="coin_user_won">VOCÊ GANHOU! 🎉</string>
+    <string name="coin_bot_won">COMPUTADOR GANHOU! 😞</string>
+    <string name="coin_face_heads">😊</string>
+    <string name="coin_face_tails">👑</string>
+    <string name="coin_initial">🪙</string>
 </resources>
