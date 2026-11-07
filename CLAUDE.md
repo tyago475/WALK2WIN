@@ -29,7 +29,7 @@ Para correr os testes, copiar o projeto para uma pasta com caminho ASCII e corre
 ## Pendente / conhecido
 - (adicionar aqui a lista de bugs conhecidos do utilizador)
 - `StepTrackingService` é um serviço normal: o Android pode matá-lo em segundo plano. Tornar foreground (tipo `health`) e testar com sensor real.
-- `StepsNotificationService.canUseForegroundService()` devolve false em API 34+ (comportamento antigo, não verificado).
+- `StepsNotificationService` chama sempre `startForeground()` (tipo `health` no Android 14+). Quem usa `startForegroundService()` TEM de garantir isto, senão: `ForegroundServiceDidNotStartInTimeException` ~30 s depois. As atualizações da notificação não arrancam o serviço (`StepsNotificationManager.updateStepsNotification`).
 - Room: `exportSchema=false` + `fallbackToDestructiveMigration()` apaga dados ao mudar a versão da BD. Passar a migrações.
 - Tema do manifest é `Theme.AppCompat.Light.NoActionBar` direto; `themes.xml`/`values-night` não têm efeito.
 - Cores fixas (~170) ainda nos layouts/drawables; ~16 botões/drawables quase duplicados.
