@@ -195,45 +195,6 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    // ✅ MÉTODO: Adicionar dados de teste para uma semana
-    private void addWeekTestData() {
-        new Thread(() -> {
-            try {
-                Calendar calendar = Calendar.getInstance();
-
-                // Dados apenas de passos
-                int[] stepsData = {4231, 5876, 3210, 7890, 6543, 2345, 8765};
-
-                for (int i = 6; i >= 0; i--) {
-                    calendar.setTime(new Date());
-                    calendar.add(Calendar.DAY_OF_YEAR, -i);
-                    Date date = calendar.getTime();
-
-                    UserProgress progress = new UserProgress(date, stepsData[6-i]);
-                    AppDatabase.getDatabase(this).userProgressDao().insertProgress(progress);
-                    Log.d(TAG, "📅 Dia " + i + ": " + stepsData[6-i] + " passos");
-                }
-
-                Log.d(TAG, "✅ Dados da semana criados com sucesso!");
-
-            } catch (Exception e) {
-                Log.e(TAG, "❌ Erro ao criar dados da semana: " + e.getMessage());
-            }
-        }).start();
-    }
-
-    // ✅ MÉTODO: Limpar dados antigos (opcional)
-    private void clearOldData() {
-        new Thread(() -> {
-            try {
-                AppDatabase.getDatabase(this).userProgressDao().deleteAllProgress();
-                Log.d(TAG, "🧹 Dados antigos limpos");
-            } catch (Exception e) {
-                Log.e(TAG, "Erro ao limpar dados: " + e.getMessage());
-            }
-        }).start();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

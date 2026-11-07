@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.media3.common)
     implementation(libs.preference)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -61,7 +60,6 @@ dependencies {
 
 
     implementation("androidx.viewpager2:viewpager2:1.0.0")
-    implementation("com.google.android.material:material:1.10.0")
 
     //Progresso - ATUALIZADO para versão mais recente
     //implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
@@ -70,5 +68,4 @@ dependencies {
     val roomVersion = "2.6.0"
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
 }
