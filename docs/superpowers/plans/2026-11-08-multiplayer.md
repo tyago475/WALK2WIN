@@ -26,7 +26,7 @@
 ## Decisões deste plano (o spec deixava em aberto)
 
 **Modelo de dados** (`rooms/{CODE}`; `CODE` = 4 letras):
-- `meta`: `{host: uid, guest: uid|null, status: "waiting"|"ready"|"playing"|"finished", v: 1, created: TIMESTAMP, winner: "host"|"guest"|null, reason: "score"|"forfeit"|null}`
+- `meta`: `{host: uid, guest: uid|null, status: "waiting"|"playing"|"finished", v: 1, created: TIMESTAMP, winner: "host"|"guest"|null, reason: "score"|"forfeit"|null}`
 - `players/{host|guest}`: `{uid, name, player (nome no PlayerCatalog), cost, ready: bool, seen: TIMESTAMP}`
 - `toss`: `{guestChoice: "heads"|"tails", first: "host"|"guest"}` (o convidado escolhe cara/coroa; o telemóvel do anfitrião lança e escreve `first`)
 - `turns/{n}`: `{shooter: "host"|"guest", q: int, answer: 0|1|2|-1, shot: {zone: 0..14, nonce: long}, defend: {zone: 0..4, nonce: long}}`. `q` e `shooter` são escritos pelo anfitrião ao abrir o turno; `answer` e `shot` pelo atirador (`-1` = tempo esgotado); `defend` por quem defende.
@@ -115,7 +115,11 @@ Regras a impor (cada uma com um teste "permite" e outro "recusa", com `auth.uid`
 - Leitura de `rooms/$code` só para `meta.host` e `meta.guest`.
 - `turns/$n`: `q`/`shooter` só o anfitrião, uma vez; `answer` só o atirador, uma vez, valor -1..2; `shot.zone` 0..14 e `defend.zone` 0..4, só o atirador/defensor respetivo, **escrita única** (não se pode reescrever) e só depois de `answer` existir.
 - **Revelação depois do compromisso:** `shot` só é legível pelo defensor se `defend` já existir; `defend` só é legível pelo atirador se `shot` já existir.
-- `meta.winner`: só pelo próprio jogador e só se `now - players/<adversário>/seen > 30000` (desistência) ou `status == "finished"` com resultado coerente; `reason` ∈ {`score`,`forfeit`}.
+- `meta.winner` (com `status = "finished"`): só pelo próprio jogador e só se `now - players/<adversário>/seen > 30000` (desistência) ou `status == "finished"` com resultado coerente; `reason` ∈ {`score`,`forfeit`}.
+- `meta.status`: só o anfitrião muda de `waiting` para `playing`, e só se `players/host/ready` e `players/guest/ready` forem ambos true; passa a `finished` apenas junto com `winner`.
+- `meta.guest`: preenchido uma só vez por quem entra (ver acima).
+- `toss/guestChoice`: só o convidado, uma vez (`heads`|`tails`); `toss/first`: só o anfitrião, uma vez e só depois de `guestChoice` existir (`host`|`guest`).
+- Cada jogador só pode escrever `meta.winner` com o seu próprio papel.
 - Apagar a sala: só o anfitrião.
 
 - [ ] **Step 1:** Escrever `database.rules.json` com as regras acima.
@@ -155,7 +159,7 @@ Regras a impor (cada uma com um teste "permite" e outro "recusa", com `auth.uid`
 - Modify: `ui/game/GameActivity.java`
 
 **Interfaces:**
-- Produces: `interface Opponent` com `Player player()` (carta do adversário), `String displayName()`, `Question questionFor(int turn)` (a pergunta do turno; no bot é `QuestionManager.getRandomQuestion()`), `void onUserAnswered(int turn, int optionIndex)` (no bot: nada), `void opponentAnswers(int turn, Callback<Boolean> correct)` (no bot: sorteio `BOT_CORRECT_PROBABILITY`), `void userShoots(int turn, GoalZone zone, Callback<Boolean> scored)` (no bot: `greenZones.contains(zone)` com as zonas do utilizador sorteadas como hoje), `void userDefends(int turn, DefenseZone chosen, Callback<DefenseOutcome> outcome)` com `DefenseOutcome { DefenseZone opponentShot; boolean defended; }` (no bot: `DefenseZone.random()`), `void close()`. `Callback<T> { void on(T value); }` (reutilizar o de `RoomRepository` se for o mesmo tipo; senão definir um só em `ui/game/opponent`).
+- Produces: `interface Opponent` com `Player player()` (carta do adversário), `String displayName()`, `void questionFor(int turn, Callback<Question> cb)` (a pergunta do turno, assíncrona porque no amigo vem da rede; no bot chama `cb` logo com `QuestionManager.getRandomQuestion()`), `void onUserAnswered(int turn, int optionIndex)` (no bot: nada), `void opponentAnswers(int turn, Callback<Boolean> correct)` (no bot: sorteio `BOT_CORRECT_PROBABILITY`), `void userShoots(int turn, GoalZone zone, Callback<Boolean> scored)` (no bot: `greenZones.contains(zone)` com as zonas do utilizador sorteadas como hoje), `void userDefends(int turn, DefenseZone chosen, Callback<DefenseOutcome> outcome)` com `DefenseOutcome { DefenseZone opponentShot; boolean defended; }` (no bot: `DefenseZone.random()`), `void close()`. `Callback<T> { void on(T value); }` (reutilizar o de `RoomRepository` se for o mesmo tipo; senão definir um só em `ui/game/opponent`).
 - Consome: o comportamento atual de `GameActivity.startBotTurn`, `startShootPhase`, `onGoalZoneClick`, `onDefenseZoneClick`.
 
 - [ ] **Step 1:** TESTES base (22 passam) e jogar uma partida no emulador até ao fim, anotando comportamento de referência (pergunta → remate → bot responde → defesa). Isto é a referência de regressão.
@@ -192,12 +196,12 @@ Regras a impor (cada uma com um teste "permite" e outro "recusa", com `auth.uid`
 
 **Interfaces:**
 - `RemoteOpponent(Context, RoomRepository, String code, Role me, PlayerInfo opponentInfo, List<Question> questions)` implementa `Opponent`:
-  - `questionFor(turn)`: espera `turns/n.q` (o anfitrião chama `openTurn` com um `q` novo sem repetir) e devolve `questions.get(q)`.
+  - `questionFor(turn, cb)`: quando `turns/n.q` aparecer (o anfitrião chama `openTurn` com um `q` novo sem repetir) chama `cb` com `questions.get(q)`; nunca bloqueia a thread principal.
   - `onUserAnswered(turn, optionIndex)` → `writeAnswer`.
   - `opponentAnswers(turn, cb)` → espera `answer` do adversário e devolve se é a certa.
   - `userShoots(turn, zone, cb)` → `writeShot` com um `nonce` aleatório (`SecureRandom`), espera `defend` e devolve `ShotResolution.isGoal(zone, defendZone, GreenZones.pick(GreenZones.combine(shotNonce, defendNonce), GameRules.greenZonesForCost(meuCusto)))`.
   - `userDefends(turn, chosen, cb)` → `writeDefend`, espera `shot`, devolve `DefenseOutcome` com a zona do remate (**uma `DefenseZone` = `covering(shotZone)`** para a animação) e `defended = !isGoal(...)` com as zonas do custo do adversário.
-- `GameActivity` em modo múltiplo: nomes e cartas vêm de `RoomSnapshot`; a moeda: o convidado escolhe (`writeToss(code, GUEST, "heads"|"tails")`), o anfitrião lança e escreve `first`; `isPlayerTurn = (TurnOrder.shooterOf(turn, first) == me)`; o anfitrião abre cada turno com `openTurn`; todos aplicam `recordPlayerShot/recordBotShot` e `evaluate()` iguais (a morte súbita mantém a alternância por turnos). Fim: `GameOverView` com os dois nomes; o anfitrião escreve `status = "finished"`, `winner`, `reason = "score"` e depois `deleteRoom`.
+- `GameActivity` em modo múltiplo: nomes e cartas vêm de `RoomSnapshot`; a moeda: o convidado escolhe (`writeToss(code, GUEST, "heads"|"tails")`), o anfitrião lança e escreve `first`; `isPlayerTurn = (TurnOrder.shooterOf(turn, first) == me)`; o anfitrião abre cada turno com `openTurn`; todos aplicam `recordPlayerShot/recordBotShot` e `evaluate()` iguais (a morte súbita mantém a alternância por turnos). Fim: `GameOverView` com os dois nomes; o jogador que ganhou chama `claimWin(code, me, "score")` (que também põe `status = "finished"`) e o anfitrião apaga a sala (`deleteRoom`) depois, mesmo que tenha perdido. Os clientes só agem sobre `meta.winner` quando `reason == "forfeit"`; para `"score"` confiam no cálculo local.
 - Guardas: `isProcessingClick` (toque duplo, Review Focus 3); ignorar `turns/n` cujo `shooter` não seja `TurnOrder.shooterOf(n, first)` (Review Focus 4).
 
 - [ ] **Step 1:** Implementar `RemoteOpponent` contra `RoomRepository` (interface, não contra o Firebase diretamente).
