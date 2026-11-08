@@ -12,6 +12,17 @@ export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"; export PATH="$JA
 **Atenção:** o caminho do projeto tem `º` (`3ºano`), e o runner de testes não encontra as classes (ClassNotFoundException).
 Para correr os testes, copiar o projeto para uma pasta com caminho ASCII e correr lá.
 
+## Regras de segurança do Firebase
+Fonte de verdade: `firebase/database.rules.json` (Realtime Database; os comentários no topo explicam as decisões e o que as regras não conseguem impor). Testes em `firebase/rules-test/rules.test.js`, no emulador (projeto `demo-…`, sem login). O Node não está no PATH e o emulador precisa de Java 21+:
+```
+export PATH="/c/Program Files/nodejs:$PATH"
+export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"; export PATH="$JAVA_HOME/bin:$PATH"
+cd firebase/rules-test && npm install
+npx firebase emulators:exec --only database --project demo-walk2win --config ../firebase.json "npm test"
+```
+(Aqui o caminho com `º` não dá problemas.) **Depois de qualquer mudança às regras: correr os testes e voltar a publicá-las na consola** (Realtime Database → Regras → colar → Publicar); a consola não lê o ficheiro.
+O cliente não pode ler a sala inteira nem `turns/n` de uma vez: escuta cada caminho (`meta`, `players`, `toss`, `turns/n/shooter|q|answer|shot|defend`). O defensor só pode ler `shot` depois de escrever `defend` (e vice-versa).
+
 ## Estrutura (`pt.ubi.pdm.quizpenaltis`)
 - `ui.main|game|player|progress|help` – Activities e views de cada ecrã
 - `game` – regras puras sem Android (`PenaltyShootout`, `GameRules`, `GoalZone`, `DefenseZone`) → testadas em `src/test`

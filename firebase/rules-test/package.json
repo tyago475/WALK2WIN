@@ -1,0 +1,14 @@
+{
+  "name": "walk2win-rules-test",
+  "private": true,
+  "description": "Testes das regras de seguranca do Realtime Database (correm no emulador).",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 rules.test.js",
+    "emulator:test": "firebase emulators:exec --only database --project demo-walk2win --config ../firebase.json \"npm test\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^6.0.0",
+    "firebase": "^13.2.0",
+    "firebase-tools": "^15.35.0"
+  }
+}
