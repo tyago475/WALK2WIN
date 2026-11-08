@@ -7,18 +7,16 @@
     <string name="difficulty_medium">Médio</string>
     <string name="difficulty_easy">Fácil</string>
     <string name="difficulty_very_easy">Muito Fácil</string>
-    <string name="difficulty_super_easy">Super Fácil 🐐</string>
-    <string name="difficulty_normal">Normal</string>
-    <string name="player_fallback_name">Jogador</string>
+    <string name="difficulty_super_easy">Super Fácil</string>
 
     <!-- ===== Ecrã principal ===== -->
-    <string name="main_sensor_detected">✅ Sensor detectado! Ande para testar</string>
-    <string name="main_sensor_missing">📝 Use o botão TESTAR para adicionar passos</string>
-    <string name="main_need_points">⚠️ Precisa de pelo menos %1$d pontos para jogar!</string>
-    <string name="main_test_steps_added">🧪 %1$d passos adicionados! Total: %2$d</string>
-    <string name="main_test_week_created">📊 Dados de exemplo criados! (São temporários)</string>
-    <string name="main_permission_granted">✅ Permissão concedida! Sensor ativo.</string>
-    <string name="main_permission_denied">❌ Sem permissão para sensor!\nUse o botão TESTAR para adicionar passos manualmente</string>
+    <string name="main_sensor_detected">Sensor detectado! Ande para testar</string>
+    <string name="main_sensor_missing">Use o botão TESTAR para adicionar passos</string>
+    <string name="main_need_points">Precisa de pelo menos %1$d pontos para jogar!</string>
+    <string name="main_test_steps_added">%1$d passos adicionados! Total: %2$d</string>
+    <string name="main_test_week_created">Dados de exemplo criados! (São temporários)</string>
+    <string name="main_permission_granted">Permissão concedida! Sensor ativo.</string>
+    <string name="main_permission_denied">Sem permissão para sensor!\nUse o botão TESTAR para adicionar passos manualmente</string>
     <string name="main_steps_display">%1$,d / %2$,d passos</string>
     <string name="main_points_display">%1$,d Pontos</string>
     <string name="main_tagline">Escolhe o teu jogador e marca golos!</string>
@@ -42,7 +40,7 @@
     <string name="slide_selected_description">Selecionado</string>
     <string name="slide_locked_description">Pontos insuficientes</string>
     <string name="select_swipe_hint">Desliza para ver os jogadores!</string>
-    <string name="select_player_selected">%1$s selecionado! ✅</string>
+    <string name="select_player_selected">%1$s selecionado!</string>
     <string name="select_available_points">Pontos disponíveis: %1$d</string>
     <string name="select_selected_player">Jogador selecionado: %1$s</string>
     <string name="select_insufficient_points">Pontos insuficientes! Ande mais %1$d passos!</string>
@@ -81,7 +79,7 @@
     <!-- ===== Notificação de passos ===== -->
     <string name="notif_channel_name">Progresso de Passos</string>
     <string name="notif_channel_description">Mostra o progresso diário de passos</string>
-    <string name="notif_title">🚶‍♂️ Walk2Win</string>
+    <string name="notif_title">Walk2Win</string>
     <string name="notif_text">%1$,d / %2$,d passos • %3$d%%</string>
 
     <!-- ===== Jogo: geral ===== -->

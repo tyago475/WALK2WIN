@@ -33,7 +33,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
 
-        Log.d(TAG, "📊 ProgressActivity iniciada");
+        Log.d(TAG, "ProgressActivity iniciada");
 
         progressManager = new ProgressManager(this);
         initializeViews();
@@ -62,17 +62,17 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        Log.d(TAG, "✅ Views inicializadas");
+        Log.d(TAG, "Views inicializadas");
     }
 
     private void loadProgressData() {
-        Log.d(TAG, "🔄 A carregar dados de progresso da base de dados...");
+        Log.d(TAG, "A carregar dados de progresso da base de dados...");
         progressManager.getWeeklyProgress(this);
     }
 
     @Override
     public void onProgressLoaded(WeeklyProgress weeklyProgress) {
-        Log.d(TAG, "📊 Callback recebido: " + weeklyProgress.getDailyProgress().size() + " dias, " +
+        Log.d(TAG, "Callback recebido: " + weeklyProgress.getDailyProgress().size() + " dias, " +
                 weeklyProgress.getTotalSteps() + " passos totais");
 
         runOnUiThread(() -> {
@@ -83,23 +83,23 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
                 // TEM DADOS - mostrar gráfico e estatísticas
                 showProgressData(weeklyProgress);
 
-                // 🔥 AVISO DE QUE SÃO DADOS TEMPORÁRIOS
+                // AVISO DE QUE SÃO DADOS TEMPORÁRIOS
                 if (isTestData(weeklyProgress)) {
                     Toast.makeText(this, R.string.progress_demo_data, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, R.string.progress_real_data, Toast.LENGTH_SHORT).show();
                 }
 
-                Log.d(TAG, "✅ Mostrando dados do ProgressManager");
+                Log.d(TAG, "Mostrando dados do ProgressManager");
             } else {
                 // NÃO TEM DADOS - mostrar estado vazio
                 showEmptyState();
-                Log.d(TAG, "📭 Sem dados - mostrando estado vazio");
+                Log.d(TAG, "Sem dados - mostrando estado vazio");
             }
         });
     }
 
-    // 🔥 MÉTODO PARA DETETAR SE SÃO DADOS DE TESTE
+    // MÉTODO PARA DETETAR SE SÃO DADOS DE TESTE
     private boolean isTestData(WeeklyProgress progress) {
         // Verifica se os dados correspondem ao padrão de teste
         if (progress.getDailyProgress().size() != 7) return false;
@@ -160,12 +160,12 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         int days = progress.getDailyProgress().size();
         tvPeriodo.setText(getResources().getQuantityString(R.plurals.progress_period, days, days));
 
-        Log.d(TAG, "📊 Estatísticas: Total=" + totalSteps + ", Média=" + averageSteps + ", Melhor=" + bestDaySteps);
+        Log.d(TAG, "Estatísticas: Total=" + totalSteps + ", Média=" + averageSteps + ", Melhor=" + bestDaySteps);
     }
 
     private void updateStepsChart(List<UserProgress> dailyProgress) {
         if (dailyProgress.isEmpty()) {
-            Log.d(TAG, "ℹ️  Sem dados para o gráfico");
+            Log.d(TAG, "ℹ Sem dados para o gráfico");
             return;
         }
 
@@ -189,12 +189,12 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
             UserProgress progress = sortedProgress.get(i);
             String dayLabel = portugueseDays[i % portugueseDays.length];
             chartData.add(new CustomBarChart.ChartData(dayLabel, progress.getSteps()));
-            Log.d(TAG, "📈 " + dayLabel + ": " + progress.getSteps() + " passos");
+            Log.d(TAG, "" + dayLabel + ": " + progress.getSteps() + " passos");
         }
 
         if (stepsChart != null) {
             stepsChart.setData(chartData);
-            Log.d(TAG, "✅ Gráfico atualizado com " + chartData.size() + " dias");
+            Log.d(TAG, "Gráfico atualizado com " + chartData.size() + " dias");
         }
     }
 
@@ -214,7 +214,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "🔄 onResume() - Recarregando dados");
+        Log.d(TAG, "onResume() - Recarregando dados");
         // Recarregar dados sempre que a activity retorna ao foreground
         loadProgressData();
     }
@@ -222,6 +222,6 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "🛑 onDestroy()");
+        Log.d(TAG, "onDestroy()");
     }
-}
+}

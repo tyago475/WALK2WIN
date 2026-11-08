@@ -45,14 +45,14 @@ public class ProgressManager {
                     // Criar novo registo para hoje
                     progress = new UserProgress(today, steps);
                     database.userProgressDao().insertProgress(progress);
-                    Log.d(TAG, "✅ Novo registo criado com " + steps + " passos");
+                    Log.d(TAG, "Novo registo criado com " + steps + " passos");
                 } else {
                     // Atualizar passos existentes
                     database.userProgressDao().updateSteps(today, steps);
-                    Log.d(TAG, "➕ " + steps + " passos adicionados ao registo existente");
+                    Log.d(TAG, "" + steps + " passos adicionados ao registo existente");
                 }
             } catch (Exception e) {
-                Log.e(TAG, "❌ Erro ao adicionar passos: " + e.getMessage(), e);
+                Log.e(TAG, "Erro ao adicionar passos: " + e.getMessage(), e);
             }
         });
     }
@@ -63,7 +63,7 @@ public class ProgressManager {
                 Date endDate = new Date();
                 Date startDate = daysAgoAtMidnight(6); // hoje + 6 dias anteriores = 7 dias
 
-                Log.d(TAG, "📅 Buscando dados entre " + dateFormat.format(startDate) + " e " + dateFormat.format(endDate));
+                Log.d(TAG, "Buscando dados entre " + dateFormat.format(startDate) + " e " + dateFormat.format(endDate));
 
                 // Query já ordenada por date ASC
                 List<UserProgress> progressList = database.userProgressDao().getProgressBetweenDates(startDate, endDate);
@@ -76,7 +76,7 @@ public class ProgressManager {
                         totalSteps != null ? totalSteps : 0
                 );
 
-                Log.d(TAG, "📊 Dados encontrados: " + progressList.size() + " dias, " + weeklyProgress.getTotalSteps() + " passos totais");
+                Log.d(TAG, "Dados encontrados: " + progressList.size() + " dias, " + weeklyProgress.getTotalSteps() + " passos totais");
 
                 if (callback != null) {
                     new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
@@ -85,7 +85,7 @@ public class ProgressManager {
                 }
 
             } catch (Exception e) {
-                Log.e(TAG, "❌ Erro ao carregar progresso semanal: " + e.getMessage(), e);
+                Log.e(TAG, "Erro ao carregar progresso semanal: " + e.getMessage(), e);
             }
         });
     }
@@ -94,7 +94,7 @@ public class ProgressManager {
     public void createTestWeekData() {
         executor.execute(() -> {
             try {
-                Log.d(TAG, "📅 Criando dados de teste TEMPORÁRIOS para demonstração...");
+                Log.d(TAG, "Criando dados de teste TEMPORÁRIOS para demonstração...");
 
                 // Apagar e inserir na MESMA tarefa evita que o apagar corra depois da 1ª inserção
                 database.userProgressDao().deleteAllProgress();
@@ -106,13 +106,13 @@ public class ProgressManager {
 
                     UserProgress progress = new UserProgress(date, stepsData[6-i]);
                     database.userProgressDao().insertProgress(progress);
-                    Log.d(TAG, "📝 Dia teste " + (6-i) + ": " + stepsData[6-i] + " passos");
+                    Log.d(TAG, "Dia teste " + (6-i) + ": " + stepsData[6-i] + " passos");
                 }
 
-                Log.d(TAG, "✅ Dados de teste TEMPORÁRIOS criados (apenas para demonstração)");
+                Log.d(TAG, "Dados de teste TEMPORÁRIOS criados (apenas para demonstração)");
 
             } catch (Exception e) {
-                Log.e(TAG, "❌ Erro ao criar dados de teste: " + e.getMessage(), e);
+                Log.e(TAG, "Erro ao criar dados de teste: " + e.getMessage(), e);
             }
         });
     }

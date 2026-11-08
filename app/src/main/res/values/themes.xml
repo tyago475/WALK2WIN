@@ -26,16 +26,9 @@
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="android:fontFamily">@font/barlow</item>
 
-        <!-- TEMPORÁRIO: os ecrãs ainda não redesenhados esperam CardViews brancos (como no tema antigo).
-             Remover na Etapa 9, quando todos os ecrãs usarem os estilos ds_*. -->
-        <item name="cardViewStyle">@style/Widget.W2W.LegacyCardView</item>
 
         <!-- Splash do Android 12+ (ignorado em versões anteriores, onde se vê o windowBackground). -->
         <item name="android:windowSplashScreenBackground">@color/pitch_900</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
-    </style>
-
-    <style name="Widget.W2W.LegacyCardView" parent="CardView">
-        <item name="cardBackgroundColor">@color/white</item>
     </style>
 </resources>

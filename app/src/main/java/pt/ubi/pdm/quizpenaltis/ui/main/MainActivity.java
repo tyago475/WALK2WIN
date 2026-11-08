@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SystemBars.applyPadding(findViewById(R.id.mainScroll));
 
-        Log.d(TAG, "🚀 MainActivity onCreate()");
+        Log.d(TAG, "MainActivity onCreate()");
 
         initializeViews();
         setupClickListeners();
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions();
         checkCurrentSteps();
 
-        Log.d(TAG, "✅ MainActivity inicializada com sucesso");
+        Log.d(TAG, "MainActivity inicializada com sucesso");
     }
 
     private void checkSensors() {
@@ -92,16 +92,16 @@ public class MainActivity extends AppCompatActivity {
             boolean hasStepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null;
             boolean hasStepDetector = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) != null;
 
-            Log.d(TAG, "📱 Sensores disponíveis:");
+            Log.d(TAG, "Sensores disponíveis:");
             Log.d(TAG, "   TYPE_STEP_COUNTER: " + hasStepCounter);
             Log.d(TAG, "   TYPE_STEP_DETECTOR: " + hasStepDetector);
 
             if (hasStepCounter || hasStepDetector) {
                 String sensorType = hasStepCounter ? "STEP_COUNTER" : "STEP_DETECTOR";
-                Log.d(TAG, "🎯 Sensor " + sensorType + " disponível - Pode testar andando!");
+                Log.d(TAG, "Sensor " + sensorType + " disponível - Pode testar andando!");
                 Toast.makeText(this, R.string.main_sensor_detected, Toast.LENGTH_SHORT).show();
             } else {
-                Log.d(TAG, "📝 Nenhum sensor - Use botão TESTAR");
+                Log.d(TAG, "Nenhum sensor - Use botão TESTAR");
                 Toast.makeText(this, R.string.main_sensor_missing, Toast.LENGTH_SHORT).show();
             }
         }
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkCurrentSteps() {
         int currentSteps = StepCounter.getTodaySteps(this);
-        Log.d(TAG, "📊 Passos atuais: " + currentSteps);
+        Log.d(TAG, "Passos atuais: " + currentSteps);
     }
 
     private void initializeViews() {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.debugRow).setVisibility(android.view.View.GONE);
         }
 
-        Log.d(TAG, "✅ Views inicializadas");
+        Log.d(TAG, "Views inicializadas");
     }
 
     private void setupClickListeners() {
@@ -142,12 +142,12 @@ public class MainActivity extends AppCompatActivity {
         btnTestWeek.setOnClickListener(v -> simulateTestWeek());
         btnHelp.setOnClickListener(v -> navigateToHelp());
 
-        Log.d(TAG, "✅ Listeners configurados");
+        Log.d(TAG, "Listeners configurados");
     }
 
     private void navigateToPlayerSelection() {
         int pontosDisponiveis = StepCounter.getTodayPoints(this);
-        Log.d(TAG, "🎮 Indo para PlayerSelection com " + pontosDisponiveis + " pontos");
+        Log.d(TAG, "Indo para PlayerSelection com " + pontosDisponiveis + " pontos");
 
         int minimo = PlayerCatalog.cheapestCost();
         if (pontosDisponiveis < minimo) {
@@ -160,20 +160,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void navigateToProgress() {
-        Log.d(TAG, "📊 Indo para ProgressActivity");
+        Log.d(TAG, "Indo para ProgressActivity");
         Intent intent = new Intent(MainActivity.this, ProgressActivity.class);
         startActivity(intent);
     }
 
     private void navigateToHelp() {
-        Log.d(TAG, "❓ Indo para HelpActivity");
+        Log.d(TAG, "Indo para HelpActivity");
         Intent intent = new Intent(MainActivity.this, HelpActivity.class);
         startActivity(intent);
     }
 
     // BOTÃO TESTAR ORIGINAL (adiciona passos manualmente)
     private void simulateTestSteps() {
-        Log.d(TAG, "🧪 Simulando 1000 passos...");
+        Log.d(TAG, "Simulando 1000 passos...");
 
         // O StepCounter guarda os passos de hoje e regista-os também na base de dados
         StepCounter.addSteps(this, Constants.TEST_STEPS_INCREMENT);
@@ -186,27 +186,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         int currentSteps = StepCounter.getTodaySteps(this);
-        Log.d(TAG, "✅ 1000 passos adicionados! Total: " + currentSteps);
+        Log.d(TAG, "1000 passos adicionados! Total: " + currentSteps);
         Toast.makeText(this, getString(R.string.main_test_steps_added, Constants.TEST_STEPS_INCREMENT, currentSteps), Toast.LENGTH_SHORT).show();
     }
 
-    // ✅ BOTÃO: TESTAR SEMANA (apenas dados temporários para mostrar ao professor)
+    // BOTÃO: TESTAR SEMANA (apenas dados temporários para mostrar ao professor)
     private void simulateTestWeek() {
-        Log.d(TAG, "📅 Criando dados de teste TEMPORÁRIOS...");
+        Log.d(TAG, "Criando dados de teste TEMPORÁRIOS...");
 
         if (progressManager != null) {
             progressManager.createTestWeekData();
         }
 
         atualizarDisplay();
-        Log.d(TAG, "✅ Dados de teste TEMPORÁRIOS criados!");
+        Log.d(TAG, "Dados de teste TEMPORÁRIOS criados!");
         Toast.makeText(this, R.string.main_test_week_created, Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "🔄 MainActivity onResume()");
+        Log.d(TAG, "MainActivity onResume()");
         atualizarDisplay();
 
         if (stepsNotificationManager != null) {
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         // Guarda já o destino: se o ecrã for atualizado outra vez a meio, anima a partir daí
         shownSteps = targetSteps;
         shownPoints = targetPoints;
-        Log.d(TAG, "📊 Display atualizado: " + targetSteps + " passos, " + targetPoints + " pontos");
+        Log.d(TAG, "Display atualizado: " + targetSteps + " passos, " + targetPoints + " pontos");
     }
 
     private void render(int steps, int points) {
@@ -304,13 +304,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startServices() {
-        Log.d(TAG, "🚀 Iniciando serviços...");
+        Log.d(TAG, "Iniciando serviços...");
         startStepTrackingService();
         startStepsNotification();
     }
 
     private void startStepTrackingService() {
-        Log.d(TAG, "🔄 Iniciando StepTrackingService");
+        Log.d(TAG, "Iniciando StepTrackingService");
         Intent serviceIntent = new Intent(this, StepTrackingService.class);
         startService(serviceIntent);
     }
@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
     private void startStepsNotification() {
         if (stepsNotificationManager != null) {
             stepsNotificationManager.startStepsNotification();
-            Log.d(TAG, "🔔 StepsNotification iniciado");
+            Log.d(TAG, "StepsNotification iniciado");
         }
     }
 
@@ -326,6 +326,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (displayAnimator != null) displayAnimator.cancel();
-        Log.d(TAG, "🛑 MainActivity onDestroy()");
+        Log.d(TAG, "MainActivity onDestroy()");
     }
-}
+}

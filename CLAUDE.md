@@ -29,7 +29,7 @@ Para correr os testes, copiar o projeto para uma pasta com caminho ASCII e corre
 - Para testar no emulador: TESTAR (+1000 passos = +100 pontos); "meia-noite" simula-se pondo `last_reset_date` de ontem em `shared_prefs/<pkg>_preferences.xml`.
 
 ## Design system (estilo Ultimate Team, verde relvado + dourado, só modo escuro)
-Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fundações), principal, seleção de jogador, cabeçalho+quiz, moeda/remate/defesa, transições e fim de jogo, Progresso e Ajuda, ícone e splash. Falta: sons, limpeza (os sons ficam para o fim).
+Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fundações), principal, seleção de jogador, cabeçalho+quiz, moeda/remate/defesa, transições e fim de jogo, Progresso e Ajuda, ícone e splash. Limpeza feita (drawables/cores antigos, emojis). Falta: sons (ficam para o fim).
 - Tema: `Theme.Walk2Win` (Material 3 escuro, mas com `AppCompatViewInflater`: `<Button>` continua simples; usar `MaterialButton` só de propósito).
 - Cores: tokens em `colors.xml` (`pitch_900..600` fundos, `grass_*`, `gold_300/500/700`, `text_primary/secondary/on_gold`, `feedback_*`). **Não escrever hex nos layouts.**
 - Medidas: `dimens.xml` (`space_xs..xxl` = 4/8/12/16/24/32dp; `radius_sm/md/lg`; 6 tamanhos de texto `text_display..caption`).
@@ -41,7 +41,6 @@ Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fund
 - Transições e morte súbita: `GameActivity.showOverlay` põe `layout_phase_transition` dentro de `mainContainer` (o cabeçalho com a pontuação fica visível); medalhas `ds_badge_*` (verde = bom para ti). Fim de jogo: `GameOverView` (medalha `ds_coin` dourada se ganhaste).
 - Ícone: adaptativo em vetor (`ic_launcher_*`, com camada monocromática); `mipmap-anydpi/w2w.xml` cobre Android 5-7. Splash: atributos `windowSplashScreen*` no tema (Android 12+), sem biblioteca.
 - Imagens: WebP (jogadores, baliza). Evitar PNG grandes; sem fotos de marcas/troféus.
-- TEMPORÁRIO: `cardViewStyle` no tema força CardViews brancos para os ecrãs antigos. Remover quando todos estiverem redesenhados.
 
 ## Convenções
 - Sem números mágicos: `Constants` (passos/pontos) e `GameRules` (jogo, tempos).
@@ -54,8 +53,5 @@ Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fund
 - `StepTrackingService` é um serviço normal: o Android pode matá-lo em segundo plano. Tornar foreground (tipo `health`) e testar com sensor real.
 - `StepsNotificationService` chama sempre `startForeground()` (tipo `health` no Android 14+). Quem usa `startForegroundService()` TEM de garantir isto, senão: `ForegroundServiceDidNotStartInTimeException` ~30 s depois. As atualizações da notificação não arrancam o serviço (`StepsNotificationManager.updateStepsNotification`).
 - Room: `exportSchema=false` + `fallbackToDestructiveMigration()` apaga dados ao mudar a versão da BD. Passar a migrações.
-- Tema do manifest é `Theme.AppCompat.Light.NoActionBar` direto; `themes.xml`/`values-night` não têm efeito.
-- Cores fixas (~170) ainda nos layouts/drawables; ~16 botões/drawables quase duplicados.
 - `res/raw/*.mp3` não são usados.
-- Logs com emojis em `MainActivity`, `StepCounter`, etc.
 - `GameActivity.onOptionClick` e `QuestionManager.getRandomQuestion()` esperam pela BD na thread principal (até 3 s de timeout).

@@ -21,12 +21,12 @@ public class StepCounter {
         checkDailyReset(context);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         int steps = prefs.getInt(STEPS_TODAY, 0);
-        Log.d(TAG, "📊 getTodaySteps() retornando: " + steps);
+        Log.d(TAG, "getTodaySteps() retornando: " + steps);
         return steps;
     }
 
     public static synchronized void addSteps(Context context, int steps) {
-        Log.d(TAG, "➕ addSteps() adicionando: " + steps + " passos");
+        Log.d(TAG, "addSteps() adicionando: " + steps + " passos");
         checkDailyReset(context);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentSteps = prefs.getInt(STEPS_TODAY, 0);
@@ -34,7 +34,7 @@ public class StepCounter {
         prefs.edit().putInt(STEPS_TODAY, newTotal).apply();
         // Guarda também no histórico (base de dados) para o ecrã de progresso
         ProgressManager.recordSteps(context, steps);
-        Log.d(TAG, "💾 Steps guardados: " + currentSteps + " + " + steps + " = " + newTotal);
+        Log.d(TAG, "Steps guardados: " + currentSteps + " + " + steps + " = " + newTotal);
     }
 
     // MÉTODO CORRETO para usar com TYPE_STEP_COUNTER
@@ -45,7 +45,7 @@ public class StepCounter {
         int initialSteps = prefs.getInt(INITIAL_STEP_COUNT, 0);
         int lastSteps = prefs.getInt(LAST_STEP_COUNT, 0);
 
-        Log.d(TAG, "🔄 updateFromStepCounter() - Total desde reboot: " + totalStepsSinceReboot +
+        Log.d(TAG, "updateFromStepCounter() - Total desde reboot: " + totalStepsSinceReboot +
                 ", Initial: " + initialSteps + ", Last: " + lastSteps);
 
         // Se é a primeira vez, guarda o valor inicial
@@ -54,7 +54,7 @@ public class StepCounter {
                     .putInt(INITIAL_STEP_COUNT, totalStepsSinceReboot)
                     .putInt(LAST_STEP_COUNT, totalStepsSinceReboot)
                     .apply();
-            Log.d(TAG, "🎯 Primeira leitura - initialSteps set para: " + totalStepsSinceReboot);
+            Log.d(TAG, "Primeira leitura - initialSteps set para: " + totalStepsSinceReboot);
             return;
         }
 
@@ -63,7 +63,7 @@ public class StepCounter {
 
         // Proteção contra valores negativos (reinício do sensor)
         if (newSteps < 0) {
-            Log.w(TAG, "⚠️ Reinício do sensor detetado! Recalculando...");
+            Log.w(TAG, "Reinício do sensor detetado! Recalculando...");
             newSteps = totalStepsSinceReboot; // Começa de novo
             prefs.edit()
                     .putInt(INITIAL_STEP_COUNT, totalStepsSinceReboot)
@@ -72,7 +72,7 @@ public class StepCounter {
         }
 
         if (newSteps > 0) {
-            Log.d(TAG, "🎯 Novos passos detetados: " + newSteps);
+            Log.d(TAG, "Novos passos detetados: " + newSteps);
             addSteps(context, newSteps);
         }
 
@@ -85,10 +85,10 @@ public class StepCounter {
         String lastDate = prefs.getString(LAST_RESET_DATE, "");
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        Log.d(TAG, "📅 Check daily reset: última data = " + lastDate + ", hoje = " + today);
+        Log.d(TAG, "Check daily reset: última data = " + lastDate + ", hoje = " + today);
 
         if (!lastDate.equals(today)) {
-            Log.d(TAG, "🔄 Novo dia detectado - resetando contador de passos");
+            Log.d(TAG, "Novo dia detectado - resetando contador de passos");
             prefs.edit()
                     .putInt(STEPS_TODAY, 0)
                     .putInt(POINTS_SPENT_TODAY, 0) // os pontos gastos também recomeçam a zero
@@ -104,7 +104,7 @@ public class StepCounter {
         int steps = getTodaySteps(context);
         int spent = getPointsSpentToday(context);
         int points = PointsBalance.available(steps, spent);
-        Log.d(TAG, "💰 getTodayPoints(): " + steps + " passos, " + spent + " gastos = " + points + " disponíveis");
+        Log.d(TAG, "getTodayPoints(): " + steps + " passos, " + spent + " gastos = " + points + " disponíveis");
         return points;
     }
 
@@ -126,11 +126,11 @@ public class StepCounter {
         int spent = prefs.getInt(POINTS_SPENT_TODAY, 0);
 
         if (!PointsBalance.canSpend(steps, spent, cost)) {
-            Log.d(TAG, "💸 spendPoints(" + cost + ") recusado: saldo " + PointsBalance.available(steps, spent));
+            Log.d(TAG, "spendPoints(" + cost + ") recusado: saldo " + PointsBalance.available(steps, spent));
             return false;
         }
         prefs.edit().putInt(POINTS_SPENT_TODAY, spent + cost).commit();
-        Log.d(TAG, "💸 spendPoints(" + cost + ") ok: gastos hoje = " + (spent + cost));
+        Log.d(TAG, "spendPoints(" + cost + ") ok: gastos hoje = " + (spent + cost));
         return true;
     }
 
@@ -143,6 +143,6 @@ public class StepCounter {
                 .putInt(INITIAL_STEP_COUNT, 0)
                 .putInt(LAST_STEP_COUNT, 0)
                 .apply();
-        Log.d(TAG, "🧹 Steps resetados manualmente");
+        Log.d(TAG, "Steps resetados manualmente");
     }
-}
+}

@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 
     <!-- Adicione estas cores -->
-    <color name="blue_light">#FF2196F3</color>
-    <color name="green">#FF4CAF50</color>
-    <color name="red">#FFF44336</color>
-    <color name="orange">#FFFF9800</color>
-    <color name="yellow">#FFFFEB3B</color>
-    <color name="warning_orange">#FF9800</color>
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorAccent">#FF4081</color>
 
     <!-- CORES PARA OS BOTÕES DAS PERGUNTAS -->
-    <color name="primary_neutral">#6D5E5E</color>
-    <color name="success_green">#4CAF50</color>
-    <color name="error_dark_red">#B71C1C</color>
-    <color name="correct_gold">#FFD700</color>
 
     <!-- Barra de progresso de passos -->
     <color name="progress_goal_reached">@color/gold_500</color>
@@ -32,25 +12,11 @@
 
     <!-- Gráfico de barras -->
     <color name="chart_grid">@color/pitch_600</color>
-    <color name="chart_axis">@color/text_secondary</color>
     <color name="chart_label">@color/text_secondary</color>
     <color name="chart_value">@color/text_primary</color>
     <color name="chart_empty">@color/text_secondary</color>
 
     <!-- Jogo: temporizador e mensagens -->
-    <color name="timer_ok">#00FF00</color>
-    <color name="timer_warning">#FFA500</color>
-    <color name="timer_danger">#FF0000</color>
-    <color name="msg_success">#4CAF50</color>
-    <color name="msg_error">#F44336</color>
-    <color name="msg_wrong_answer">#DC5E5E</color>
-    <color name="msg_timeout">#FF9800</color>
-    <color name="msg_bot_ok">#FF9800</color>
-    <color name="msg_info">#2196F3</color>
-    <color name="msg_sudden_death">#FF6B00</color>
-    <color name="result_win">#FFD700</color>
-    <color name="result_lose">#FF5252</color>
-    <color name="result_draw">#2196F3</color>
 
     <!-- ===== Design system Walk2Win (estilo Ultimate Team, verde relvado + dourado) ===== -->
     <!-- Fundos e superfícies -->
@@ -84,7 +50,6 @@
     <color name="white_20">#33FFFFFF</color>
     <color name="white_60">#99FFFFFF</color>
     <!-- Película escura sobre imagens -->
-    <color name="scrim_60">#99000000</color>
     <!-- Faixas de mensagem e estados do quiz -->
     <color name="error_700">#B91C1C</color>
     <color name="warning_700">#B45309</color>
