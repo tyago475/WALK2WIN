@@ -266,6 +266,15 @@
                             android:text="@string/progress_stat_goal" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvGoalDays"
+                    style="@style/TextAppearance.W2W.Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:gravity="center"
+                    tools:text="Meta cumprida em 2 de 7 dias" />
             </LinearLayout>
 
             <!-- Gráfico -->

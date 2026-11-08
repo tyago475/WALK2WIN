@@ -39,7 +39,7 @@ Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fund
 - Android 15+ desenha por baixo das barras do sistema: aplicar `SystemBars.applyPadding(root)` nos ecrãs redesenhados.
 - Remate/defesa: baliza em vetor (`ds_goal`), zonas `ds_zone_*` aplicadas como *background* de `View` (não `ImageView`, para preencherem a célula); a bola voa com `Animations.ballFlight` e o resultado vem num banner que substitui a instrução.
 - Transições e morte súbita: `GameActivity.showOverlay` põe `layout_phase_transition` dentro de `mainContainer` (o cabeçalho com a pontuação fica visível); medalhas `ds_badge_*` (verde = bom para ti). Fim de jogo: `GameOverView` (medalha `ds_coin` dourada se ganhaste).
-- Ícone: adaptativo em vetor (`ic_launcher_*`, com camada monocromática); `mipmap-anydpi/w2w.xml` cobre Android 5-7. Splash: atributos `windowSplashScreen*` no tema (Android 12+), sem biblioteca.
+- Ícone: adaptativo em vetor (`ic_launcher_*`, com camada monocromática); `mipmap-anydpi/w2w.xml` cobre Android 5-7. Splash: `core-splashscreen` com o tema `Theme.Walk2Win.Splash` (só na MainActivity, que chama `installSplashScreen()` antes do `super.onCreate`).
 - Imagens: WebP (jogadores, baliza). Evitar PNG grandes; sem fotos de marcas/troféus.
 
 ## Convenções

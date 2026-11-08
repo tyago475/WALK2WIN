@@ -61,6 +61,7 @@
     <string name="progress_stat_total">Total de passos</string>
     <string name="progress_stat_average">Média diária</string>
     <string name="progress_stat_best">Melhor dia</string>
+    <string name="progress_goal_days">Meta cumprida em %1$d de %2$d dias</string>
     <string name="progress_stat_goal">Meta diária</string>
     <string name="progress_chart_card_title">Evolução diária</string>
     <string name="progress_chart_card_unit">passos por dia</string>

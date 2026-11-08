@@ -23,7 +23,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
     private static final String TAG = "ProgressActivity";
 
     private CustomBarChart stepsChart;
-    private TextView tvTotalSteps, tvAverageSteps, tvBestDaySteps, tvDailyGoal, tvPeriodo;
+    private TextView tvTotalSteps, tvAverageSteps, tvBestDaySteps, tvDailyGoal, tvPeriodo, tvGoalDays;
     private View emptyState, statsCard, chartCard;
     private ProgressManager progressManager;
     private Button btnBack;
@@ -52,6 +52,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         tvBestDaySteps = findViewById(R.id.tvBestDaySteps);
         tvDailyGoal = findViewById(R.id.tvDailyGoal);
         tvPeriodo = findViewById(R.id.tvPeriodo);
+        tvGoalDays = findViewById(R.id.tvGoalDays);
 
         emptyState = findViewById(R.id.emptyState);
         statsCard = findViewById(R.id.statsCard);
@@ -155,6 +156,12 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
 
         // Meta diária fixa
         tvDailyGoal.setText(getString(R.string.progress_number, Constants.DAILY_STEP_GOAL));
+
+        int goalDays = 0;
+        for (UserProgress day : progress.getDailyProgress()) {
+            if (day.getSteps() >= Constants.DAILY_STEP_GOAL) goalDays++;
+        }
+        tvGoalDays.setText(getString(R.string.progress_goal_days, goalDays, progress.getDailyProgress().size()));
 
         // Atualizar período
         int days = progress.getDailyProgress().size();
