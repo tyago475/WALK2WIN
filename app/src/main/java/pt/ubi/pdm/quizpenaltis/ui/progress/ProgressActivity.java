@@ -5,8 +5,10 @@ import pt.ubi.pdm.quizpenaltis.data.progress.ProgressManager;
 import pt.ubi.pdm.quizpenaltis.model.UserProgress;
 import pt.ubi.pdm.quizpenaltis.model.WeeklyProgress;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
+import pt.ubi.pdm.quizpenaltis.util.SystemBars;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +24,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
 
     private CustomBarChart stepsChart;
     private TextView tvTotalSteps, tvAverageSteps, tvBestDaySteps, tvDailyGoal, tvPeriodo;
-    private TextView tvEmptyState;
+    private View emptyState, statsCard, chartCard;
     private ProgressManager progressManager;
     private Button btnBack;
 
@@ -51,8 +53,10 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         tvDailyGoal = findViewById(R.id.tvDailyGoal);
         tvPeriodo = findViewById(R.id.tvPeriodo);
 
-        // TextView para estado vazio
-        tvEmptyState = findViewById(R.id.tvEmptyState);
+        emptyState = findViewById(R.id.emptyState);
+        statsCard = findViewById(R.id.statsCard);
+        chartCard = findViewById(R.id.chartCard);
+        SystemBars.applyPadding(findViewById(R.id.progressScroll));
 
         // Botão voltar
         btnBack = findViewById(R.id.btnBack);
@@ -120,40 +124,20 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
     }
 
     private void showEmptyState() {
-        // ESCONDER gráfico e estatísticas
-        if (stepsChart != null) stepsChart.setVisibility(android.view.View.GONE);
-        if (tvTotalSteps != null) tvTotalSteps.setVisibility(android.view.View.GONE);
-        if (tvAverageSteps != null) tvAverageSteps.setVisibility(android.view.View.GONE);
-        if (tvBestDaySteps != null) tvBestDaySteps.setVisibility(android.view.View.GONE);
-        if (tvDailyGoal != null) tvDailyGoal.setVisibility(android.view.View.GONE);
-        if (tvPeriodo != null) tvPeriodo.setVisibility(android.view.View.GONE);
-
-        // MOSTRAR mensagem de estado vazio
-        if (tvEmptyState != null) {
-            tvEmptyState.setVisibility(android.view.View.VISIBLE);
-            tvEmptyState.setText(R.string.progress_empty_state);
-        }
+        emptyState.setVisibility(View.VISIBLE);
+        statsCard.setVisibility(View.GONE);
+        chartCard.setVisibility(View.GONE);
     }
 
     private void showProgressData(WeeklyProgress progress) {
-        // ESCONDER mensagem de estado vazio
-        if (tvEmptyState != null) tvEmptyState.setVisibility(android.view.View.GONE);
+        emptyState.setVisibility(View.GONE);
+        statsCard.setVisibility(View.VISIBLE);
+        chartCard.setVisibility(View.VISIBLE);
 
-        // MOSTRAR gráfico e estatísticas
-        if (stepsChart != null) stepsChart.setVisibility(android.view.View.VISIBLE);
-        if (tvTotalSteps != null) tvTotalSteps.setVisibility(android.view.View.VISIBLE);
-        if (tvAverageSteps != null) tvAverageSteps.setVisibility(android.view.View.VISIBLE);
-        if (tvBestDaySteps != null) tvBestDaySteps.setVisibility(android.view.View.VISIBLE);
-        if (tvDailyGoal != null) tvDailyGoal.setVisibility(android.view.View.VISIBLE);
-        if (tvPeriodo != null) tvPeriodo.setVisibility(android.view.View.VISIBLE);
-
-        // ATUALIZAR estatísticas
         updateStats(progress);
-
-        // ATUALIZAR gráfico
         updateStepsChart(progress.getDailyProgress());
 
-        Log.d(TAG, "📈 Dados de progresso mostrados com sucesso");
+        Log.d(TAG, "Dados de progresso mostrados com sucesso");
     }
 
     private void updateStats(WeeklyProgress progress) {
@@ -209,7 +193,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressManag
         }
 
         if (stepsChart != null) {
-            stepsChart.setData(chartData, getString(R.string.progress_chart_title), getString(R.string.progress_chart_y_label));
+            stepsChart.setData(chartData);
             Log.d(TAG, "✅ Gráfico atualizado com " + chartData.size() + " dias");
         }
     }

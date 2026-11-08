@@ -48,17 +48,26 @@
     <string name="select_insufficient_points">Pontos insuficientes! Ande mais %1$d passos!</string>
 
     <!-- ===== Progresso ===== -->
-    <string name="progress_demo_data">📊 Dados de demonstração (temporários)</string>
-    <string name="progress_real_data">✅ Dados reais de passos</string>
-    <string name="progress_empty_state">📊 Ainda não há dados de progresso\n\nUse o botão \"📅 TESTAR SEMANA\" no menu principal\npara gerar dados de exemplo para 7 dias</string>
     <plurals name="progress_period">
         <item quantity="one">Último dia</item>
         <item quantity="other">Últimos %1$d dias</item>
     </plurals>
     <string name="progress_number">%1$,d</string>
-    <string name="progress_chart_title">Evolução de Passos</string>
-    <string name="progress_chart_y_label">Passos</string>
-    <string name="progress_chart_default_title">Gráfico de Passos</string>
+    <string name="progress_title">Meus passos</string>
+    <string name="progress_subtitle">Acompanha o teu progresso</string>
+    <string name="progress_demo_data">Dados de demonstração (temporários)</string>
+    <string name="progress_real_data">Dados reais de passos</string>
+    <string name="progress_empty_title">Ainda não há dados</string>
+    <string name="progress_empty_message">Usa o botão TESTAR SEMANA no menu principal para gerar 7 dias de exemplo.</string>
+    <string name="progress_stats_title">Estatísticas</string>
+    <string name="progress_stat_total">Total de passos</string>
+    <string name="progress_stat_average">Média diária</string>
+    <string name="progress_stat_best">Melhor dia</string>
+    <string name="progress_stat_goal">Meta diária</string>
+    <string name="progress_chart_card_title">Evolução diária</string>
+    <string name="progress_chart_card_unit">passos por dia</string>
+    <string name="progress_chart_empty">Sem dados disponíveis</string>
+    <string name="progress_btn_back">Voltar ao menu</string>
     <string-array name="weekdays_short">
         <item>Seg</item>
         <item>Ter</item>
@@ -169,20 +178,6 @@
     <string name="ui_help_text_29">• ⭐ Mais pontos = jogadores melhores com mais zonas verdes</string>
     <string name="ui_help_text_30">• 🎯 Mínimo de 100 pontos necessários para iniciar um jogo</string>
     <string name="ui_help_btn_back_to_main">🎮 VOLTAR AO MENU PRINCIPAL</string>
-    <string name="ui_progress_text_1">👣</string>
-    <string name="ui_progress_text_2">MEUS PASSOS</string>
-    <string name="ui_progress_text_3">Acompanha o teu progresso</string>
-    <string name="ui_progress_text_4">📈 Estatísticas de Passos</string>
-    <string name="ui_progress_text_5">Total Passos</string>
-    <string name="ui_progress_text_6">📊</string>
-    <string name="ui_progress_text_7">Média Diária</string>
-    <string name="ui_progress_text_8">⭐</string>
-    <string name="ui_progress_text_9">Melhor Dia</string>
-    <string name="ui_progress_text_10">🎯</string>
-    <string name="ui_progress_text_11">Meta Diária</string>
-    <string name="ui_progress_text_12">📊 Evolução Diária</string>
-    <string name="ui_progress_text_13">👣 passos por dia</string>
-    <string name="ui_progress_btn_back">⬅️ VOLTAR AO MENU</string>
     <string name="ui_coin_tv_coin_toss_subtitle">Quem começa a bater penalties?</string>
     <string name="ui_coin_tv_coin_toss_hint">O vencedor do lançamento começa primeiro</string>
     <string name="ui_defend_tv_defend_instruction">ESCOLHE ONDE QUERES DEFENDER!</string>

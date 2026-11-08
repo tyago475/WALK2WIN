@@ -3,25 +3,32 @@ package pt.ubi.pdm.quizpenaltis.ui.progress;
 import pt.ubi.pdm.quizpenaltis.R;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Gráfico de barras de passos por dia. Escala fixa de 0 até à meta diária; as barras que
+ * atingem a meta ficam douradas e a meta aparece como linha tracejada.
+ */
 public class CustomBarChart extends View {
+    private static final int GRID_LINES = 5;
+
     private List<ChartData> data = new ArrayList<>();
-    private Paint barPaint, textPaint, gridPaint, axisPaint, valuePaint;
-    private int maxValue = Constants.DAILY_STEP_GOAL; // Escala fixa até à meta diária
-    private String title = "";
-    private String yAxisLabel = "";
+    private Paint barPaint, goalBarPaint, labelPaint, dayPaint, valuePaint, gridPaint, goalLinePaint, emptyPaint;
+    private final RectF barRect = new RectF();
+    private final int maxValue = Constants.DAILY_STEP_GOAL;
 
-    private int[] barColors;
-
-    private int color(int resId) {
-        return ContextCompat.getColor(getContext(), resId);
-    }
+    private float marginLeft, marginRight, marginTop, marginBottom, barRadius;
 
     public CustomBarChart(Context context) {
         super(context);
@@ -33,53 +40,61 @@ public class CustomBarChart extends View {
         init();
     }
 
-    private void init() {
-        barColors = new int[]{
-                color(R.color.chart_bar_1), color(R.color.chart_bar_2), color(R.color.chart_bar_3),
-                color(R.color.chart_bar_4), color(R.color.chart_bar_5), color(R.color.chart_bar_6),
-                color(R.color.chart_bar_7)
-        };
-        // Paint para as barras
-        barPaint = new Paint();
-        barPaint.setStyle(Paint.Style.FILL);
-        barPaint.setAntiAlias(true);
-
-        // Paint para o texto principal
-        textPaint = new Paint();
-        textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(36f);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setAntiAlias(true);
-
-        // Paint para valores (melhorado)
-        valuePaint = new Paint();
-        valuePaint.setColor(Color.WHITE);
-        valuePaint.setTextSize(30f);
-        valuePaint.setTextAlign(Paint.Align.CENTER);
-        valuePaint.setAntiAlias(true);
-        valuePaint.setFakeBoldText(true);
-
-        // Paint para a grid
-        gridPaint = new Paint();
-        gridPaint.setColor(color(R.color.chart_grid));
-        gridPaint.setStrokeWidth(2f);
-        gridPaint.setAntiAlias(true);
-
-        // Paint para os eixos
-        axisPaint = new Paint();
-        axisPaint.setColor(color(R.color.chart_axis));
-        axisPaint.setStrokeWidth(3f);
-        axisPaint.setAntiAlias(true);
+    private int color(int resId) {
+        return ContextCompat.getColor(getContext(), resId);
     }
 
-    public void setData(List<ChartData> data, String title, String yAxisLabel) {
+    private float dp(float value) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, getResources().getDisplayMetrics());
+    }
+
+    private float sp(float value) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, value, getResources().getDisplayMetrics());
+    }
+
+    private Paint textPaint(int colorRes, float sizeSp, Paint.Align align, Typeface typeface) {
+        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        p.setColor(color(colorRes));
+        p.setTextSize(sp(sizeSp));
+        p.setTextAlign(align);
+        if (typeface != null) p.setTypeface(typeface);
+        return p;
+    }
+
+    private void init() {
+        Typeface body = ResourcesCompat.getFont(getContext(), R.font.barlow);
+        Typeface heading = ResourcesCompat.getFont(getContext(), R.font.barlow_condensed);
+
+        marginLeft = dp(40);
+        marginRight = dp(8);
+        marginTop = dp(24);
+        marginBottom = dp(28);
+        barRadius = dp(4);
+
+        barPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        barPaint.setColor(color(R.color.grass_500));
+
+        goalBarPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        goalBarPaint.setColor(color(R.color.gold_500));
+
+        gridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        gridPaint.setColor(color(R.color.chart_grid));
+        gridPaint.setStrokeWidth(dp(1));
+
+        goalLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        goalLinePaint.setColor(color(R.color.gold_500));
+        goalLinePaint.setStrokeWidth(dp(1.5f));
+        goalLinePaint.setPathEffect(new DashPathEffect(new float[]{dp(6), dp(4)}, 0));
+
+        labelPaint = textPaint(R.color.chart_label, 12, Paint.Align.RIGHT, body);
+        dayPaint = textPaint(R.color.chart_label, 12, Paint.Align.CENTER, body);
+        valuePaint = textPaint(R.color.chart_value, 12, Paint.Align.CENTER, heading);
+        valuePaint.setFakeBoldText(true);
+        emptyPaint = textPaint(R.color.chart_empty, 16, Paint.Align.CENTER, body);
+    }
+
+    public void setData(List<ChartData> data) {
         this.data = data != null ? data : new ArrayList<>();
-        this.title = title != null ? title : getContext().getString(R.string.progress_chart_default_title);
-        this.yAxisLabel = yAxisLabel != null ? yAxisLabel : getContext().getString(R.string.progress_chart_y_label);
-
-        // Escala fixa de 0 a 10000
-        maxValue = Constants.DAILY_STEP_GOAL;
-
         invalidate();
     }
 
@@ -88,167 +103,67 @@ public class CustomBarChart extends View {
         super.onDraw(canvas);
 
         if (data.isEmpty()) {
-            drawNoData(canvas);
+            canvas.drawText(getContext().getString(R.string.progress_chart_empty),
+                    getWidth() / 2f, getHeight() / 2f, emptyPaint);
             return;
         }
 
-        int width = getWidth();
-        int height = getHeight();
+        float left = marginLeft;
+        float top = marginTop;
+        float chartWidth = getWidth() - marginLeft - marginRight;
+        float chartHeight = getHeight() - marginTop - marginBottom;
+        float bottom = top + chartHeight;
 
-        // Margens otimizadas
-        int marginLeft = 120;
-        int marginRight = 40;
-        int marginTop = 80;
-        int marginBottom = 100;
-
-        int chartWidth = width - marginLeft - marginRight;
-        int chartHeight = height - marginTop - marginBottom;
-
-        // Desenhar título
-        textPaint.setTextSize(38f);
-        textPaint.setColor(Color.WHITE);
-        canvas.drawText(title, width / 2, marginTop - 30, textPaint);
-
-        // Desenhar eixos
-        canvas.drawLine(marginLeft, marginTop, marginLeft, marginTop + chartHeight, axisPaint);
-        canvas.drawLine(marginLeft, marginTop + chartHeight, marginLeft + chartWidth, marginTop + chartHeight, axisPaint);
-
-        // Desenhar label do eixo Y
-        textPaint.setTextSize(32f);
-        canvas.save();
-        canvas.rotate(-90, marginLeft - 70, marginTop + chartHeight / 2);
-        canvas.drawText(yAxisLabel, marginLeft - 70, marginTop + chartHeight / 2, textPaint);
-        canvas.restore();
-
-        // Desenhar linhas da grid
-        drawGrid(canvas, marginLeft, marginTop, chartWidth, chartHeight);
-
-        // Desenhar barras
-        drawBars(canvas, marginLeft, marginTop, chartWidth, chartHeight);
+        drawGrid(canvas, left, top, chartWidth, chartHeight);
+        drawBars(canvas, left, top, chartWidth, chartHeight, bottom);
     }
 
-    private void drawGrid(Canvas canvas, int startX, int startY, int width, int height) {
-        int gridLines = 10; // 10 linhas para 0-10000 (incrementos de 1000)
-        textPaint.setTextSize(26f);
-        textPaint.setColor(color(R.color.chart_label));
-        textPaint.setTextAlign(Paint.Align.RIGHT);
-
-        for (int i = 0; i <= gridLines; i++) {
-            float y = startY + height - (height * i / gridLines);
-            int value = i * 1000; // Valores: 0, 1000, 2000, ..., 10000
-
-            // Linha horizontal
-            canvas.drawLine(startX, y, startX + width, y, gridPaint);
-
-            // 🔥 VALOR FORMATADO MELHOR - com separador de milhar
-            String valueText = formatStepValue(value);
-            canvas.drawText(valueText, startX - 10, y + 8, textPaint);
+    private void drawGrid(Canvas canvas, float left, float top, float width, float height) {
+        for (int i = 0; i <= GRID_LINES; i++) {
+            float y = top + height - (height * i / GRID_LINES);
+            canvas.drawLine(left, y, left + width, y, i == GRID_LINES ? goalLinePaint : gridPaint);
+            canvas.drawText(formatStepValue(maxValue * i / GRID_LINES), left - dp(6), y + dp(4), labelPaint);
         }
-
-        // Restaurar alinhamento
-        textPaint.setTextAlign(Paint.Align.CENTER);
     }
 
-    private void drawBars(Canvas canvas, int startX, int startY, int width, int height) {
-        int barCount = data.size();
-        int barWidth = (width - 40) / (barCount * 2);
-        int barSpacing = barWidth;
+    private void drawBars(Canvas canvas, float left, float top, float width, float height, float bottom) {
+        int count = data.size();
+        float slot = width / count;
+        float barWidth = slot * 0.55f;
 
-        for (int i = 0; i < barCount; i++) {
+        for (int i = 0; i < count; i++) {
             ChartData item = data.get(i);
-            int color = barColors[i % barColors.length];
-            barPaint.setColor(color);
+            float centerX = left + slot * i + slot / 2f;
+            float barHeight = Math.min(1f, (float) item.value / maxValue) * height;
+            float barTop = bottom - barHeight;
 
-            int barLeft = startX + (i * (barWidth + barSpacing)) + barSpacing;
-            int barRight = barLeft + barWidth;
+            barRect.set(centerX - barWidth / 2f, barTop, centerX + barWidth / 2f, bottom);
+            canvas.drawRoundRect(barRect, barRadius, barRadius,
+                    item.value >= maxValue ? goalBarPaint : barPaint);
 
-            // Calcular altura da barra usando escala fixa de 0-10000
-            float barHeight = ((float) item.value / maxValue) * height;
-            int barTop = (int) (startY + height - barHeight);
-            int barBottom = startY + height;
+            // Valor por cima da barra; se não houver espaço, fica dentro dela.
+            float valueY = barTop - dp(4);
+            if (valueY < top) valueY = barTop + dp(14);
+            canvas.drawText(formatStepValue(item.value), centerX, valueY, valuePaint);
 
-            // Desenhar barra
-            canvas.drawRect(barLeft, barTop, barRight, barBottom, barPaint);
-
-            // 🔥 VALOR FORMATADO MELHOR - compacto para números grandes
-            String valueText = formatStepValue(item.value);
-
-            // Desenhar valor no topo da barra
-            valuePaint.setTextSize(28f);
-            valuePaint.setColor(Color.WHITE);
-
-            // Posicionar texto de forma inteligente
-            float textY = barTop - 12;
-            if (textY < startY + 25) {
-                textY = barTop + 25; // Colocar dentro da barra se não houver espaço
-            }
-
-            canvas.drawText(valueText, (barLeft + barRight) / 2, textY, valuePaint);
-
-            // Desenhar label (abreviatura do dia) abaixo da barra
-            valuePaint.setTextSize(26f);
-            valuePaint.setColor(color(R.color.chart_value));
-            canvas.drawText(item.label, (barLeft + barRight) / 2, barBottom + 32, valuePaint);
+            canvas.drawText(item.label, centerX, bottom + dp(18), dayPaint);
         }
     }
 
-    // 🔥 MÉTODO NOVO - Formatar valores de forma mais legível
     private String formatStepValue(int value) {
-        if (value >= Constants.DAILY_STEP_GOAL) {
-            return String.format("%.1fk", value / 1000.0);
-        } else if (value >= 1000) {
-            return String.format("%dk", value / 1000);
-        } else {
-            return String.valueOf(value);
+        if (value >= 1000) {
+            return value % 1000 == 0 ? (value / 1000) + "k" : String.format(java.util.Locale.getDefault(), "%.1fk", value / 1000.0);
         }
+        return String.valueOf(value);
     }
 
-    private void drawNoData(Canvas canvas) {
-        textPaint.setTextSize(36f);
-        textPaint.setColor(color(R.color.chart_empty));
-
-        // Mensagem mais informativa
-        String noDataText = "📊\nSem dados disponíveis\n\nOs teus passos aparecerão aqui!";
-
-        // Dividir em linhas
-        String[] lines = noDataText.split("\n");
-        float centerX = getWidth() / 2;
-        float centerY = getHeight() / 2;
-
-        for (int i = 0; i < lines.length; i++) {
-            float y = centerY - (lines.length * 20) / 2 + (i * 40);
-            canvas.drawText(lines[i], centerX, y, textPaint);
-        }
-    }
-
-    // 🔥 MÉTODOS ÚTEIS ADICIONAIS
-    public void clearData() {
-        this.data.clear();
-        invalidate();
-    }
-
-    public boolean hasData() {
-        return !this.data.isEmpty();
-    }
-
-    public int getDataCount() {
-        return this.data.size();
-    }
-
-    // Classe para dados do gráfico (mantida igual)
     public static class ChartData {
-        public String label;
-        public int value;
+        public final String label;
+        public final int value;
 
         public ChartData(String label, int value) {
             this.label = label;
             this.value = value;
-        }
-
-        // 🔥 MÉTODO toString útil para debugging
-        @Override
-        public String toString() {
-            return "ChartData{label='" + label + "', value=" + value + "}";
         }
     }
 }

@@ -31,18 +31,11 @@
     <color name="progress_normal">@color/grass_500</color>
 
     <!-- Gráfico de barras -->
-    <color name="chart_bar_1">#4CAF50</color>
-    <color name="chart_bar_2">#2196F3</color>
-    <color name="chart_bar_3">#FF9800</color>
-    <color name="chart_bar_4">#E91E63</color>
-    <color name="chart_bar_5">#9C27B0</color>
-    <color name="chart_bar_6">#FF5722</color>
-    <color name="chart_bar_7">#00BCD4</color>
-    <color name="chart_grid">#334455</color>
-    <color name="chart_axis">#8899AA</color>
-    <color name="chart_label">#AAAAAA</color>
-    <color name="chart_value">#CCCCCC</color>
-    <color name="chart_empty">#666666</color>
+    <color name="chart_grid">@color/pitch_600</color>
+    <color name="chart_axis">@color/text_secondary</color>
+    <color name="chart_label">@color/text_secondary</color>
+    <color name="chart_value">@color/text_primary</color>
+    <color name="chart_empty">@color/text_secondary</color>
 
     <!-- Jogo: temporizador e mensagens -->
     <color name="timer_ok">#00FF00</color>
