@@ -48,7 +48,8 @@
         <service
             android:name=".steps.StepTrackingService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="health" />
 
         <!-- Service para notificação -->
         <service

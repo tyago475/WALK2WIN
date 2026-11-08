@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
     private void startStepTrackingService() {
         Log.d(TAG, "Iniciando StepTrackingService");
         Intent serviceIntent = new Intent(this, StepTrackingService.class);
-        startService(serviceIntent);
+        ContextCompat.startForegroundService(this, serviceIntent);
     }
 
     private void startStepsNotification() {

@@ -50,8 +50,7 @@ Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fund
 
 ## Pendente / conhecido
 - (adicionar aqui a lista de bugs conhecidos do utilizador)
-- `StepTrackingService` é um serviço normal: o Android pode matá-lo em segundo plano. Tornar foreground (tipo `health`) e testar com sensor real.
-- `StepsNotificationService` chama sempre `startForeground()` (tipo `health` no Android 14+). Quem usa `startForegroundService()` TEM de garantir isto, senão: `ForegroundServiceDidNotStartInTimeException` ~30 s depois. As atualizações da notificação não arrancam o serviço (`StepsNotificationManager.updateStepsNotification`).
-- Room: `exportSchema=false` + `fallbackToDestructiveMigration()` apaga dados ao mudar a versão da BD. Passar a migrações.
+- `StepTrackingService` e `StepsNotificationService` são foreground (tipo `health`, mesma notificação, id 100) e partilham `StepsNotification.enterForeground()`. Quem os arranca TEM de usar `startForegroundService()`. Falta testar com sensor real (o emulador não tem passos).
+- Room: esquema exportado em `app/schemas` (versão 3 = base). Só as versões 1-2 são destrutivas; **qualquer mudança de versão exige um `Migration`** (senão a app crasha em vez de apagar dados).
 - `res/raw/*.mp3` não são usados.
-- `GameActivity.onOptionClick` e `QuestionManager.getRandomQuestion()` esperam pela BD na thread principal (até 3 s de timeout).
+- `QuestionManager` pré-carrega a pergunta seguinte; `getRandomQuestion()` só bloqueia (até 3 s) se ainda não houver nenhuma pronta.

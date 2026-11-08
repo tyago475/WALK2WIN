@@ -41,6 +41,11 @@ public class StepTrackingService extends Service implements SensorEventListener 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand() - Iniciando tracking");
+        // Foreground (health): sem isto o Android pode matar o serviço em segundo plano e os passos deixam de contar.
+        if (!StepsNotification.enterForeground(this)) {
+            stopSelf();
+            return START_NOT_STICKY;
+        }
         startStepTracking();
         return START_STICKY;
     }

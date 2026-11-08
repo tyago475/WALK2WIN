@@ -2,12 +2,7 @@ package pt.ubi.pdm.quizpenaltis.steps;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.ServiceInfo;
-import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
-
-import androidx.core.app.ServiceCompat;
 
 /**
  * Serviço em primeiro plano que mantém a notificação de passos.
@@ -17,25 +12,9 @@ import androidx.core.app.ServiceCompat;
  * ForegroundServiceDidNotStartInTimeException.
  */
 public class StepsNotificationService extends Service {
-    private static final String TAG = "StepsNotification";
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        StepsNotification.ensureChannel(this);
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        try {
-            // Do Android 14 em diante é obrigatório declarar o tipo do serviço (health, no manifest).
-            int type = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
-                    ? ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
-                    : ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST;
-            ServiceCompat.startForeground(this, StepsNotification.ID, StepsNotification.build(this), type);
-        } catch (Exception e) {
-            // Por exemplo SecurityException se a permissão ACTIVITY_RECOGNITION não foi concedida.
-            Log.e(TAG, "Não foi possível passar a primeiro plano", e);
+        if (!StepsNotification.enterForeground(this)) {
             stopSelf();
             return START_NOT_STICKY;
         }

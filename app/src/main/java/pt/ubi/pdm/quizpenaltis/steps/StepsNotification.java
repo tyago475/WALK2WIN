@@ -4,11 +4,15 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.ServiceCompat;
 
 import pt.ubi.pdm.quizpenaltis.R;
 import pt.ubi.pdm.quizpenaltis.ui.main.MainActivity;
@@ -36,6 +40,27 @@ final class StepsNotification {
         if (manager != null) manager.createNotificationChannel(channel);
     }
 
+    /**
+     * Passa o serviço a primeiro plano (tipo health) com a notificação de passos.
+     * Quem arranca um serviço com startForegroundService() TEM de chamar isto em poucos segundos.
+     *
+     * @return false se não foi possível (por exemplo, sem a permissão ACTIVITY_RECOGNITION)
+     */
+    static boolean enterForeground(Service service) {
+        try {
+            ensureChannel(service);
+            // Do Android 14 em diante é obrigatório declarar o tipo do serviço (health, no manifest).
+            int type = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+                    ? ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
+                    : ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST;
+            ServiceCompat.startForeground(service, ID, build(service), type);
+            return true;
+        } catch (Exception e) {
+            Log.e("StepsNotification", "Não foi possível passar a primeiro plano", e);
+            return false;
+        }
+    }
+
     static Notification build(Context context) {
         int steps = StepCounter.getTodaySteps(context);
         int goal = Constants.DAILY_STEP_GOAL;
@@ -49,7 +74,7 @@ final class StepsNotification {
         return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notif_title))
                 .setContentText(context.getString(R.string.notif_text, steps, goal, percentage))
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.icon_directions_walk)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .setOnlyAlertOnce(true)

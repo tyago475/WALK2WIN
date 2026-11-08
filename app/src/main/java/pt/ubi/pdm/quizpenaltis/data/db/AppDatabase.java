@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import android.content.Context;
 
-@Database(entities = {Question.class, UserProgress.class}, version = 3, exportSchema = false)
+@Database(entities = {Question.class, UserProgress.class}, version = 3, exportSchema = true)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -24,7 +24,9 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "quiz_penaltis.db")
-                            .fallbackToDestructiveMigration()
+                            // As versões 1 e 2 não têm esquema exportado, logo não há migração possível.
+                            // A partir da 3 (esquema em app/schemas) qualquer mudança exige um Migration.
+                            .fallbackToDestructiveMigrationFrom(1, 2)
                             .build();
                 }
             }
