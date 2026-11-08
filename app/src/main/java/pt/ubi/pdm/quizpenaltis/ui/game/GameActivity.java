@@ -9,6 +9,8 @@ import pt.ubi.pdm.quizpenaltis.game.PenaltyShootout;
 import pt.ubi.pdm.quizpenaltis.model.Player;
 import pt.ubi.pdm.quizpenaltis.model.PlayerCatalog;
 import pt.ubi.pdm.quizpenaltis.model.Question;
+import pt.ubi.pdm.quizpenaltis.ui.game.opponent.BotOpponent;
+import pt.ubi.pdm.quizpenaltis.ui.game.opponent.Opponent;
 import pt.ubi.pdm.quizpenaltis.util.Animations;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
 import pt.ubi.pdm.quizpenaltis.util.SystemBars;
@@ -28,15 +30,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 /**
  * Ecrã do jogo. Coordena as fases (moeda → pergunta → remate/defesa → fim);
  * as regras estão em {@link PenaltyShootout} e os números em {@link GameRules}.
+ * O que o adversário faz (perguntas, respostas, remates) vem do {@link Opponent}.
  */
 public class GameActivity extends AppCompatActivity {
 
@@ -49,8 +48,8 @@ public class GameActivity extends AppCompatActivity {
 
     // ----- Colaboradores -----
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final Random random = new Random();
     private QuestionManager questionManager;
+    private Opponent opponent;
     private CoinTossPhase coinToss;
     private ScoreBoard scoreBoard;
     private GameTimer questionTimer;
@@ -58,15 +57,15 @@ public class GameActivity extends AppCompatActivity {
 
     // ----- Estado do jogo -----
     private Player user;
-    private Player bot;
     private int userCost;
+    /** Número da ronda atual (uma pergunta); -1 antes da primeira. */
+    private int turn = -1;
     private Phase phase = Phase.COIN_TOSS;
     private boolean userWonToss;
     private boolean isPlayerTurn = true;
     private boolean isProcessingClick = false;
     private Question currentQuestion;
     private List<String> currentOptions = new ArrayList<>();
-    private final Set<GoalZone> greenZones = EnumSet.noneOf(GoalZone.class);
 
     // =========================================================================
     // Ciclo de vida e inicialização
@@ -82,19 +81,19 @@ public class GameActivity extends AppCompatActivity {
 
         user = PlayerCatalog.byName(getIntent().getStringExtra(Constants.EXTRA_SELECTED_PLAYER));
         userCost = getIntent().getIntExtra(Constants.EXTRA_PLAYER_COST, 500);
-        bot = PlayerCatalog.random();
+        questionManager = new QuestionManager(this);
+        opponent = new BotOpponent(questionManager, userCost);
 
         initializeViews();
-        questionManager = new QuestionManager(this);
 
         handler.postDelayed(this::performCoinToss, GameRules.START_DELAY_MS);
     }
 
     private void initializeViews() {
         ((TextView) findViewById(R.id.tvPlayer1)).setText(user.getName());
-        ((TextView) findViewById(R.id.tvPlayer2)).setText(bot.getName());
+        ((TextView) findViewById(R.id.tvPlayer2)).setText(opponent.displayName());
         ((ImageView) findViewById(R.id.ivPlayer1)).setImageResource(user.getImageResource());
-        ((ImageView) findViewById(R.id.ivPlayer2)).setImageResource(bot.getImageResource());
+        ((ImageView) findViewById(R.id.ivPlayer2)).setImageResource(opponent.player().getImageResource());
 
         tvQuestion = findViewById(R.id.tvQuestion);
         tvTimer = findViewById(R.id.tvTimer);
@@ -145,6 +144,7 @@ public class GameActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null);
         questionTimer.cancel();
         coinToss.release();
+        opponent.close();
         questionManager.close();
     }
 
@@ -197,9 +197,18 @@ public class GameActivity extends AppCompatActivity {
 
         phase = Phase.QUESTION;
         showOnly(layoutQuestion);
-        greenZones.clear();
+        // Até a pergunta chegar (no bot é imediato) não se pode responder.
+        setOptionsEnabled(false);
 
-        currentQuestion = questionManager.getRandomQuestion();
+        final int round = ++turn;
+        opponent.questionFor(round, question -> {
+            if (isDestroyed() || round != turn || phase != Phase.QUESTION) return;
+            showQuestion(question);
+        });
+    }
+
+    private void showQuestion(Question question) {
+        currentQuestion = question;
         currentOptions = questionManager.getShuffledOptions(currentQuestion);
 
         tvQuestion.setText(currentQuestion.getQuestion());
@@ -213,7 +222,7 @@ public class GameActivity extends AppCompatActivity {
             startQuestionTimer();
         } else {
             setOptionsEnabled(false);
-            later(GameRules.BOT_THINK_DELAY_MS, this::startBotTurn);
+            later(GameRules.BOT_THINK_DELAY_MS, this::startOpponentTurn);
         }
 
         resetButtonColors();
@@ -257,6 +266,7 @@ public class GameActivity extends AppCompatActivity {
     private void handleTimeUp() {
         if (phase != Phase.QUESTION || !isPlayerTurn) return;
 
+        opponent.onUserAnswered(turn, Opponent.NO_ANSWER);
         showMessage(getString(R.string.game_time_up_banner), R.drawable.ds_banner_warning);
         setOptionsEnabled(false);
         highlightCorrectAnswer();
@@ -264,7 +274,7 @@ public class GameActivity extends AppCompatActivity {
         later(GameRules.SHOT_RESULT_MS, () -> {
             registerPlayerShot(false);
             if (checkGameEnd()) return;
-            showTransition(Transition.USER_MISSED, this::startBotTurn);
+            showTransition(Transition.USER_MISSED, this::startOpponentTurn);
         });
     }
 
@@ -275,7 +285,9 @@ public class GameActivity extends AppCompatActivity {
         questionTimer.cancel();
 
         Button clicked = (Button) view;
-        boolean correct = currentQuestion.isCorrectOption(clicked.getText().toString());
+        String answer = clicked.getText().toString();
+        boolean correct = currentQuestion.isCorrectOption(answer);
+        opponent.onUserAnswered(turn, originalOptionIndex(answer));
         setOptionsEnabled(false);
 
         if (correct) {
@@ -295,9 +307,18 @@ public class GameActivity extends AppCompatActivity {
                 registerPlayerShot(false);
                 isProcessingClick = false;
                 if (checkGameEnd()) return;
-                showTransition(Transition.USER_MISSED, this::startBotTurn);
+                showTransition(Transition.USER_MISSED, this::startOpponentTurn);
             });
         }
+    }
+
+    /** Posição da resposta na pergunta original (0 = A, 1 = B, 2 = C); as opções no ecrã estão baralhadas. */
+    private int originalOptionIndex(String answer) {
+        String[] original = {currentQuestion.getOptionA(), currentQuestion.getOptionB(), currentQuestion.getOptionC()};
+        for (int i = 0; i < original.length; i++) {
+            if (original[i].equals(answer)) return i;
+        }
+        return Opponent.NO_ANSWER;
     }
 
     private enum AnswerState { NEUTRAL, DISABLED, CORRECT, WRONG, REVEAL }
@@ -335,26 +356,27 @@ public class GameActivity extends AppCompatActivity {
     }
 
     // =========================================================================
-    // Vez do computador
+    // Vez do adversário
     // =========================================================================
 
-    private void startBotTurn() {
+    private void startOpponentTurn() {
         if (checkGameEnd()) return;
 
         isPlayerTurn = false;
-        boolean botAnsweredCorrectly = random.nextDouble() < GameRules.BOT_CORRECT_PROBABILITY;
-
-        if (botAnsweredCorrectly) {
-            showMessage(getString(R.string.game_bot_answered_right, bot.getName()), R.drawable.ds_banner_warning);
-            later(GameRules.ANSWER_FEEDBACK_MS, this::startDefendPhase);
-        } else {
-            showMessage(getString(R.string.game_bot_answered_wrong, bot.getName()), R.drawable.ds_banner_info);
-            later(GameRules.ANSWER_FEEDBACK_MS, () -> {
-                registerBotShot(false);
-                if (checkGameEnd()) return;
-                showTransition(Transition.BOT_WRONG_ANSWER, this::startPlayerTurn);
-            });
-        }
+        opponent.opponentAnswers(turn, correct -> {
+            if (isDestroyed()) return;
+            if (correct) {
+                showMessage(getString(R.string.game_bot_answered_right, opponent.displayName()), R.drawable.ds_banner_warning);
+                later(GameRules.ANSWER_FEEDBACK_MS, this::startDefendPhase);
+            } else {
+                showMessage(getString(R.string.game_bot_answered_wrong, opponent.displayName()), R.drawable.ds_banner_info);
+                later(GameRules.ANSWER_FEEDBACK_MS, () -> {
+                    registerBotShot(false);
+                    if (checkGameEnd()) return;
+                    showTransition(Transition.BOT_WRONG_ANSWER, this::startPlayerTurn);
+                });
+            }
+        });
     }
 
     private void startPlayerTurn() {
@@ -428,11 +450,6 @@ public class GameActivity extends AppCompatActivity {
         resetShootBanner();
         resetAllCircles();
         resetTimer();
-
-        List<GoalZone> zones = new ArrayList<>(EnumSet.allOf(GoalZone.class));
-        Collections.shuffle(zones);
-        greenZones.clear();
-        greenZones.addAll(zones.subList(0, GameRules.greenZonesForCost(userCost)));
         isProcessingClick = false;
     }
 
@@ -446,7 +463,13 @@ public class GameActivity extends AppCompatActivity {
         }
         phase = Phase.RESULT;
 
-        boolean scored = greenZones.contains(zone);
+        opponent.userShoots(turn, zone, scored -> {
+            if (isDestroyed()) return;
+            showShotResult(zone, scored);
+        });
+    }
+
+    private void showShotResult(GoalZone zone, boolean scored) {
         resetAllCircles();
         View target = findViewById(zone.viewId);
 
@@ -466,7 +489,7 @@ public class GameActivity extends AppCompatActivity {
                         isProcessingClick = false;
                         if (checkGameEnd()) return;
                         showTransition(scored ? Transition.USER_SCORED : Transition.USER_MISSED,
-                                this::startBotTurn);
+                                this::startOpponentTurn);
                     });
                 });
     }
@@ -494,9 +517,13 @@ public class GameActivity extends AppCompatActivity {
         }
         phase = Phase.RESULT;
 
-        DefenseZone botShot = DefenseZone.random();
-        boolean defended = chosen == botShot;
+        opponent.userDefends(turn, chosen, outcome -> {
+            if (isDestroyed()) return;
+            showDefense(chosen, outcome.opponentShot, outcome.defended);
+        });
+    }
 
+    private void showDefense(DefenseZone chosen, DefenseZone botShot, boolean defended) {
         // A tua escolha fica assinalada a dourado e o remate do adversário voa até à zona dele.
         resetAllRectangles();
         findViewById(chosen.viewId).setBackgroundResource(R.drawable.ds_zone_defend_chosen);
@@ -528,7 +555,7 @@ public class GameActivity extends AppCompatActivity {
 
         TextView detail = findViewById(R.id.tvDefendDetail);
         detail.setText(getString(R.string.game_defense_summary,
-                bot.getName(), getString(botShot.nameRes), getString(chosen.nameRes)));
+                opponent.displayName(), getString(botShot.nameRes), getString(chosen.nameRes)));
         detail.setVisibility(View.VISIBLE);
     }
 
@@ -577,7 +604,7 @@ public class GameActivity extends AppCompatActivity {
         questionTimer.cancel();
         hideAllPhases();
         gameHeader.setVisibility(View.GONE);
-        new GameOverView(gameOverView).show(shootout, user.getName(), bot.getName(), this::finish);
+        new GameOverView(gameOverView).show(shootout, user.getName(), opponent.displayName(), this::finish);
     }
 
     // =========================================================================
