@@ -22,6 +22,8 @@ npx firebase emulators:exec --only database --project demo-walk2win --config ../
 ```
 (Aqui o caminho com `º` não dá problemas.) **Depois de qualquer mudança às regras: correr os testes e voltar a publicá-las na consola** (Realtime Database → Regras → colar → Publicar); a consola não lê o ficheiro.
 O cliente não pode ler a sala inteira nem `turns/n` de uma vez: escuta cada caminho (`meta`, `players`, `toss`, `turns/n/shooter|q|answer|shot|defend`). O defensor só pode ler `shot` depois de escrever `defend` (e vice-versa).
+O sinal de vida (`seen = ServerValue.TIMESTAMP`) tem de começar **na sala de espera**, desde que o registo do jogador existe, a cada 5 s (`MultiplayerRules.HEARTBEAT_MS`), até ao fim da partida: o anfitrião só pode passar a `playing` com os dois `seen` com menos de 30 s.
+As regras **não garantem** (os clientes verificam): resposta certa; vitória por `score` coerente com o marcador (só exigem `turns/0..5/answer`); a ordem dos turnos (o anfitrião decide `toss/first` e pode saltar/reordenar turnos, por isso `toss/first` e `meta.winner` com `score` não são de confiança); `cost` igual ao do `PlayerCatalog`/saldo; ocupação de códigos/negação de serviço (só App Check ou limites mitigam); `name` só com espaços (limpar com `PlayerName`).
 
 ## Estrutura (`pt.ubi.pdm.quizpenaltis`)
 - `ui.main|game|player|progress|help` – Activities e views de cada ecrã

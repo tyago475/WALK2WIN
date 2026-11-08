@@ -16,22 +16,38 @@
   //   revelaria shot/defend antes do tempo. O cliente tem de escutar cada caminho em separado.
   // - "shot" so e legivel pelo defensor depois de "defend" existir, e vice-versa. O defensor
   //   so pode comecar a escutar shot depois de escrever defend (uma escuta recusada e cancelada).
-  // - NAO SE CONSEGUE IMPOR AQUI: (1) que a resposta (answer) esteja certa (a chave das
-  //   perguntas nao esta na BD); (2) que a vitoria por "score" corresponda ao marcador (as
-  //   regras nao fazem ciclos sobre os turnos): so se exige o proprio papel, a partida a
-  //   decorrer e pelo menos 6 turnos (turns/5/answer existe; antes disso o jogo nao pode
-  //   acabar); (3) que "cost" corresponda ao jogador do PlayerCatalog e ao saldo de pontos
-  //   (o saldo vive no telemovel). Cada telemovel recalcula o resultado sozinho.
+  // - Inicio da partida (waiting -> playing): so o anfitriao, com os dois ready E os dois
+  //   "seen" com menos de 30 s. Por isso o sinal de vida (seen = ServerValue.TIMESTAMP, a
+  //   cada 5 s) tem de comecar logo na sala de espera, desde que o registo do jogador existe,
+  //   ate ao fim da partida. Assim nao se pode reclamar desistencia logo no arranque.
   // - Uma sala com meta.created ha mais de 2 h pode ser recriada por qualquer autenticado
   //   (o plano gratuito nao tem temporizadores para apagar salas abandonadas). A recriacao
-  //   tem de substituir a sala inteira (set em rooms/$code), nao so meta.
+  //   deve substituir a sala inteira (set em rooms/$code); um update so com meta e recusado
+  //   se ficarem players/guest, toss, turns ou um players/host de outra pessoa.
+  //
+  // O QUE ESTAS REGRAS NAO GARANTEM (os clientes tem de verificar e desconfiar):
+  // (1) Que a resposta (answer) esteja certa: a chave das perguntas nao esta na BD.
+  // (2) Que uma vitoria por "score" corresponda ao marcador: as regras nao fazem ciclos
+  //     sobre os turnos nem contam golos. So se exige o proprio papel, a partida a decorrer,
+  //     uma so escrita junto com status = finished, e que turns/0..5/answer existam todos
+  //     (o jogo nao pode acabar antes de 6 turnos; -1 = tempo esgotado tambem conta).
+  //     meta.winner com reason = "score" e NAO CONFIAVEL: cada telemovel recalcula.
+  // (3) A ORDEM dos turnos: o anfitriao decide toss/first (quem remata primeiro) e abre os
+  //     turnos; um anfitriao batoteiro pode abrir turnos fora de ordem ou saltar os turnos
+  //     do convidado. As regras so obrigam shooter a seguir a paridade de toss/first. Os
+  //     clientes tem de verificar a ordem dos turnos e tratar toss/first como nao confiavel.
+  // (4) Que "cost" corresponda ao jogador do PlayerCatalog e ao saldo (o saldo vive no telemovel).
+  // (5) Ocupacao de codigos / negacao de servico: qualquer autenticado pode criar salas ou
+  //     ocupar o lugar livre de uma sala em espera cujo codigo adivinhe. So App Check ou
+  //     limites de pedidos mitigam isto.
+  // (6) "name" pode ser so espacos: o cliente limpa-o com PlayerName.
   "rules": {
     ".read": false,
     ".write": false,
     "rooms": {
       "$code": {
         // Criar/recriar (so meta e, opcionalmente, players/host) ou apagar a sala inteira (so o anfitriao).
-        ".write": "auth != null && (($code.matches(/^[A-HJ-NP-Z]{4}$/) && (!data.exists() || now - data.child('meta/created').val() > 7200000) && newData.child('meta/host').val() == auth.uid && newData.child('meta/status').val() == 'waiting' && newData.child('meta/v').val() == 1 && newData.child('meta/created').val() == now && !newData.child('meta/guest').exists() && !newData.child('meta/winner').exists() && !newData.child('meta/reason').exists() && !newData.child('players/guest').exists() && !newData.child('toss').exists() && !newData.child('turns').exists()) || (!newData.exists() && data.child('meta/host').val() == auth.uid))",
+        ".write": "auth != null && (($code.matches(/^[A-HJ-NP-Z]{4}$/) && (!data.exists() || now - data.child('meta/created').val() > 7200000) && newData.child('meta/host').val() == auth.uid && newData.child('meta/status').val() == 'waiting' && newData.child('meta/v').val() == 1 && newData.child('meta/created').val() == now && !newData.child('meta/guest').exists() && !newData.child('meta/winner').exists() && !newData.child('meta/reason').exists() && (!newData.child('players/host').exists() || newData.child('players/host/uid').val() == auth.uid) && !newData.child('players/guest').exists() && !newData.child('toss').exists() && !newData.child('turns').exists()) || (!newData.exists() && data.child('meta/host').val() == auth.uid))",
 
         "meta": {
           ".read": "auth != null",
@@ -44,15 +60,16 @@
             ".write": "auth != null && !data.exists() && newData.val() == auth.uid && auth.uid != data.parent().child('host').val() && data.parent().child('status').val() == 'waiting' && data.parent().child('v').val() == 1",
             ".validate": "newData.isString()"
           },
-          // waiting -> playing: so o anfitriao e com os dois ready. playing -> finished: so junto com winner.
+          // waiting -> playing: so o anfitriao, com os dois ready e os dois seen < 30 s. playing -> finished: so junto com winner.
           "status": {
-            ".write": "auth != null && ((data.val() == 'waiting' && newData.val() == 'playing' && auth.uid == data.parent().child('host').val() && data.parent().child('guest').exists() && root.child('rooms').child($code).child('players/host/ready').val() == true && root.child('rooms').child($code).child('players/guest/ready').val() == true) || (data.val() == 'playing' && newData.val() == 'finished' && (auth.uid == data.parent().child('host').val() || auth.uid == data.parent().child('guest').val()) && newData.parent().child('winner').exists() && !data.parent().child('winner').exists()))",
+            ".write": "auth != null && ((data.val() == 'waiting' && newData.val() == 'playing' && auth.uid == data.parent().child('host').val() && data.parent().child('guest').exists() && root.child('rooms').child($code).child('players/host/ready').val() == true && root.child('rooms').child($code).child('players/guest/ready').val() == true && now - root.child('rooms').child($code).child('players/host/seen').val() < 30000 && now - root.child('rooms').child($code).child('players/guest/seen').val() < 30000) || (data.val() == 'playing' && newData.val() == 'finished' && (auth.uid == data.parent().child('host').val() || auth.uid == data.parent().child('guest').val()) && newData.parent().child('winner').exists() && !data.parent().child('winner').exists()))",
             ".validate": "newData.val() == 'waiting' || newData.val() == 'playing' || newData.val() == 'finished'"
           },
           // winner + reason + status = finished, numa so escrita (update em meta), com o proprio papel.
           // forfeit: adversario sem sinal ha mais de 30000 ms (hora do servidor).
+          // score: turns/0..5/answer existem todos (NAO verifica o marcador; ver (2) acima).
           "winner": {
-            ".write": "auth != null && !data.exists() && data.parent().child('status').val() == 'playing' && newData.parent().child('status').val() == 'finished' && ((newData.val() == 'host' && auth.uid == data.parent().child('host').val()) || (newData.val() == 'guest' && auth.uid == data.parent().child('guest').val())) && ((newData.parent().child('reason').val() == 'score' && root.child('rooms').child($code).child('turns/5/answer').exists()) || (newData.parent().child('reason').val() == 'forfeit' && ((newData.val() == 'host' && now - root.child('rooms').child($code).child('players/guest/seen').val() > 30000) || (newData.val() == 'guest' && now - root.child('rooms').child($code).child('players/host/seen').val() > 30000))))",
+            ".write": "auth != null && !data.exists() && data.parent().child('status').val() == 'playing' && newData.parent().child('status').val() == 'finished' && ((newData.val() == 'host' && auth.uid == data.parent().child('host').val()) || (newData.val() == 'guest' && auth.uid == data.parent().child('guest').val())) && ((newData.parent().child('reason').val() == 'score' && root.child('rooms').child($code).child('turns/0/answer').exists() && root.child('rooms').child($code).child('turns/1/answer').exists() && root.child('rooms').child($code).child('turns/2/answer').exists() && root.child('rooms').child($code).child('turns/3/answer').exists() && root.child('rooms').child($code).child('turns/4/answer').exists() && root.child('rooms').child($code).child('turns/5/answer').exists()) || (newData.parent().child('reason').val() == 'forfeit' && ((newData.val() == 'host' && now - root.child('rooms').child($code).child('players/guest/seen').val() > 30000) || (newData.val() == 'guest' && now - root.child('rooms').child($code).child('players/host/seen').val() > 30000))))",
             ".validate": "newData.val() == 'host' || newData.val() == 'guest'"
           },
           "reason": {

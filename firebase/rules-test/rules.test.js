@@ -236,6 +236,18 @@ describe('criar sala (meta)', () => {
     await assertFails(set(ref(db(OUTSIDER), `${ROOM}/meta`),
       { host: OUTSIDER, status: 'waiting', v: 1, created: serverTimestamp() }));
   });
+  it('recusa: recriar sala velha com update so de meta deixando o players/host antigo', async () => {
+    await seed(waitingRoom({ created: Date.now() - TWO_HOURS - MINUTE }));
+    await assertFails(update(ref(db(OUTSIDER), ROOM),
+      { meta: { host: OUTSIDER, status: 'waiting', v: 1, created: serverTimestamp() } }));
+  });
+  it('permite: recriar sala velha com update, substituindo o players/host pelo proprio', async () => {
+    await seed(waitingRoom({ created: Date.now() - TWO_HOURS - MINUTE }));
+    await assertSucceeds(update(ref(db(OUTSIDER), ROOM), {
+      meta: { host: OUTSIDER, status: 'waiting', v: 1, created: serverTimestamp() },
+      'players/host': player(OUTSIDER, { seen: serverTimestamp() }),
+    }));
+  });
   it('recusa: mudar host/v/created de uma sala existente', async () => {
     await seed(waitingRoom());
     await assertFails(set(ref(db(HOST), `${ROOM}/meta/host`), OUTSIDER));
@@ -465,6 +477,30 @@ describe('meta.status waiting -> playing', () => {
   it('recusa: terceiro', async () => {
     await seed(joinedRoom({ hostReady: true, guestReady: true }));
     await assertFails(set(ref(db(OUTSIDER), `${ROOM}/meta/status`), 'playing'));
+  });
+  it('recusa: seen do convidado com mais de 30 s (35 s)', async () => {
+    const room = joinedRoom({ hostReady: true, guestReady: true });
+    room.players.guest.seen = Date.now() - 35000;
+    await seed(room);
+    await assertFails(set(ref(db(HOST), `${ROOM}/meta/status`), 'playing'));
+  });
+  it('recusa: seen do anfitriao com mais de 30 s (35 s)', async () => {
+    const room = joinedRoom({ hostReady: true, guestReady: true });
+    room.players.host.seen = Date.now() - 35000;
+    await seed(room);
+    await assertFails(set(ref(db(HOST), `${ROOM}/meta/status`), 'playing'));
+  });
+  it('permite: os dois seen frescos (25 s)', async () => {
+    const room = joinedRoom({ hostReady: true, guestReady: true });
+    room.players.host.seen = Date.now() - 25000;
+    room.players.guest.seen = Date.now() - 25000;
+    await seed(room);
+    await assertSucceeds(set(ref(db(HOST), `${ROOM}/meta/status`), 'playing'));
+  });
+  it('recusa: desistencia logo a seguir a um arranque fresco', async () => {
+    await seed(joinedRoom({ hostReady: true, guestReady: true, toss: { guestChoice: 'heads', first: 'host' } }));
+    await assertSucceeds(set(ref(db(HOST), `${ROOM}/meta/status`), 'playing'));
+    await assertFails(update(ref(db(HOST), `${ROOM}/meta`), claim('host', 'forfeit')));
   });
   it('recusa: convidado nao ready', async () => {
     await seed(joinedRoom({ hostReady: true, guestReady: false }));
@@ -735,16 +771,16 @@ describe('revelacao depois do compromisso', () => {
 describe('meta.winner / reason / finished', () => {
   const now = () => Date.now();
 
-  it('permite: desistencia do adversario (sem sinal ha 31 s)', async () => {
-    await seed(playingRoom({ guestSeen: now() - 31000 }));
+  it('permite: desistencia do adversario (sem sinal ha 35 s)', async () => {
+    await seed(playingRoom({ guestSeen: now() - 35000 }));
     await assertSucceeds(update(ref(db(HOST), `${ROOM}/meta`), claim('host', 'forfeit')));
   });
-  it('recusa: desistencia com o adversario sem sinal ha so 29 s', async () => {
-    await seed(playingRoom({ guestSeen: now() - 29000 }));
+  it('recusa: desistencia com o adversario sem sinal ha so 25 s', async () => {
+    await seed(playingRoom({ guestSeen: now() - 25000 }));
     await assertFails(update(ref(db(HOST), `${ROOM}/meta`), claim('host', 'forfeit')));
   });
-  it('permite: o convidado reclama desistencia do anfitriao (31 s)', async () => {
-    await seed(playingRoom({ hostSeen: now() - 31000 }));
+  it('permite: o convidado reclama desistencia do anfitriao (35 s)', async () => {
+    await seed(playingRoom({ hostSeen: now() - 35000 }));
     await assertSucceeds(update(ref(db(GUEST), `${ROOM}/meta`), claim('guest', 'forfeit')));
   });
   it('recusa: o convidado reclama desistencia com o anfitriao vivo (seen agora)', async () => {
@@ -772,6 +808,30 @@ describe('meta.winner / reason / finished', () => {
   it('recusa: vitoria por score antes de 6 turnos (impossivel acabar antes)', async () => {
     await seed(playingRoom({ turns: answeredTurns(4) }));
     await assertFails(update(ref(db(GUEST), `${ROOM}/meta`), claim('guest', 'score')));
+  });
+  it('recusa: score so com o turno 5 (exploit: anfitriao abre turns/5 fora de ordem)', async () => {
+    const room = playingRoom();
+    room.toss = { guestChoice: 'heads' };
+    await seed(room);
+    // Tudo isto o anfitriao consegue escrever sozinho...
+    await assertSucceeds(set(ref(db(HOST), `${ROOM}/toss/first`), 'guest'));
+    await assertSucceeds(set(ref(db(HOST), `${ROOM}/turns/5`), { shooter: 'host', q: 0 }));
+    await assertSucceeds(set(ref(db(HOST), `${ROOM}/turns/5/answer`), 0));
+    // ...mas a vitoria por score exige turns/0..5/answer todos.
+    await assertFails(update(ref(db(HOST), `${ROOM}/meta`), claim('host', 'score')));
+  });
+  it('recusa: score com um buraco nos turnos (falta turns/3/answer)', async () => {
+    const turns = answeredTurns(5);
+    delete turns[3].answer;
+    await seed(playingRoom({ turns }));
+    await assertFails(update(ref(db(GUEST), `${ROOM}/meta`), claim('guest', 'score')));
+  });
+  it('permite: score com turnos 0..5 respondidos, incluindo tempos esgotados (-1)', async () => {
+    const turns = answeredTurns(5);
+    turns[2].answer = -1;
+    turns[5].answer = -1;
+    await seed(playingRoom({ turns }));
+    await assertSucceeds(update(ref(db(HOST), `${ROOM}/meta`), claim('host', 'score')));
   });
   it('recusa: score com o papel do outro', async () => {
     await seed(playingRoom({ turns: answeredTurns(5) }));
