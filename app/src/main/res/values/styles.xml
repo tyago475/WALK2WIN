@@ -116,4 +116,29 @@
     <style name="Widget.W2W.Screen">
         <item name="android:background">@drawable/ds_screen_background</item>
     </style>
+
+    <!-- ===== Ajuda: passos numerados e listas com ícone ===== -->
+    <style name="Widget.W2W.StepNumber" parent="TextAppearance.W2W.Heading">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginEnd">@dimen/space_lg</item>
+        <item name="android:background">@drawable/ds_step_number</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_on_gold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.W2W.ListIcon">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginEnd">@dimen/space_md</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
+    <style name="Widget.W2W.ListText" parent="TextAppearance.W2W.Body">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:lineSpacingExtra">@dimen/space_xs</item>
+    </style>
 </resources>

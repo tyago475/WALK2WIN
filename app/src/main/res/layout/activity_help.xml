@@ -1,475 +1,418 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!--
+    Ajuda: fases do jogo (passos numerados), dicas e sistema de pontos.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.W2W.Screen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#1E1E1E"
-    android:padding="20dp"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ds_pitch_lines" />
 
-        <!-- Cabeçalho -->
+    <ScrollView
+        android:id="@+id/helpScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingStart="@dimen/space_xl"
+        android:paddingEnd="@dimen/space_xl"
+        android:paddingTop="@dimen/space_lg"
+        android:paddingBottom="@dimen/space_lg">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginBottom="32dp"
-            android:layout_marginTop="20dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/icon_help_outline"
+                android:tint="@color/gold_500" />
 
             <TextView
+                style="@style/TextAppearance.W2W.Display"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ui_help_text_1"
-                android:textSize="40sp"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/ui_help_text_2"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#FFD700"
-                android:gravity="center"
-                android:shadowColor="#000000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="4" />
+                android:textColor="@color/gold_500" />
 
             <TextView
+                style="@style/TextAppearance.W2W.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ui_help_text_3" />
+
+        <LinearLayout
+            style="@style/Widget.W2W.Card.Highlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.W2W.Heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/ui_help_text_3"
-                android:textSize="16sp"
-                android:textColor="#BDBDBD"
-                android:gravity="center"
-                android:layout_marginTop="4dp" />
+                android:layout_marginBottom="@dimen/space_lg"
+                android:text="@string/ui_help_text_4"
+                android:textColor="@color/gold_500" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Widget.W2W.StepNumber"
+                    android:text="@string/ui_help_text_5" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ui_help_text_6" />
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:lineSpacingExtra="@dimen/space_xs"
+                        android:text="@string/ui_help_text_7"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Widget.W2W.StepNumber"
+                    android:text="@string/ui_help_text_8" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ui_help_text_9" />
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:lineSpacingExtra="@dimen/space_xs"
+                        android:text="@string/ui_help_text_10"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Widget.W2W.StepNumber"
+                    android:text="@string/ui_help_text_11" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ui_help_text_12" />
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:lineSpacingExtra="@dimen/space_xs"
+                        android:text="@string/ui_help_text_13"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Widget.W2W.StepNumber"
+                    android:text="@string/ui_help_text_14" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ui_help_text_15" />
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:lineSpacingExtra="@dimen/space_xs"
+                        android:text="@string/ui_help_text_16"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Widget.W2W.StepNumber"
+                    android:text="@string/ui_help_text_17" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ui_help_text_18" />
+
+                    <TextView
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:lineSpacingExtra="@dimen/space_xs"
+                        android:text="@string/ui_help_text_19"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Card das Fases do Jogo -->
-        <androidx.cardview.widget.CardView
+        <LinearLayout
+            style="@style/Widget.W2W.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="12dp"
-            app:cardBackgroundColor="#2D2D2D"
-            android:layout_marginBottom="24dp">
+            android:layout_marginTop="@dimen/space_lg"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.W2W.Heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:text="@string/ui_help_text_20"
+                android:textColor="@color/grass_400" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
+                android:layout_marginBottom="@dimen/space_md"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_star"
+                    android:tint="@color/gold_500" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ui_help_text_4"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFD700"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center" />
-
-                <!-- Fase 1: Sorteio -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="20dp">
-
-                    <TextView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:text="@string/ui_help_text_5"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"
-                        android:gravity="center"
-                        android:background="@drawable/circle_number"
-                        android:layout_marginEnd="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_6"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_7"
-                            android:textSize="14sp"
-                            android:textColor="#E0E0E0"
-                            android:lineSpacingExtra="4dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Fase 2: Perguntas -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="20dp">
-
-                    <TextView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:text="@string/ui_help_text_8"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"
-                        android:gravity="center"
-                        android:background="@drawable/circle_number"
-                        android:layout_marginEnd="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_9"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_10"
-                            android:textSize="14sp"
-                            android:textColor="#E0E0E0"
-                            android:lineSpacingExtra="4dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Fase 3: Remate -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="20dp">
-
-                    <TextView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:text="@string/ui_help_text_11"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"
-                        android:gravity="center"
-                        android:background="@drawable/circle_number"
-                        android:layout_marginEnd="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_12"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_13"
-                            android:textSize="14sp"
-                            android:textColor="#E0E0E0"
-                            android:lineSpacingExtra="4dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Fase 4: Defesa -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="20dp">
-
-                    <TextView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:text="@string/ui_help_text_14"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"
-                        android:gravity="center"
-                        android:background="@drawable/circle_number"
-                        android:layout_marginEnd="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_15"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_16"
-                            android:textSize="14sp"
-                            android:textColor="#E0E0E0"
-                            android:lineSpacingExtra="4dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Fase 5: Morte Súbita -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:text="@string/ui_help_text_17"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"
-                        android:gravity="center"
-                        android:background="@drawable/circle_number"
-                        android:layout_marginEnd="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_18"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ui_help_text_19"
-                            android:textSize="14sp"
-                            android:textColor="#E0E0E0"
-                            android:lineSpacingExtra="4dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_21" />
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Card de Dicas Estratégicas -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="12dp"
-            app:cardBackgroundColor="#2D2D2D"
-            android:layout_marginBottom="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
+                android:layout_marginBottom="@dimen/space_md"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_check_circle"
+                    android:tint="@color/grass_400" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ui_help_text_20"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#4CAF50"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_21"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_22"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_23"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_24"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_25"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp" />
-
-                </LinearLayout>
-
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_22" />
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Card do Sistema de Pontos -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="12dp"
-            app:cardBackgroundColor="#2D2D2D"
-            android:layout_marginBottom="32dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
+                android:layout_marginBottom="@dimen/space_md"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_bolt"
+                    android:tint="@color/gold_500" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ui_help_text_26"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#FF9800"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_27"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_28"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_29"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ui_help_text_30"
-                        android:textSize="14sp"
-                        android:textColor="#E0E0E0"
-                        android:lineSpacingExtra="6dp" />
-
-                </LinearLayout>
-
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_23" />
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_md"
+                android:orientation="horizontal">
 
-        <!-- Botão Voltar ao Menu Principal -->
-        <Button
-            android:id="@+id/btnBackToMain"
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_timer"
+                    android:tint="@color/gold_500" />
+
+                <TextView
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_sports_soccer"
+                    android:tint="@color/grass_400" />
+
+                <TextView
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_25" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Widget.W2W.Card"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/ui_help_btn_back_to_main"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:background="@drawable/button_glass_primary"
-            android:textColor="#FFFFFF"
-            android:stateListAnimator="@null"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_marginBottom="40dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.W2W.Heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_lg"
+                android:text="@string/ui_help_text_26"
+                android:textColor="@color/gold_500" />
 
-</ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_md"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_directions_walk"
+                    android:tint="@color/grass_400" />
+
+                <TextView
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_27" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_md"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_paid"
+                    android:tint="@color/gold_500" />
+
+                <TextView
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_28" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_md"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_star"
+                    android:tint="@color/gold_500" />
+
+                <TextView
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_29" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/Widget.W2W.ListIcon"
+                    android:src="@drawable/icon_flag"
+                    android:tint="@color/grass_400" />
+
+                <TextView
+                    style="@style/Widget.W2W.ListText"
+                    android:text="@string/ui_help_text_30" />
+            </LinearLayout>
+        </LinearLayout>
+
+            <Button
+                android:id="@+id/btnBackToMain"
+                style="@style/Widget.W2W.Button.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xl"
+                android:text="@string/ui_help_btn_back_to_main" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

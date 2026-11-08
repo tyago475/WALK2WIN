@@ -1,10 +1,9 @@
 package pt.ubi.pdm.quizpenaltis.ui.help;
 
 import pt.ubi.pdm.quizpenaltis.R;
+import pt.ubi.pdm.quizpenaltis.util.SystemBars;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HelpActivity extends AppCompatActivity {
@@ -15,15 +14,7 @@ public class HelpActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_help);
 
-
-        Button btnBackToMain = findViewById(R.id.btnBackToMain);
-
-        btnBackToMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        SystemBars.applyPadding(findViewById(R.id.helpScroll));
+        findViewById(R.id.btnBackToMain).setOnClickListener(v -> finish());
     }
-
 }

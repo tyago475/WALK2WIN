@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Medalha dourada dos passos numerados (Ajuda) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <gradient android:angle="270" android:startColor="@color/gold_300" android:endColor="@color/gold_500" />
+    <stroke android:width="2dp" android:color="@color/gold_700" />
+</shape>

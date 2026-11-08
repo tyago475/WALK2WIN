@@ -147,10 +147,9 @@
     <string name="coin_bot_won">O COMPUTADOR GANHOU!</string>
 
     <!-- ===== Textos dos layouts (gerados automaticamente) ===== -->
-    <string name="ui_help_text_1">❓</string>
     <string name="ui_help_text_2">COMO JOGAR</string>
     <string name="ui_help_text_3">Guia completo do Walk2Win</string>
-    <string name="ui_help_text_4">🎯 FASES DO JOGO</string>
+    <string name="ui_help_text_4">FASES DO JOGO</string>
     <string name="ui_help_text_5">1</string>
     <string name="ui_help_text_6">Sorteio Inicial</string>
     <string name="ui_help_text_7">Cara ou coroa para decidir quem começa a bater primeiro</string>
@@ -166,18 +165,18 @@
     <string name="ui_help_text_17">5</string>
     <string name="ui_help_text_18">Morte Súbita</string>
     <string name="ui_help_text_19">Se empatarem após 5 penáltis, cada penálti seguinte é decisivo. Quem marcar e o outro falhar, ganha o jogo!</string>
-    <string name="ui_help_text_20">💡 DICAS ESTRATÉGICAS</string>
-    <string name="ui_help_text_21">• 🏃‍♂️ Jogadores mais caros = MAIS zonas verdes para rematar</string>
-    <string name="ui_help_text_22">• ✅ Respostas certas = oportunidade de REMATE</string>
-    <string name="ui_help_text_23">• ⚡ Morte súbita ativa automaticamente em caso de empate</string>
-    <string name="ui_help_text_24">• ⏱️ Atenção ao timer de 10 segundos por pergunta</string>
-    <string name="ui_help_text_25">• ⚽ 5 penáltis por jogador na fase regular</string>
-    <string name="ui_help_text_26">🏆 SISTEMA DE PONTOS</string>
-    <string name="ui_help_text_27">• 🚶‍♂️ 10.000 passos = 1.000 pontos para jogar</string>
-    <string name="ui_help_text_28">• 💰 Jogadores custam entre 100 e 1.000 pontos</string>
-    <string name="ui_help_text_29">• ⭐ Mais pontos = jogadores melhores com mais zonas verdes</string>
-    <string name="ui_help_text_30">• 🎯 Mínimo de 100 pontos necessários para iniciar um jogo</string>
-    <string name="ui_help_btn_back_to_main">🎮 VOLTAR AO MENU PRINCIPAL</string>
+    <string name="ui_help_text_20">DICAS ESTRATÉGICAS</string>
+    <string name="ui_help_text_21">Jogadores mais caros têm mais zonas verdes para rematar</string>
+    <string name="ui_help_text_22">Respostas certas dão oportunidade de remate</string>
+    <string name="ui_help_text_23">Morte súbita ativa automaticamente em caso de empate</string>
+    <string name="ui_help_text_24">Atenção ao timer de 10 segundos por pergunta</string>
+    <string name="ui_help_text_25">5 penáltis por jogador na fase regular</string>
+    <string name="ui_help_text_26">SISTEMA DE PONTOS</string>
+    <string name="ui_help_text_27">10.000 passos valem 1.000 pontos para jogar</string>
+    <string name="ui_help_text_28">Jogadores custam entre 100 e 1.000 pontos</string>
+    <string name="ui_help_text_29">Mais pontos compram jogadores melhores, com mais zonas verdes</string>
+    <string name="ui_help_text_30">Mínimo de 100 pontos necessários para iniciar um jogo</string>
+    <string name="ui_help_btn_back_to_main">VOLTAR AO MENU PRINCIPAL</string>
     <string name="ui_coin_tv_coin_toss_subtitle">Quem começa a bater penalties?</string>
     <string name="ui_coin_tv_coin_toss_hint">O vencedor do lançamento começa primeiro</string>
     <string name="ui_defend_tv_defend_instruction">ESCOLHE ONDE QUERES DEFENDER!</string>
