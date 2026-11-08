@@ -1,5 +1,6 @@
 package pt.ubi.pdm.quizpenaltis.multiplayer;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -11,7 +12,14 @@ public final class Nonce {
 
     public static final long MAX = (1L << 53) - 1;
 
-    /** Usar com {@code SecureRandom}: o adversário não deve conseguir adivinhá-lo. */
+    private static final SecureRandom SECURE = new SecureRandom();
+
+    /** O que se usa no jogo: SecureRandom, para o adversário não o conseguir adivinhar. */
+    public static long random() {
+        return random(SECURE);
+    }
+
+    /** Para testes (gerador determinista). No jogo usar {@link #random()}. */
     public static long random(Random r) {
         return r.nextLong() & MAX;
     }

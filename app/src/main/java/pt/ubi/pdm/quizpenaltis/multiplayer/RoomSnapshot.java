@@ -16,6 +16,9 @@ public final class RoomSnapshot {
     static final int MAX_QUESTION = 9999;
     static final int MAX_SHOT_ZONE = 14;
     static final int MAX_DEFEND_ZONE = 4;
+    /** Como as regras: cost 0..1000, player com 1..40 caracteres. */
+    static final int MAX_COST = 1000;
+    static final int MAX_PLAYER_LENGTH = 40;
 
     public static final String STATUS_WAITING = "waiting";
     public static final String STATUS_PLAYING = "playing";
@@ -77,12 +80,14 @@ public final class RoomSnapshot {
 
     private static PlayerInfo readPlayer(Map<?, ?> p) {
         if (p == null) return null;
-        Integer cost = ranged(p.get("cost"), 0, Integer.MAX_VALUE);
+        Integer cost = ranged(p.get("cost"), 0, MAX_COST);
+        String player = string(p.get("player"));
+        if (player != null && (player.isEmpty() || player.length() > MAX_PLAYER_LENGTH)) player = null;
         Long seen = integer(p.get("seen"));
         return new PlayerInfo(
                 string(p.get("uid")),
                 PlayerName.sanitize(string(p.get("name"))),
-                string(p.get("player")),
+                player,
                 cost != null ? cost : 0,
                 Boolean.TRUE.equals(p.get("ready")),
                 seen != null && seen > 0 ? seen : 0L);

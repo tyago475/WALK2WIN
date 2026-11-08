@@ -14,10 +14,9 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ import pt.ubi.pdm.quizpenaltis.util.Callback;
 /**
  * {@link RoomRepository} sobre a Realtime Database. Fina de propósito (não tem testes unitários):
  * a leitura/validação está em {@link RoomSnapshot} e as permissões em {@code firebase/database.rules.json}.
- * Todos os callbacks do Firebase chegam na thread principal.
+ * Usar só na thread principal (é onde chegam todos os callbacks do Firebase).
  */
 public final class FirebaseRoomRepository implements RoomRepository {
 
@@ -34,24 +33,36 @@ public final class FirebaseRoomRepository implements RoomRepository {
     private static final int CREATE_TRIES = 5;
 
     private final DatabaseReference rooms;
+    private final FirebaseDatabase db;
     private final SecureRandom random = new SecureRandom();
     private final Handler handler = new Handler(Looper.getMainLooper());
     private volatile long serverOffsetMs;
+    /** Escuta de .info/serverTimeOffset: só enquanto há uma escuta da sala (não fica pendurada). */
+    private ValueEventListener offsetListener;
 
     /** Sala de onde o anfitrião ainda está à espera (tem onDisconnect().removeValue() registado). */
     private DatabaseReference waitingRoom;
 
     private Runnable heartbeatTask;
+    private String heartbeatCode;
+    /** Já se avisou desta série de falhas do sinal de vida (avisa-se uma vez por série). */
+    private boolean heartbeatFailing;
 
     // ---- escuta (uma por caminho; ver listen) ----
     private String listenCode;
+    private Role listenRole;
     private Listener listener;
     private int session;
     /** Já se viu a sala existir nesta escuta (para distinguir "apagada" de "sem permissão"). */
     private boolean roomSeen;
     private final Map<String, Object> merged = new HashMap<>();
-    private final Set<String> attachedPaths = new HashSet<>();
-    private final List<Attached> attached = new ArrayList<>();
+    private final Map<String, Attached> attached = new LinkedHashMap<>();
+    /** Caminho da própria jogada (turns/n/shot|defend) -> caminho da jogada do adversário. */
+    private final Map<String, String> opponentOfOwn = new HashMap<>();
+    /** Caminhos de jogadas do adversário (só legíveis depois da própria). */
+    private final Set<String> opponentPaths = new HashSet<>();
+    /** Jogadas do adversário cuja jogada própria já foi aceite pelo servidor. */
+    private final Set<String> ownCommitAcked = new HashSet<>();
 
     private static final class Attached {
         final DatabaseReference ref;
@@ -60,15 +71,29 @@ public final class FirebaseRoomRepository implements RoomRepository {
     }
 
     public FirebaseRoomRepository() {
-        FirebaseDatabase db = FirebaseConfig.database();
+        db = FirebaseConfig.database();
         rooms = db.getReference("rooms");
-        db.getReference(".info/serverTimeOffset").addValueEventListener(new ValueEventListener() {
+    }
+
+    private DatabaseReference offsetRef() {
+        return db.getReference(".info/serverTimeOffset");
+    }
+
+    private void attachOffset() {
+        if (offsetListener != null) return;
+        offsetListener = new ValueEventListener() {
             @Override public void onDataChange(@NonNull DataSnapshot s) {
                 Object v = s.getValue();
                 if (v instanceof Number) serverOffsetMs = ((Number) v).longValue();
             }
             @Override public void onCancelled(@NonNull DatabaseError e) { }
-        });
+        };
+        offsetRef().addValueEventListener(offsetListener);
+    }
+
+    private void detachOffset() {
+        if (offsetListener != null) offsetRef().removeEventListener(offsetListener);
+        offsetListener = null;
     }
 
     private DatabaseReference room(String code) {
@@ -227,19 +252,26 @@ public final class FirebaseRoomRepository implements RoomRepository {
         commit(code, n, "defend", zone, nonce);
     }
 
-    /** Escreve o remate/defesa e só depois de aceite passa a escutar as duas jogadas do turno. */
+    /**
+     * Escreve o remate/defesa. A escuta da jogada do adversário não depende disto: abre quando a própria
+     * jogada aparece (ver {@link #onTurnOpened}). Aqui só se volta a tentar (se essa escuta tiver sido
+     * recusada por chegar ao servidor antes da escrita) e se avisa se ninguém está a escutar esta sala.
+     */
     private void commit(String code, int n, String field, int zone, long nonce) {
         Map<String, Object> v = new HashMap<>();
         v.put("zone", zone);
         v.put("nonce", nonce);
+        String opponentPath = "turns/" + n + "/" + ("shot".equals(field) ? "defend" : "shot");
         turnRef(code, n).child(field).setValue(v, (error, r) -> {
             if (error != null) {
                 report(field + " " + n + ": " + error.getMessage());
-                return;
-            }
-            if (code.equals(listenCode)) {
-                attach("turns/" + n + "/shot");
-                attach("turns/" + n + "/defend");
+            } else if (!code.equals(listenCode)) {
+                report(field + " " + n + " escrito sem escuta ativa da sala " + code
+                        + ": a jogada do adversario nao vai ser vista (chamar listen)");
+            } else {
+                ownCommitAcked.add(opponentPath);
+                opponentPaths.add(opponentPath);
+                attach(opponentPath);
             }
         });
     }
@@ -275,6 +307,7 @@ public final class FirebaseRoomRepository implements RoomRepository {
 
     @Override
     public void deleteRoom(String code) {
+        if (code.equals(heartbeatCode)) stopHeartbeat();
         DatabaseReference ref = room(code);
         ref.onDisconnect().cancel();
         if (ref.equals(waitingRoom)) waitingRoom = null;
@@ -287,12 +320,21 @@ public final class FirebaseRoomRepository implements RoomRepository {
 
     @Override
     public void heartbeat(String code, Role me) {
-        room(code).child("players").child(me.key()).child("seen").setValue(ServerValue.TIMESTAMP);
+        room(code).child("players").child(me.key()).child("seen").setValue(ServerValue.TIMESTAMP,
+                (error, r) -> {
+                    if (error == null) {
+                        heartbeatFailing = false;
+                    } else if (!heartbeatFailing) {
+                        heartbeatFailing = true;
+                        report("sinal de vida: " + error.getMessage());
+                    }
+                });
     }
 
     @Override
     public void startHeartbeat(String code, Role me) {
         stopHeartbeat();
+        heartbeatCode = code;
         heartbeatTask = new Runnable() {
             @Override public void run() {
                 heartbeat(code, me);
@@ -306,6 +348,8 @@ public final class FirebaseRoomRepository implements RoomRepository {
     public void stopHeartbeat() {
         if (heartbeatTask != null) handler.removeCallbacks(heartbeatTask);
         heartbeatTask = null;
+        heartbeatCode = null;
+        heartbeatFailing = false;
     }
 
     @Override
@@ -317,14 +361,16 @@ public final class FirebaseRoomRepository implements RoomRepository {
 
     /**
      * As regras não deixam ler a sala nem "turns" de uma vez. Escuta-se cada folha: meta, players, toss e,
-     * por turno, shooter/q/answer (o turno n+1 começa a ser escutado quando o n abre). shot/defend só depois
-     * de escrever a própria jogada ({@link #commit}).
+     * por turno, shooter/q/answer (o turno n+1 começa a ser escutado quando o n abre) e a própria jogada;
+     * a do adversário só quando a própria existir. Pode voltar a chamar-se a meio de um turno.
      */
     @Override
-    public void listen(String code, Listener l) {
+    public void listen(String code, Role me, Listener l) {
         stopListening();
         listenCode = code;
+        listenRole = me;
         listener = l;
+        attachOffset();
         attach("meta");
         attach("players");
         attach("toss");
@@ -333,44 +379,69 @@ public final class FirebaseRoomRepository implements RoomRepository {
 
     @Override
     public void stopListening() {
-        for (Attached a : attached) a.ref.removeEventListener(a.l);
+        for (Attached a : attached.values()) a.ref.removeEventListener(a.l);
         attached.clear();
-        attachedPaths.clear();
+        opponentOfOwn.clear();
+        opponentPaths.clear();
+        ownCommitAcked.clear();
         merged.clear();
         roomSeen = false;
         listenCode = null;
+        listenRole = null;
         listener = null;
+        detachOffset();
         session++;
     }
 
     private void attach(String path) {
-        if (listenCode == null || !attachedPaths.add(path)) return;
+        if (listenCode == null || attached.containsKey(path)) return;
         final int mySession = session;
-        DatabaseReference ref = room(listenCode).child(path);
+        final String code = listenCode;
+        DatabaseReference ref = room(code).child(path);
         ValueEventListener l = new ValueEventListener() {
             @Override public void onDataChange(@NonNull DataSnapshot s) {
                 if (mySession != session) return;
                 Object value = s.getValue();
                 put(path, value);
-                if ("meta".equals(path) && value != null) roomSeen = true;
-                if (value != null && path.endsWith("/shooter")) onTurnOpened(turnOf(path));
+                if ("meta".equals(path)) {
+                    if (value != null) roomSeen = true;
+                    else if (roomSeen && code.equals(heartbeatCode)) stopHeartbeat(); // sala apagada
+                }
+                if (value instanceof String && path.endsWith("/shooter")) {
+                    onTurnOpened(turnOf(path), Role.fromKey((String) value));
+                }
+                // A própria jogada existe: as regras já deixam ler a do adversário.
+                String opponent = opponentOfOwn.get(path);
+                if (value != null && opponent != null) attach(opponent);
                 if (listener != null) listener.onRoom(RoomSnapshot.parse(merged));
             }
             @Override public void onCancelled(@NonNull DatabaseError e) {
                 if (mySession != session) return;
+                attached.remove(path);
+                // Escuta da jogada do adversário recusada por chegar ao servidor antes da própria escrita:
+                // o commit volta a abri-la quando a escrita for aceite.
+                if (opponentPaths.contains(path) && !ownCommitAcked.contains(path)) return;
                 // Sala apagada: as outras escutas perdem a permissão; o onRoom com status null já avisou.
                 if (roomSeen && merged.get("meta") == null && !"meta".equals(path)) return;
                 report("escuta " + path + ": " + e.getMessage());
             }
         };
+        attached.put(path, new Attached(ref, l));
         ref.addValueEventListener(l);
-        attached.add(new Attached(ref, l));
     }
 
-    private void onTurnOpened(int n) {
-        attach("turns/" + n + "/q");
-        attach("turns/" + n + "/answer");
+    private void onTurnOpened(int n, Role shooter) {
+        String base = "turns/" + n + "/";
+        attach(base + "q");
+        attach(base + "answer");
         if (n < RoomSnapshot.MAX_TURN) attach("turns/" + (n + 1) + "/shooter");
+        String own = TurnSnapshot.commitField(listenRole, shooter);
+        String opponent = TurnSnapshot.opponentCommitField(listenRole, shooter);
+        if (own == null) return;
+        // A própria jogada lê-se sempre; a do adversário só depois de a própria existir.
+        opponentOfOwn.put(base + own, base + opponent);
+        opponentPaths.add(base + opponent);
+        attach(base + own);
     }
 
     private static int turnOf(String shooterPath) {

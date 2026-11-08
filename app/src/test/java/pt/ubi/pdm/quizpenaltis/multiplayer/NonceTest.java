@@ -30,4 +30,7 @@ public class NonceTest {
         assertFalse(Nonce.isValid(-1));
         assertFalse(Nonce.isValid(Nonce.MAX + 1));
     }
+    @Test public void semArgumentoUsaSecureRandomEFicaNoIntervalo() {
+        for (int i = 0; i < 1000; i++) assertTrue(Nonce.isValid(Nonce.random()));
+    }
 }

@@ -27,4 +27,14 @@ public final class TurnSnapshot {
         this.defendZone = defendZone;
         this.defendNonce = defendNonce;
     }
+    /** Campo onde {@code committer} se compromete neste turno: "shot" se for o atirador, "defend" se não. */
+    public static String commitField(Role committer, Role shooter) {
+        if (committer == null || shooter == null) return null;
+        return committer == shooter ? "shot" : "defend";
+    }
+
+    /** Campo do adversário de {@code me} neste turno (só legível depois de {@code me} se comprometer). */
+    public static String opponentCommitField(Role me, Role shooter) {
+        return me == null ? null : commitField(me.other(), shooter);
+    }
 }

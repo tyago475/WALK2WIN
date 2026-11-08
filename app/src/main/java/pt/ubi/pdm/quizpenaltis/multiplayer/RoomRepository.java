@@ -6,6 +6,8 @@ import pt.ubi.pdm.quizpenaltis.util.Callback;
  * Acesso à sala online ({@code rooms/{CODE}}), para o ecrã e o adversário remoto não dependerem do Firebase.
  * Cada escrita corresponde a uma só escrita atómica aceite pelas regras ({@code firebase/database.rules.json}).
  * Escritas recusadas são comunicadas a {@link Listener#onError} (se houver uma escuta ativa).
+ * <p>Usar só na thread principal; todos os callbacks ({@link Callback}, {@link Listener}) chegam na thread
+ * principal.
  */
 public interface RoomRepository {
 
@@ -51,14 +53,15 @@ public interface RoomRepository {
     void writeAnswer(String code, int turn, int optionIndex);
 
     /**
-     * Atirador: {@code turns/n/shot = {zone, nonce}}. Só depois de esta escrita ser aceite se começa a escutar
-     * {@code turns/n/defend} (as regras só o revelam depois do remate).
+     * Atirador: {@code turns/n/shot = {zone, nonce}}, com {@code nonce = }{@link Nonce#random()}.
+     * A defesa do adversário só é escutada depois de o próprio remate existir (as regras só a revelam aí);
+     * isto é feito pela escuta de {@link #listen}, que tem de estar ativa nesta sala (senão: onError).
      */
     void writeShot(String code, int n, int zone, long nonce);
 
     /**
-     * Defensor: {@code turns/n/defend = {zone, nonce}}. Só depois de esta escrita ser aceite se começa a escutar
-     * {@code turns/n/shot}.
+     * Defensor: {@code turns/n/defend = {zone, nonce}}, com {@code nonce = }{@link Nonce#random()}.
+     * O remate do adversário só é escutado depois de a própria defesa existir.
      */
     void writeDefend(String code, int n, int zone, long nonce);
 
@@ -68,19 +71,27 @@ public interface RoomRepository {
      */
     void claimWin(String code, Role me, String reason);
 
-    /** {@code players/{me}/seen = hora do servidor}. */
+    /** {@code players/{me}/seen = hora do servidor}. Falhas: um onError por série de falhas seguidas. */
     void heartbeat(String code, Role me);
 
-    /** Sinal de vida a cada {@link MultiplayerRules#HEARTBEAT_MS}, desde a sala de espera até ao fim. */
+    /**
+     * Sinal de vida a cada {@link MultiplayerRules#HEARTBEAT_MS}, desde a sala de espera até ao fim.
+     * Para sozinho quando a escuta vê a sala apagada e em {@link #deleteRoom}.
+     */
     void startHeartbeat(String code, Role me);
 
     void stopHeartbeat();
 
     /**
-     * Escuta a sala. Como as regras dão leitura folha a folha, isto junta várias escutas (meta, players, toss,
-     * e os campos de cada turno à medida que abrem). Substitui a escuta anterior.
+     * Escuta a sala como {@code me}. Como as regras dão leitura folha a folha, isto junta várias escutas
+     * (meta, players, toss, e os campos de cada turno à medida que abrem). Em cada turno escuta a própria
+     * jogada ({@code shot} se {@code me} remata, {@code defend} se defende) e só quando ela existir passa a
+     * escutar a do adversário. Substitui a escuta anterior; pode voltar a chamar-se a meio de um turno.
+     * <p>Chamar só depois de {@link #createRoom}/{@link #joinRoom} terem dado certo: antes disso não se é membro
+     * e as escutas de players/toss/turns são recusadas (e o Firebase cancela-as de vez).
+     * Enquanto escuta, {@link #serverNow()} acompanha a hora do servidor.
      */
-    void listen(String code, Listener l);
+    void listen(String code, Role me, Listener l);
 
     void stopListening();
 
@@ -90,6 +101,9 @@ public interface RoomRepository {
     /** Anfitrião: apaga a sala (no fim da partida). */
     void deleteRoom(String code);
 
-    /** Hora do servidor em ms (relógio local + {@code .info/serverTimeOffset}). */
+    /**
+     * Hora do servidor em ms (relógio local + {@code .info/serverTimeOffset}). O desvio só é atualizado
+     * enquanto há uma escuta ativa ({@link #listen}); fora disso usa o último conhecido.
+     */
     long serverNow();
 }

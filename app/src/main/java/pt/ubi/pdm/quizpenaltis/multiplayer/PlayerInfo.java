@@ -8,8 +8,9 @@ package pt.ubi.pdm.quizpenaltis.multiplayer;
 public final class PlayerInfo {
     public final String uid;
     public final String name;
-    /** Nome do jogador no {@code PlayerCatalog}. */
+    /** Nome do jogador no {@code PlayerCatalog} (vindo da rede: null se não tiver 1..40 caracteres). */
     public final String player;
+    /** Vindo da rede: 0 se faltar ou estiver fora de 0..1000 (o intervalo das regras). */
     public final int cost;
     public final boolean ready;
     /** Último sinal de vida (hora do servidor, ms); 0 se não existir. */

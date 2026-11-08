@@ -226,4 +226,30 @@ public class RoomSnapshotTest {
         weird.put("meta", map("status", "waiting"));
         assertEquals("waiting", RoomSnapshot.parse(weird).status());
     }
+    @SuppressWarnings("unchecked")
+    private static Map<String, Object> hostRecord(Map<String, Object> room) {
+        return (Map<String, Object>) ((Map<String, Object>) room.get("players")).get("host");
+    }
+
+    @Test public void custoForaDe0a1000FicaZero() {
+        Map<String, Object> room = fullRoom();
+        hostRecord(room).put("cost", 1001L);
+        assertEquals(0, RoomSnapshot.parse(room).host().cost);
+        hostRecord(room).put("cost", 1000L);
+        assertEquals(1000, RoomSnapshot.parse(room).host().cost);
+        hostRecord(room).put("cost", -5L);
+        assertEquals(0, RoomSnapshot.parse(room).host().cost);
+    }
+
+    @Test public void nomeDoJogadorDoCatalogoComTamanhoInvalidoFicaNulo() {
+        Map<String, Object> room = fullRoom();
+        hostRecord(room).put("player", "");
+        assertNull(RoomSnapshot.parse(room).host().player);
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; i < 41; i++) b.append('x');
+        hostRecord(room).put("player", b.toString());
+        assertNull(RoomSnapshot.parse(room).host().player);
+        hostRecord(room).put("player", b.substring(0, 40));
+        assertEquals(40, RoomSnapshot.parse(room).host().player.length());
+    }
 }
