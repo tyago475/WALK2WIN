@@ -164,6 +164,19 @@
                 app:iconTint="@color/text_on_gold" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFriend"
+                style="@style/Widget.W2W.Button.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:text="@string/main_btn_friend"
+                app:icon="@drawable/icon_sports"
+                app:iconGravity="textStart"
+                app:iconSize="24dp"
+                app:iconPadding="@dimen/space_sm"
+                app:iconTint="@color/gold_300" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnProgress"
                 style="@style/Widget.W2W.Button.Secondary"
                 android:layout_width="match_parent"

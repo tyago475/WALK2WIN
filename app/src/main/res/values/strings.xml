@@ -181,4 +181,45 @@
     <string name="ui_defend_tv_defend_instruction">ESCOLHE ONDE QUERES DEFENDER!</string>
     <string name="ui_gameover_btn_back_to_main">VOLTAR AO INÍCIO</string>
     <string name="ui_shoot_tv_shoot_instruction">ESCOLHE ONDE QUERES REMATAR!</string>
+
+    <!-- ===== Jogar com um amigo (sala de espera) ===== -->
+    <string name="main_btn_friend">Jogar com um amigo</string>
+    <string name="select_pick_cost_multi">Escolher · %1$d pontos</string>
+    <string name="lobby_title">Jogar com um amigo</string>
+    <string name="lobby_subtitle">Dois jogadores, a mesma bola</string>
+    <string name="lobby_name_label">O teu nome</string>
+    <string name="lobby_name_hint">Jogador</string>
+    <string name="lobby_player_none">Ainda não escolheste jogador</string>
+    <string name="lobby_player_chosen">%1$s · %2$d pontos</string>
+    <string name="lobby_btn_pick">Escolher jogador</string>
+    <string name="lobby_btn_change">Mudar jogador</string>
+    <string name="lobby_btn_create">Criar partida</string>
+    <string name="lobby_code_label">Código do amigo</string>
+    <string name="lobby_code_hint">ABCD</string>
+    <string name="lobby_btn_join">Entrar com código</string>
+    <string name="lobby_no_charge_note">Só pagas o jogador quando a partida começar.</string>
+    <string name="lobby_waiting_title">À espera do amigo</string>
+    <string name="lobby_waiting_code">Diz este código ao teu amigo</string>
+    <string name="lobby_joined_title">Amigo na sala</string>
+    <string name="lobby_joined_subtitle">A preparar a partida…</string>
+    <string name="lobby_starting_title">A começar…</string>
+    <string name="lobby_joining_title">A entrar na sala %1$s</string>
+    <string name="lobby_you">Tu</string>
+    <string name="lobby_friend">Amigo</string>
+    <string name="lobby_friend_card">%1$s · %2$s</string>
+    <string name="lobby_btn_leave">Sair da sala</string>
+    <string name="lobby_connecting">A ligar…</string>
+    <string name="lobby_err_need_points">Precisas de pelo menos %1$d pontos para jogar.</string>
+    <string name="lobby_err_invalid_code">Código inválido: são 4 letras (sem I nem O).</string>
+    <string name="lobby_err_not_found">Sala não encontrada. Confirma o código.</string>
+    <string name="lobby_err_full">A sala já está cheia ou a partida já começou.</string>
+    <string name="lobby_err_version">O teu amigo tem uma versão diferente da app.</string>
+    <string name="lobby_err_no_connection">Sem ligação. Verifica a internet e tenta outra vez.</string>
+    <string name="lobby_err_sign_in">Não foi possível iniciar sessão. Tenta outra vez.</string>
+    <string name="lobby_err_create">Não foi possível criar a sala. Tenta outra vez.</string>
+    <string name="lobby_err_sync">Problema de ligação à sala.</string>
+    <string name="lobby_err_cannot_pay">Já não tens pontos para este jogador. Saíste da sala.</string>
+    <string name="lobby_err_charge_failed">Os pontos já não chegam (mudou o dia). Saíste da partida.</string>
+    <string name="lobby_err_friend_left">O teu amigo saiu da sala.</string>
+    <string name="lobby_err_room_closed">A sala foi fechada.</string>
 </resources>

@@ -7,6 +7,7 @@ import pt.ubi.pdm.quizpenaltis.steps.StepCounter;
 import pt.ubi.pdm.quizpenaltis.steps.StepTrackingService;
 import pt.ubi.pdm.quizpenaltis.steps.StepsNotificationManager;
 import pt.ubi.pdm.quizpenaltis.ui.help.HelpActivity;
+import pt.ubi.pdm.quizpenaltis.ui.multiplayer.MultiplayerLobbyActivity;
 import pt.ubi.pdm.quizpenaltis.ui.player.PlayerSelectionActivity;
 import pt.ubi.pdm.quizpenaltis.ui.progress.ProgressActivity;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvSteps, tvPoints, tvPercentage;
     private ProgressBar progressBarSteps;
-    private Button btnPlay, btnTest, btnProgress, btnTestWeek, btnHelp;
+    private Button btnPlay, btnTest, btnProgress, btnTestWeek, btnHelp, btnFriend;
     private StepsNotificationManager stepsNotificationManager;
     private ProgressManager progressManager;
 
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         btnProgress = findViewById(R.id.btnProgress);
         btnTestWeek = findViewById(R.id.btnTestWeek);
         btnHelp = findViewById(R.id.btnHelp);
+        btnFriend = findViewById(R.id.btnFriend);
 
         progressBarSteps.setMax(MAX_STEPS);
 
@@ -143,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         btnProgress.setOnClickListener(v -> navigateToProgress());
         btnTestWeek.setOnClickListener(v -> simulateTestWeek());
         btnHelp.setOnClickListener(v -> navigateToHelp());
+        btnFriend.setOnClickListener(v -> startActivity(new Intent(this, MultiplayerLobbyActivity.class)));
 
         Log.d(TAG, "Listeners configurados");
     }
@@ -330,4 +333,4 @@ public class MainActivity extends AppCompatActivity {
         if (displayAnimator != null) displayAnimator.cancel();
         Log.d(TAG, "MainActivity onDestroy()");
     }
-}
+}

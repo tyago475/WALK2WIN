@@ -112,6 +112,16 @@
         <item name="android:paddingBottom">@dimen/space_xs</item>
     </style>
 
+    <!-- Campo de texto -->
+    <style name="Widget.W2W.Input" parent="TextAppearance.W2W.Body">
+        <item name="android:background">@drawable/ds_card</item>
+        <item name="android:padding">@dimen/space_md</item>
+        <item name="android:minHeight">@dimen/touch_min</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <!-- Ecrã: fundo desenhado (gradiente + brilho de projetor), sem imagens pesadas -->
     <style name="Widget.W2W.Screen">
         <item name="android:background">@drawable/ds_screen_background</item>

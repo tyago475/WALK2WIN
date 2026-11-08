@@ -34,6 +34,10 @@
         <activity
             android:name=".ui.player.PlayerSelectionActivity" />
 
+        <!-- MULTIPLAYER LOBBY -->
+        <activity
+            android:name=".ui.multiplayer.MultiplayerLobbyActivity" />
+
         <!-- GAME ACTIVITY -->
         <activity
             android:name=".ui.game.GameActivity" />
@@ -61,4 +65,4 @@
             android:foregroundServiceType="health" />
 
     </application>
-</manifest>
+</manifest>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Sala de espera (jogar com um amigo). Dois estados no mesmo ecrã:
+    - setupPanel: nome, jogador, "Criar partida" e "Entrar com código";
+    - roomPanel: código grande, estado da sala e os dois jogadores.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.W2W.Screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ds_pitch_lines" />
+
+    <ScrollView
+        android:id="@+id/lobbyScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingStart="@dimen/space_xl"
+        android:paddingEnd="@dimen/space_xl"
+        android:paddingTop="@dimen/space_lg"
+        android:paddingBottom="@dimen/space_lg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- Cabeçalho -->
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/icon_sports"
+                android:tint="@color/gold_500" />
+
+            <TextView
+                style="@style/TextAppearance.W2W.Display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/lobby_title"
+                android:textAllCaps="true"
+                android:textColor="@color/gold_500" />
+
+            <TextView
+                style="@style/TextAppearance.W2W.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lobby_subtitle" />
+
+            <!-- Mensagem de erro / estado -->
+            <TextView
+                android:id="@+id/tvMessage"
+                style="@style/TextAppearance.W2W.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:background="@drawable/ds_banner_error"
+                android:gravity="center"
+                android:padding="@dimen/space_md"
+                android:visibility="gone"
+                tools:text="Sala não encontrada. Confirma o código."
+                tools:visibility="visible" />
+
+            <!-- Estado 1: criar ou entrar -->
+            <LinearLayout
+                android:id="@+id/setupPanel"
+                style="@style/Widget.W2W.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.W2W.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lobby_name_label"
+                    android:textAllCaps="true" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    style="@style/Widget.W2W.Input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:hint="@string/lobby_name_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:maxLength="12" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvChosenPlayer"
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/lobby_player_none" />
+
+                    <Button
+                        android:id="@+id/btnPickPlayer"
+                        style="@style/Widget.W2W.Button.Secondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_sm"
+                        android:minHeight="@dimen/touch_min"
+                        android:paddingStart="@dimen/space_lg"
+                        android:paddingEnd="@dimen/space_lg"
+                        android:text="@string/lobby_btn_pick"
+                        android:textSize="@dimen/text_body" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnCreate"
+                    style="@style/Widget.W2W.Button.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/lobby_btn_create" />
+
+                <TextView
+                    style="@style/TextAppearance.W2W.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/lobby_code_label"
+                    android:textAllCaps="true" />
+
+                <EditText
+                    android:id="@+id/etCode"
+                    style="@style/Widget.W2W.Input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:digits="abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+                    android:gravity="center"
+                    android:hint="@string/lobby_code_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapCharacters|textNoSuggestions"
+                    android:maxLength="4"
+                    android:textSize="@dimen/text_title" />
+
+                <Button
+                    android:id="@+id/btnJoin"
+                    style="@style/Widget.W2W.Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:text="@string/lobby_btn_join" />
+
+                <TextView
+                    style="@style/TextAppearance.W2W.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:gravity="center"
+                    android:text="@string/lobby_no_charge_note" />
+            </LinearLayout>
+
+            <!-- Estado 2: na sala (à espera / amigo entrou / a começar) -->
+            <LinearLayout
+                android:id="@+id/roomPanel"
+                style="@style/Widget.W2W.Card.Highlight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvRoomTitle"
+                    style="@style/TextAppearance.W2W.Heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lobby_waiting_title"
+                    android:textAllCaps="true" />
+
+                <TextView
+                    android:id="@+id/tvCodeCaption"
+                    style="@style/TextAppearance.W2W.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:text="@string/lobby_waiting_code" />
+
+                <TextView
+                    android:id="@+id/tvRoomCode"
+                    style="@style/TextAppearance.W2W.Display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.2"
+                    android:textColor="@color/gold_300"
+                    android:textSize="64sp"
+                    tools:text="KQRM" />
+
+                <ProgressBar
+                    android:id="@+id/progressRoom"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:indeterminateTint="@color/gold_500" />
+
+                <!-- Os dois jogadores -->
+                <LinearLayout
+                    android:id="@+id/rowYou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgYou"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/tvYou"
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_md"
+                        android:layout_weight="1"
+                        tools:text="Tu · Ana · Messi" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rowFriend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/imgFriend"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/tvFriend"
+                        style="@style/TextAppearance.W2W.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_md"
+                        android:layout_weight="1"
+                        tools:text="Amigo · Rui · CR7" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnLeave"
+                    style="@style/Widget.W2W.Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/lobby_btn_leave" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

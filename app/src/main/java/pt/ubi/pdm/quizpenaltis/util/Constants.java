@@ -18,6 +18,15 @@ public final class Constants {
     public static final String EXTRA_SELECTED_PLAYER = "SELECTED_PLAYER";
     public static final String EXTRA_PLAYER_COST = "PLAYER_COST";
 
+    // ----- Modo de jogo (um jogador contra o bot, ou dois jogadores online) -----
+    public static final String EXTRA_MODE = "GAME_MODE";
+    public static final String MODE_SINGLE = "single";
+    public static final String MODE_MULTI = "multi";
+    /** Código da sala (só no modo múltiplo). */
+    public static final String EXTRA_ROOM_CODE = "ROOM_CODE";
+    /** {@code Role.key()} do jogador neste telemóvel: "host" ou "guest" (só no modo múltiplo). */
+    public static final String EXTRA_ROLE = "ROLE";
+
     /** Converte passos em pontos. É a única fórmula da app. */
     public static int stepsToPoints(int steps) {
         return steps / STEPS_PER_POINT;

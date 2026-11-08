@@ -23,7 +23,11 @@ import pt.ubi.pdm.quizpenaltis.ui.game.GameActivity;
 import pt.ubi.pdm.quizpenaltis.util.Constants;
 import pt.ubi.pdm.quizpenaltis.util.SystemBars;
 
-/** Escolha do jogador. Confirmar a escolha gasta os pontos do jogador escolhido. */
+/**
+ * Escolha do jogador. Confirmar a escolha gasta os pontos do jogador escolhido.
+ * Com {@code EXTRA_MODE == MODE_MULTI} (aberto pela sala de espera) NÃO cobra: devolve a escolha com
+ * {@code setResult}; a cobrança só acontece quando a partida online começa.
+ */
 public class PlayerSelectionActivity extends AppCompatActivity {
 
     private TextView tvAvailablePoints, tvSelectedPlayer;
@@ -35,12 +39,14 @@ public class PlayerSelectionActivity extends AppCompatActivity {
 
     private int availablePoints;
     private Player selectedPlayer = null;
+    private boolean multiplayerMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_player_selection);
+        multiplayerMode = Constants.MODE_MULTI.equals(getIntent().getStringExtra(Constants.EXTRA_MODE));
         SystemBars.applyPadding(findViewById(R.id.selectionContent));
 
         // O saldo vem sempre da fonte real (StepCounter), nunca de um valor copiado de outro ecrã
@@ -127,7 +133,9 @@ public class PlayerSelectionActivity extends AppCompatActivity {
         if (selectedPlayer != null) {
             tvSelectedPlayer.setText(getString(R.string.select_selected_player, selectedPlayer.getName()));
             tvSelectedPlayer.setVisibility(View.VISIBLE);
-            btnConfirmSelection.setText(getString(R.string.select_confirm_cost, selectedPlayer.getCost()));
+            btnConfirmSelection.setText(getString(
+                    multiplayerMode ? R.string.select_pick_cost_multi : R.string.select_confirm_cost,
+                    selectedPlayer.getCost()));
             btnConfirmSelection.setEnabled(true);
         } else {
             tvSelectedPlayer.setVisibility(View.INVISIBLE);
@@ -141,6 +149,16 @@ public class PlayerSelectionActivity extends AppCompatActivity {
 
         // Desativa já o botão: um segundo toque não pode cobrar outra vez
         btnConfirmSelection.setEnabled(false);
+
+        if (multiplayerMode) {
+            // Sem cobrança: só devolve a escolha à sala de espera (cobra-se quando a partida começa).
+            Intent result = new Intent();
+            result.putExtra(Constants.EXTRA_SELECTED_PLAYER, selectedPlayer.getName());
+            result.putExtra(Constants.EXTRA_PLAYER_COST, selectedPlayer.getCost());
+            setResult(RESULT_OK, result);
+            finish();
+            return;
+        }
 
         if (!StepCounter.spendPoints(this, selectedPlayer.getCost())) {
             // O saldo mudou desde que o jogador foi escolhido (por exemplo, passou a meia-noite)
