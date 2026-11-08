@@ -1,5 +1,6 @@
 package pt.ubi.pdm.quizpenaltis.multiplayer;
 
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,14 +22,16 @@ public final class AuthManager {
             return;
         }
         auth.signInAnonymously().addOnCompleteListener(task -> {
-            FirebaseUser user = task.getResult() != null ? task.getResult().getUser() : null;
-            if (task.isSuccessful() && user != null) {
-                cb.onSuccess(user.getUid());
-            } else {
-                cb.onError(task.getException() != null
-                        ? task.getException()
-                        : new IllegalStateException("Login anonimo falhou"));
+            if (task.isSuccessful()) {
+                AuthResult result = task.getResult();
+                FirebaseUser user = result != null ? result.getUser() : null;
+                if (user != null) {
+                    cb.onSuccess(user.getUid());
+                    return;
+                }
             }
+            Exception e = task.getException();
+            cb.onError(e != null ? e : new IllegalStateException("Login anonimo falhou"));
         });
     }
 }
