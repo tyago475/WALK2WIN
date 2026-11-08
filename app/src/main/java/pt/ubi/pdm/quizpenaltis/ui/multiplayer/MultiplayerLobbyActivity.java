@@ -82,10 +82,11 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
                 pending = Pending.NONE;
                 Intent data = result.getData();
                 if (result.getResultCode() != RESULT_OK || data == null) return;
-                String name = data.getStringExtra(Constants.EXTRA_SELECTED_PLAYER);
-                if (name == null) return;
-                chosenPlayer = name;
-                chosenCost = data.getIntExtra(Constants.EXTRA_PLAYER_COST, 0);
+                // O custo vem sempre do catálogo, nunca do Intent
+                Player picked = catalogPlayer(data.getStringExtra(Constants.EXTRA_SELECTED_PLAYER));
+                if (picked == null) return;
+                chosenPlayer = picked.getName();
+                chosenCost = picked.getCost();
                 renderChosenPlayer();
                 // O saldo é relido na hora (nunca copiado do ecrã de escolha)
                 if (action == Pending.CREATE) startCreate();
@@ -192,6 +193,13 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
         }
     }
 
+    private static Player catalogPlayer(String name) {
+        for (Player p : PlayerCatalog.ALL) {
+            if (p.getName().equals(name)) return p;
+        }
+        return null;
+    }
+
     private PlayerInfo buildMyInfo(String uid) {
         String name = PlayerName.sanitize(etName.getText().toString());
         etName.setText(name);
@@ -213,7 +221,11 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
                 if (destroyed) return;
                 RoomRepository r = new FirebaseRoomRepository();
                 r.createRoom(buildMyInfo(uid), code -> {
-                    if (destroyed) return;
+                    if (destroyed) {
+                        // O ecrã fechou a meio: não deixa sala órfã
+                        if (code != null) r.leave(code, Role.HOST);
+                        return;
+                    }
                     if (code == null) {
                         setBusy(false);
                         showMessage(R.string.lobby_err_create);
@@ -244,7 +256,11 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
                 if (destroyed) return;
                 RoomRepository r = new FirebaseRoomRepository();
                 r.joinRoom(code, buildMyInfo(uid), result -> {
-                    if (destroyed) return;
+                    if (destroyed) {
+                        // O lugar não se liberta (regras); pelo menos não há sinal de vida nem escuta
+                        if (result == RoomRepository.JoinResult.OK) r.leave(code, Role.GUEST);
+                        return;
+                    }
                     if (result == RoomRepository.JoinResult.OK) {
                         enterRoom(r, code, Role.GUEST);
                         return;

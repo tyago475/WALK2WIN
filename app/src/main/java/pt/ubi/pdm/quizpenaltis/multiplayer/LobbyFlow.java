@@ -35,6 +35,8 @@ public final class LobbyFlow {
     private boolean readyDecided;
     private boolean startInFlight;
     private boolean launched;
+    /** Hora do servidor em que se viu o adversário na sala pela primeira vez (0 = ainda não). */
+    private long opponentPresentSince;
 
     public LobbyFlow(Role me, int cost) {
         this.me = me;
@@ -67,7 +69,13 @@ public final class LobbyFlow {
         PlayerInfo other = s.player(me.other());
         if (own == null || other == null) return Action.NONE;
 
-        if (other.seen > 0 && ForfeitRule.hasForfeited(serverNow, other.seen)) return Action.OPPONENT_GONE;
+        if (other.seen > 0) {
+            if (ForfeitRule.hasForfeited(serverNow, other.seen)) return Action.OPPONENT_GONE;
+        } else {
+            // Entrou mas nunca deu sinal de vida: conta como desistência passado o mesmo tempo limite
+            if (opponentPresentSince == 0) opponentPresentSince = serverNow;
+            else if (ForfeitRule.hasForfeited(serverNow, opponentPresentSince)) return Action.OPPONENT_GONE;
+        }
 
         if (!readyDecided) {
             readyDecided = true;

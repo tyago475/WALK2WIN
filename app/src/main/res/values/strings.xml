@@ -201,9 +201,7 @@
     <string name="lobby_waiting_title">À espera do amigo</string>
     <string name="lobby_waiting_code">Diz este código ao teu amigo</string>
     <string name="lobby_joined_title">Amigo na sala</string>
-    <string name="lobby_joined_subtitle">A preparar a partida…</string>
     <string name="lobby_starting_title">A começar…</string>
-    <string name="lobby_joining_title">A entrar na sala %1$s</string>
     <string name="lobby_you">Tu</string>
     <string name="lobby_friend">Amigo</string>
     <string name="lobby_friend_card">%1$s · %2$s</string>

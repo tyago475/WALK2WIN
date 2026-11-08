@@ -111,6 +111,15 @@ public class LobbyFlowTest {
     }
 
     @Test
+    public void opponentThatNeverSendsHeartbeatIsGoneAfterTimeout() {
+        LobbyFlow f = new LobbyFlow(Role.HOST, 900);
+        RoomSnapshot silent = room("waiting", player(false, NOW), player(false, 0));
+        assertEquals(Action.SET_READY, f.decide(silent, 900, NOW));
+        assertEquals(Action.NONE, f.decide(silent, 900, NOW + MultiplayerRules.FORFEIT_MS));
+        assertEquals(Action.OPPONENT_GONE, f.decide(silent, 900, NOW + MultiplayerRules.FORFEIT_MS + 1));
+    }
+
+    @Test
     public void roomClosedOnlyAfterSeen() {
         LobbyFlow f = new LobbyFlow(Role.GUEST, 900);
         assertEquals(Action.NONE, f.decide(room(null, null, null), 900, NOW));
