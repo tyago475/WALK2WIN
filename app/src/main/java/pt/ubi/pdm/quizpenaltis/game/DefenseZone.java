@@ -28,4 +28,19 @@ public enum DefenseZone {
         DefenseZone[] all = values();
         return all[RANDOM.nextInt(all.length)];
     }
+
+    private static final int GOAL_COLUMNS = 5;
+    private static final int MIDDLE_COLUMN = 2;
+    private static final int LEFT_COLUMNS_END = 1;
+    private static final int LAST_ROW = 2;
+
+    /** A zona de defesa que cobre um remate (multiplayer): coluna central = CENTER, senão o canto do lado. */
+    public static DefenseZone covering(GoalZone shot) {
+        int row = shot.ordinal() / GOAL_COLUMNS;
+        int col = shot.ordinal() % GOAL_COLUMNS;
+        if (col == MIDDLE_COLUMN) return CENTER;
+        boolean left = col <= LEFT_COLUMNS_END;
+        if (row == LAST_ROW) return left ? BOTTOM_LEFT : BOTTOM_RIGHT;
+        return left ? TOP_LEFT : TOP_RIGHT;
+    }
 }
