@@ -54,3 +54,6 @@ Em curso: ecrã a ecrã (ver plano nas mensagens/commits). Feitos: etapa 0 (fund
 - Room: esquema exportado em `app/schemas` (versão 3 = base). Só as versões 1-2 são destrutivas; **qualquer mudança de versão exige um `Migration`** (senão a app crasha em vez de apagar dados).
 - `res/raw/*.mp3` não são usados.
 - `QuestionManager` pré-carrega a pergunta seguinte; `getRandomQuestion()` só bloqueia (até 3 s) se ainda não houver nenhuma pronta.
+
+## Firebase (multiplayer)
+- `app/google-services.json` está commitado de propósito (não é segredo; a chave de API deve ser restringida ao pacote na Google Cloud Console). minSdk = 23.

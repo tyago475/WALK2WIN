@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Feature para sensor de passos (NÃO obrigatório para permitir em mais dispositivos) -->
     <uses-feature android:name="android.hardware.sensor.stepcounter" android:required="false" />
@@ -60,4 +61,4 @@
             android:foregroundServiceType="health" />
 
     </application>
-</manifest>
+</manifest>

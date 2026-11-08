@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "357145420194",
+    "project_id": "walk2win-c8f21",
+    "storage_bucket": "walk2win-c8f21.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357145420194:android:851362b141e86178ff12fb",
+        "android_client_info": {
+          "package_name": "pt.ubi.pdm.quizpenaltis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1brLpHxXOoiMeg6kxr1VXsH_sFJhnK-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
